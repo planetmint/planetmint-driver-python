@@ -21,7 +21,7 @@ export BROWSER_PYSCRIPT
 define PRINT_HELP_PYSCRIPT
 import re, sys
 
-print("BigchainDB Driver 0.5 developer toolbox")
+print("Planetmint Driver 0.5 developer toolbox")
 print("---------------------------------------")
 print("Usage:  make COMMAND")
 print("")
@@ -51,13 +51,13 @@ help:
 install: clean ## Install the package to the active Python's site-packages
 	python setup.py install
 
-start: check-deps ## Run BigchainDB driver from source and daemonize it (stop with `make stop`)
+start: check-deps ## Run Planetmint driver from source and daemonize it (stop with `make stop`)
 	@$(DC) up -d planetmint
 
-stop: check-deps ## Stop BigchainDB driver
+stop: check-deps ## Stop Planetmint driver
 	@$(DC) stop
 
-reset: check-deps ## Stop and REMOVE all containers. WARNING: you will LOSE all data stored in BigchainDB server.
+reset: check-deps ## Stop and REMOVE all containers. WARNING: you will LOSE all data stored in Planetmint server.
 	@$(DC) down
 
 test: check-deps ## Run all tests once or specify a file/test with TEST=tests/file.py::Class::test

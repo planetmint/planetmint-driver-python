@@ -1,5 +1,5 @@
 
-.. Copyright BigchainDB GmbH and BigchainDB contributors
+.. Copyright Planetmint GmbH and Planetmint contributors
    SPDX-License-Identifier: (Apache-2.0 AND CC-BY-4.0)
    Code is Apache-2.0 and docs are CC-BY-4.0
 
@@ -12,26 +12,26 @@ Basic Usage Examples
 For the examples on this page,
 we assume you're using a Python 3 version of IPython (or similar),
 you've :doc:`installed the planetmint_driver Python package <quickstart>`,
-and :doc:`you have determined the BigchainDB Root URL <connect>`
+and :doc:`you have determined the Planetmint Root URL <connect>`
 of the node or cluster you want to connect to.
 
 
 Getting Started
 ---------------
 
-We begin by creating an object of class BigchainDB:
+We begin by creating an object of class Planetmint:
 
 .. ipython::
 
-    In [0]: from planetmint_driver import BigchainDB
+    In [0]: from planetmint_driver import Planetmint
 
-    In [0]: bdb_root_url = 'https://example.com:9984'  # Use YOUR BigchainDB Root URL here
+    In [0]: bdb_root_url = 'https://example.com:9984'  # Use YOUR Planetmint Root URL here
 
-If the BigchainDB node or cluster doesn't require authentication tokens, you can do:
+If the Planetmint node or cluster doesn't require authentication tokens, you can do:
 
 .. ipython::
 
-    In [0]: bdb = BigchainDB(bdb_root_url)
+    In [0]: bdb = Planetmint(bdb_root_url)
 
 If it *does* require authentication tokens, you can do put them in a dict like so:
 
@@ -39,7 +39,7 @@ If it *does* require authentication tokens, you can do put them in a dict like s
 
     In [0]: tokens = {'app_id': 'your_app_id', 'app_key': 'your_app_key'}
 
-    In [0]: bdb = BigchainDB(bdb_root_url, headers=tokens)
+    In [0]: bdb = Planetmint(bdb_root_url, headers=tokens)
 
 
 
@@ -124,7 +124,7 @@ key:
 
     In [0]: fulfilled_creation_tx
 
-And sent over to a BigchainDB node:
+And sent over to a Planetmint node:
 
 .. code-block:: python
 
@@ -245,7 +245,7 @@ The ``fulfilled_transfer_tx`` dictionary should look something like:
 
     In [0]: fulfilled_transfer_tx
 
-and finally send it to the connected BigchainDB node:
+and finally send it to the connected Planetmint node:
 
 .. code-block:: python
 
@@ -290,16 +290,16 @@ Recap: Asset Creation & Transfer
 
 .. code-block:: python
 
-    from planetmint_driver import BigchainDB
+    from planetmint_driver import Planetmint
     from planetmint_driver.crypto import generate_keypair
     from time import sleep
     from sys import exit
 
     alice, bob = generate_keypair(), generate_keypair()
 
-    bdb_root_url = 'https://example.com:9984'  # Use YOUR BigchainDB Root URL here
+    bdb_root_url = 'https://example.com:9984'  # Use YOUR Planetmint Root URL here
 
-    bdb = BigchainDB(bdb_root_url)
+    bdb = Planetmint(bdb_root_url)
 
     bicycle_asset = {
         'data': {
@@ -376,7 +376,7 @@ Recap: Asset Creation & Transfer
 Divisible Assets
 ----------------
 
-All assets in BigchainDB become implicitly divisible if a transaction contains
+All assets in Planetmint become implicitly divisible if a transaction contains
 more than one of that asset (we'll see how this happens shortly).
 
 Let's continue with the bicycle example. Bob is now the proud owner of the
@@ -504,7 +504,7 @@ To do so, she needs to send two tokens to Bob:
        ...:     prepared_transfer_tx, private_keys=carly.private_key)
 
 Notice how Carly needs to reassign the remaining eight tokens to herself if she
-wants to only transfer two tokens (out of the available 10) to Bob. BigchainDB
+wants to only transfer two tokens (out of the available 10) to Bob. Planetmint
 ensures that the amount being consumed in each transaction (with divisible
 assets) is the same as the amount being output. This ensures that no amounts
 are lost.
@@ -530,7 +530,7 @@ The ``fulfilled_transfer_tx`` dictionary should have two outputs, one with
 Querying for Assets
 -------------------
 
-BigchainDB allows you to query for assets using simple text search. This search
+Planetmint allows you to query for assets using simple text search. This search
 is applied to all the strings inside the asset payload and returns all the
 assets that match a given text search string.
 
@@ -538,18 +538,18 @@ Let's create 3 assets:
 
 .. code-block:: python
 
-    from planetmint_driver import BigchainDB
+    from planetmint_driver import Planetmint
     from planetmint_driver.crypto import generate_keypair
 
     bdb_root_url = 'https://example.com:9984'
 
-    bdb = BigchainDB(bdb_root_url)
+    bdb = Planetmint(bdb_root_url)
 
     alice = generate_keypair()
 
-    hello_1 = {'data': {'msg': 'Hello BigchainDB 1!'},}
-    hello_2 = {'data': {'msg': 'Hello BigchainDB 2!'},}
-    hello_3 = {'data': {'msg': 'Hello BigchainDB 3!'},}
+    hello_1 = {'data': {'msg': 'Hello Planetmint 1!'},}
+    hello_2 = {'data': {'msg': 'Hello Planetmint 2!'},}
+    hello_3 = {'data': {'msg': 'Hello Planetmint 3!'},}
 
     # set the metadata to query for it in an example below
     metadata={'planet': 'earth'}
@@ -588,15 +588,15 @@ Let's perform a text search for all assets that contain the word ``planetmint``:
     >> bdb.assets.get(search='planetmint')
     [
         {
-            'data': {'msg': 'Hello BigchainDB 1!'},
+            'data': {'msg': 'Hello Planetmint 1!'},
             'id': '7582d7a81652d0230fefb47dafc360ff09b2c2566b68f05c3a004d57e7fe7610'
         },
         {
-            'data': {'msg': 'Hello BigchainDB 2!'},
+            'data': {'msg': 'Hello Planetmint 2!'},
             'id': 'e40f4b6ac70b9c1b3b237ec13f4174384fd4d54d36dfde25520171577c49caa4'
         },
         {
-            'data': {'msg': 'Hello BigchainDB 3!'},
+            'data': {'msg': 'Hello Planetmint 3!'},
             'id': '748f6c30daaf771c9020d84db9ad8ac4d1f7c8de7013db55e16f10ba090f7013'
         }
     ]
@@ -615,11 +615,11 @@ argument:
     >> bdb.assets.get(search='planetmint', limit=2)
     [
         {
-            'data': {'msg': 'Hello BigchainDB 1!'},
+            'data': {'msg': 'Hello Planetmint 1!'},
             'id': '7582d7a81652d0230fefb47dafc360ff09b2c2566b68f05c3a004d57e7fe7610'
         },
         {
-            'data': {'msg': 'Hello BigchainDB 2!'},
+            'data': {'msg': 'Hello Planetmint 2!'},
             'id': 'e40f4b6ac70b9c1b3b237ec13f4174384fd4d54d36dfde25520171577c49caa4'
         }
     ]
@@ -631,7 +631,7 @@ For this query we need to provide an ``asset_id`` and we will get back a list of
 that use the asset with the ID ``asset_id``.
 
 .. note::
-    Please note that the id of an asset in BigchainDB is actually the id of the
+    Please note that the id of an asset in Planetmint is actually the id of the
     transaction which created the asset. In other words, when querying for an asset
     id with the operation set to ``CREATE``, only one transaction should be expected.
     This transaction will be the transaction in which the asset was created, and the

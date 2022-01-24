@@ -1,5 +1,5 @@
 
-.. Copyright BigchainDB GmbH and BigchainDB contributors
+.. Copyright Planetmint GmbH and Planetmint contributors
    SPDX-License-Identifier: (Apache-2.0 AND CC-BY-4.0)
    Code is Apache-2.0 and docs are CC-BY-4.0
 
@@ -43,7 +43,7 @@ and "help wanted" is open to whoever wants to implement it.
 
 Make a Feature Request or Proposal
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-To make a feature request or proposal, write a `BigchaindB Enhancement Proposal (BEP)`_:
+To make a feature request or proposal, write a `Planetmint Enhancement Proposal (BEP)`_:
 
 We use `COSS` to handle BEPs, you can read about it here: `COSS`_
 
@@ -95,10 +95,10 @@ Tips
 
 Development Environment with Docker
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Depending on what you are doing, you may need to run at least one BigchainDB
+Depending on what you are doing, you may need to run at least one Planetmint
 node. You can use the `docker-compose.yml`_ file to run a node, and perform
-other tasks that depend on the running node. To run a BigchainDB node, (for
-development), you start a MongoDB and Tendermint  node, followed by the linked BigchainDB
+other tasks that depend on the running node. To run a Planetmint node, (for
+development), you start a MongoDB and Tendermint  node, followed by the linked Planetmint
 node::
 
     # Implicitly creates a MongoDB and Tendermint instance
@@ -114,9 +114,9 @@ Additionally, we have a nice Makefile to make things easier for everyone. Some h
 
     >>> make
     install          Install the package to the active Python's site-packages
-    start            Run BigchainDB driver from source and daemonize it (stop with make stop)
-    stop             Stop BigchainDB driver
-    reset            Stop and REMOVE all containers. WARNING: you will LOSE all data stored in BigchainDB server.
+    start            Run Planetmint driver from source and daemonize it (stop with make stop)
+    stop             Stop Planetmint driver
+    reset            Stop and REMOVE all containers. WARNING: you will LOSE all data stored in Planetmint server.
     test             Run all tests once or specify a file/test with TEST=tests/file.py::Class::test
     test-watch       Run all, or only one with TEST=tests/file.py::Class::test, tests and wait. Every time you change code, test/s will be run again.
     docs             Generate Sphinx HTML documentation, including API docs
@@ -137,23 +137,23 @@ To run a subset of tests::
     $ docker-compose run --rm planetmint-driver pytest -v tests/test_driver.py
 
 .. important:: When running tests, unless you are targeting a test that does
-    not require a connection with the BigchainDB server, you need to run the
-    BigchainDB, MongoDB and Tendermint servers::
+    not require a connection with the Planetmint server, you need to run the
+    Planetmint, MongoDB and Tendermint servers::
 
     $ docker-compose up -d planetmint
 
 
-Dependency on Bigchaindb
+Dependency on Planetmint
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-By default, the development requirements, `BigchainDB server Dockerfile <https://github.com/planetmint/planetmint-driver/blob/master/compose/planetmint_server/Dockerfile>`_,
+By default, the development requirements, `Planetmint server Dockerfile <https://github.com/planetmint/planetmint-driver/blob/master/compose/planetmint_server/Dockerfile>`_,
 and `.travis.yml <https://github.com/planetmint/planetmint-driver/blob/master/.travis.yml>`_
-are set to depend from BigchainDB's master branch to more easily track changes
-against BigchainDB's API.
+are set to depend from Planetmint's master branch to more easily track changes
+against Planetmint's API.
 
 
 .. _docker-compose.yml: https://github.com/planetmint/planetmint-driver/blob/master/docker-compose.yml
-.. _BigchaindB Enhancement Proposal (BEP): https://github.com/planetmint/BEPs
+.. _Planetmint Enhancement Proposal (BEP): https://github.com/planetmint/BEPs
 .. _C4: https://github.com/planetmint/BEPs/tree/master/1
 .. _COSS: https://github.com/planetmint/BEPs/tree/master/2
 

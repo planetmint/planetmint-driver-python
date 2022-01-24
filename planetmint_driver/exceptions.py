@@ -1,33 +1,33 @@
-# Copyright BigchainDB GmbH and BigchainDB contributors
+# Copyright Planetmint GmbH and Planetmint contributors
 # SPDX-License-Identifier: (Apache-2.0 AND CC-BY-4.0)
 # Code is Apache-2.0 and docs are CC-BY-4.0
 
 """Exceptions used by :mod:`planetmint_driver`."""
 
 
-class BigchaindbException(Exception):
-    """Base exception for all Bigchaindb exceptions."""
+class PlanetmintException(Exception):
+    """Base exception for all Planetmint exceptions."""
 
 
-class KeypairNotFoundException(BigchaindbException):
+class KeypairNotFoundException(PlanetmintException):
     """Raised if an operation cannot proceed because the keypair
     was not given.
     """
 
 
-class InvalidPrivateKey(BigchaindbException):
+class InvalidPrivateKey(PlanetmintException):
     """Raised if a private key is invalid. E.g.: :obj:`None`."""
 
 
-class InvalidPublicKey(BigchaindbException):
+class InvalidPublicKey(PlanetmintException):
     """Raised if a public key is invalid. E.g.: :obj:`None`."""
 
 
-class MissingPrivateKeyError(BigchaindbException):
+class MissingPrivateKeyError(PlanetmintException):
     """Raised if a private key is missing."""
 
 
-class TimeoutError(BigchaindbException):
+class TimeoutError(PlanetmintException):
     """Raised if the request algorithm times out."""
 
     @property
@@ -36,7 +36,7 @@ class TimeoutError(BigchaindbException):
         return self.args[0]
 
 
-class TransportError(BigchaindbException):
+class TransportError(PlanetmintException):
     """Base exception for transport related errors.
 
     This is mainly for cases where the status code denotes an HTTP error, and
@@ -63,7 +63,7 @@ class TransportError(BigchaindbException):
 
 class ConnectionError(TransportError):
     """Exception for errors occurring when connecting, and/or making a request
-    to Bigchaindb.
+    to Planetmint.
 
     """
 

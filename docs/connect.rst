@@ -1,27 +1,27 @@
 
-.. Copyright BigchainDB GmbH and BigchainDB contributors
+.. Copyright Planetmint GmbH and Planetmint contributors
    SPDX-License-Identifier: (Apache-2.0 AND CC-BY-4.0)
    Code is Apache-2.0 and docs are CC-BY-4.0
 
 .. _connect:
 
 =================================
-Determine the BigchainDB Root URL
+Determine the Planetmint Root URL
 =================================
 
-If you want to use the BigchainDB Python Driver
-to communicate with a BigchainDB node or cluster,
-then you will need its BigchainDB Root URL.
+If you want to use the Planetmint Python Driver
+to communicate with a Planetmint node or cluster,
+then you will need its Planetmint Root URL.
 This page is to help you determine it.
 
 
-Case 1: BigchainDB on localhost
+Case 1: Planetmint on localhost
 -------------------------------
 
-If a BigchainDB node is running locally
+If a Planetmint node is running locally
 (and the ``PLANETMINT_SERVER_BIND`` setting wasn't changed
 from the default ``localhost:9984``),
-then the BigchainDB Root URL is:
+then the Planetmint Root URL is:
 
 .. code-block:: python
 
@@ -31,9 +31,9 @@ then the BigchainDB Root URL is:
 Case 2: A Cluster Hosted by Someone Else
 ----------------------------------------
 
-If you're connecting to a BigchainDB cluster hosted
+If you're connecting to a Planetmint cluster hosted
 by someone else, then they'll tell you their
-BigchaindB Root URL.
+Planetmint Root URL.
 It can take many forms.
 It can use HTTP or HTTPS.
 It can use a hostname or an IP address.
@@ -62,7 +62,7 @@ information), and wish to connect to it from the ``planetmint-driver`` linked
 
     bdb_root_url = 'http://bdb-server:9984'
 
-Alternatively, you may connect to the containerized BigchainDB node from
+Alternatively, you may connect to the containerized Planetmint node from
 "outside", in which case you need to know the port binding:
 
 .. code-block:: bash

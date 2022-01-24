@@ -1,5 +1,5 @@
 
-.. Copyright BigchainDB GmbH and BigchainDB contributors
+.. Copyright Planetmint GmbH and Planetmint contributors
    SPDX-License-Identifier: (Apache-2.0 AND CC-BY-4.0)
    Code is Apache-2.0 and docs are CC-BY-4.0
 
@@ -9,7 +9,7 @@ Advanced Installation Options
 Installing from the Source Code
 -------------------------------
 
-The source code for the BigchainDB Python Driver can be downloaded from the `Github repo`_.
+The source code for the Planetmint Python Driver can be downloaded from the `Github repo`_.
 You can either clone the public repository:
 
 .. code-block:: bash

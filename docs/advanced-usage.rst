@@ -1,5 +1,5 @@
 
-.. Copyright BigchainDB GmbH and BigchainDB contributors
+.. Copyright Planetmint GmbH and Planetmint contributors
    SPDX-License-Identifier: (Apache-2.0 AND CC-BY-4.0)
    Code is Apache-2.0 and docs are CC-BY-4.0
 
@@ -21,7 +21,7 @@ cases such as escrow.
 For the examples on this page,
 we assume you're using a Python 3 version of IPython (or similar),
 you've :doc:`installed the planetmint_driver Python package <quickstart>`,
-and :doc:`you have determined the BigchainDB Root URL <connect>`
+and :doc:`you have determined the Planetmint Root URL <connect>`
 of the node or cluster you want to connect to.
 
 
@@ -32,7 +32,7 @@ You can optionally configure multiple nodes to connect to.
 
 .. ipython::
 
-    In [0]: from planetmint_driver import BigchainDB
+    In [0]: from planetmint_driver import Planetmint
 
     In [0]: first_node = 'https://first.example.com:9984'
 
@@ -40,7 +40,7 @@ You can optionally configure multiple nodes to connect to.
 
     In [0]: headers = {'app_id': 'your_app_id', 'app_key': 'your_app_key'}
 
-    In [0]: bdb = BigchainDB(first_node, second_node, headers=headers)
+    In [0]: bdb = Planetmint(first_node, second_node, headers=headers)
 
 Each node can have its specific headers in addition to headers specified for all nodes, if any.
 
@@ -54,7 +54,7 @@ Each node can have its specific headers in addition to headers specified for all
 
     In [0]: second_node_headers = {'node_header': 'node_header_value'}
 
-    In [0]: bdb = BigchainDB(first_node,
+    In [0]: bdb = Planetmint(first_node,
        ...:                  {'endpoint': second_node, 'headers': second_node_headers},
        ...:                  headers=common_headers)
 
@@ -66,7 +66,7 @@ seconds. When timeout expires, an instance of ``planetmint_driver.exceptions.Tim
 
 .. ipython::
 
-    In [0]: bdb = BigchainDB(first_node, second_node, headers=headers, timeout=None)
+    In [0]: bdb = Planetmint(first_node, second_node, headers=headers, timeout=None)
 
 Also, the driver takes care of the exponential backoff. If a connection error occurs, the driver ensures at least half
 of a second is passed before the request to the same node is repeated. The intervals increase exponentially when
@@ -79,11 +79,11 @@ Create a Digital Asset
 ----------------------
 
 At a high level, a "digital asset" is something which can be represented
-digitally and can be assigned to a user. In BigchainDB, users are identified by
+digitally and can be assigned to a user. In Planetmint, users are identified by
 their public key, and the data payload in a digital asset is represented using
 a generic `Python dict <https://docs.python.org/3.4/tutorial/datastructures.html#dictionaries>`_.
 
-In BigchainDB, digital assets can be created by doing a special kind of
+In Planetmint, digital assets can be created by doing a special kind of
 transaction: a ``CREATE`` transaction.
 
 .. ipython::
@@ -100,7 +100,7 @@ Define a digital asset data payload
 
 .. ipython::
 
-    In [0]: digital_asset_payload = {'data': {'msg': 'Hello BigchainDB!'}}
+    In [0]: digital_asset_payload = {'data': {'msg': 'Hello Planetmint!'}}
 
     In [0]: tx = bdb.transactions.prepare(operation='CREATE',
        ...:                               signers=alice.public_key,
@@ -114,7 +114,7 @@ All transactions need to be signed by the user creating the transaction.
 
     In [0]: signed_tx
 
-Write the transaction to BigchainDB. The transaction will be stored in a
+Write the transaction to Planetmint. The transaction will be stored in a
 backlog where it will be validated before being included in a block.
 
 .. code-block:: python
@@ -123,7 +123,7 @@ backlog where it will be validated before being included in a block.
 
 .. warning:: The method .send will be deprecated in the next release of the driver, please use ``.send_commit``, ``.send_sync``, or ``.send_async`` instead. `More info`_
 
-Note that the transaction payload returned by the BigchainDB node is equivalent
+Note that the transaction payload returned by the Planetmint node is equivalent
 to the signed transaction payload.
 
 .. code-block:: python
@@ -136,15 +136,15 @@ Recap: Asset Creation
 
 .. code-block:: python
 
-    from planetmint_driver import BigchainDB
+    from planetmint_driver import Planetmint
     from planetmint_driver.crypto import generate_keypair
 
-    bdb_root_url = 'https://example.com:9984'  # Use YOUR BigchainDB Root URL here
-    bdb = BigchainDB(bdb_root_url)
+    bdb_root_url = 'https://example.com:9984'  # Use YOUR Planetmint Root URL here
+    bdb = Planetmint(bdb_root_url)
 
     alice = generate_keypair()
 
-    digital_asset_payload = {'data': {'msg': 'Hello BigchainDB!'}}
+    digital_asset_payload = {'data': {'msg': 'Hello Planetmint!'}}
     tx = bdb.transactions.prepare(operation='CREATE',
                               signers=alice.public_key,
                               asset=digital_asset_payload)
@@ -195,7 +195,7 @@ case is
 
     In [0]: signed_tx['id']
 
-BigchainDB makes use of the `crypto-conditions library <https://github.com/planetmint/cryptoconditions>`_
+Planetmint makes use of the `crypto-conditions library <https://github.com/planetmint/cryptoconditions>`_
 to cryptographically lock and unlock transactions. The locking script is
 referred to as a ``condition`` (put inside an "output") and a corresponding
 ``fulfillment`` (put inside an "input") unlocks the output condition of an
@@ -304,9 +304,9 @@ More precisely:
 
     In [0]: signed_tx_transfer['inputs'][0]['fulfillment']
 
-We have yet to send the transaction over to a BigchainDB node, as both
+We have yet to send the transaction over to a Planetmint node, as both
 preparing and fulfilling a transaction are done "offchain," that is, without
-the need to have a connection to a BigchainDB federation.
+the need to have a connection to a Planetmint federation.
 
 .. code-block:: python
 
@@ -357,7 +357,7 @@ Recap: Asset Transfer
 Double Spends
 -------------
 
-BigchainDB makes sure that a user can't transfer the same digital asset two or
+Planetmint makes sure that a user can't transfer the same digital asset two or
 more times (i.e. it prevents double spends).
 
 If we try to create another transaction with the same input as before, the
@@ -396,10 +396,10 @@ specifying the matching `asset_id`.
 
 .. code-block:: python
 
-    >>> from planetmint_driver.exceptions import BigchaindbException
+    >>> from planetmint_driver.exceptions import PlanetmintException
     >>> try:
     ...     bdb.transactions.send_commit(fulfilled_tx_transfer_2)
-    ... except BigchaindbException as e:
+    ... except PlanetmintException as e:
     ...     print(e.info)
 
     {'message': 'Invalid transaction (DoubleSpend): input `20401005e1ad1745cdb3716715749475dce3c8358189af37d1a6676a52733e16` was already spent', 'status': 400}
@@ -413,11 +413,11 @@ Say ``alice`` and ``bob`` own a car together:
 
 .. code-block:: python
 
-    from planetmint_driver import BigchainDB
+    from planetmint_driver import Planetmint
     from planetmint_driver.crypto import generate_keypair
 
-    bdb_root_url = 'https://example.com:9984' # Use YOUR BigchainDB Root URL here
-    bdb = BigchainDB(bdb_root_url)
+    bdb_root_url = 'https://example.com:9984' # Use YOUR Planetmint Root URL here
+    bdb = Planetmint(bdb_root_url)
 
     alice, bob = generate_keypair(), generate_keypair()
 
@@ -462,11 +462,11 @@ Let's see how the example looks like when ``alice`` and ``bob`` are the issuers:
 
 .. code-block:: python
 
-    from planetmint_driver import BigchainDB
+    from planetmint_driver import Planetmint
     from planetmint_driver.crypto import generate_keypair
 
     bdb_root_url = 'https://example.com:9984'
-    bdb = BigchainDB(bdb_root_url)
+    bdb = Planetmint(bdb_root_url)
 
     alice, bob = generate_keypair(), generate_keypair()
 
@@ -580,7 +580,7 @@ Notice ``bob``'s public key in the above message:
 
 And the same goes for ``alice``. Try it!
 
-Sending the transaction over to a BigchainDB node:
+Sending the transaction over to a Planetmint node:
 
 .. code-block:: python
 
@@ -621,7 +621,7 @@ Implementations of the crypto-conditions are available in
 Threshold Conditions
 ~~~~~~~~~~~~~~~~~~~~
 
-Threshold conditions introduce multi-signatures, m-of-n signatures, or even more complex binary Merkle trees to BigchainDB.
+Threshold conditions introduce multi-signatures, m-of-n signatures, or even more complex binary Merkle trees to Planetmint.
 
 Setting up a generic threshold condition is a bit more elaborate than regular transaction signing but allows for flexible signing between multiple parties or groups.
 
@@ -883,10 +883,10 @@ The primary use case of timeout conditions is to enable :ref:`Escrow`.
 The condition can only be fulfilled before the expiry time.
 Once expired, the asset is lost and cannot be fulfilled by anyone.
 
-.. note:: The timeout conditions are BigchainDB-specific and not (yet)
+.. note:: The timeout conditions are Planetmint-specific and not (yet)
     supported by the ILP standard.
 
-.. important:: **Caveat**: The times between nodes in a BigchainDB federation
+.. important:: **Caveat**: The times between nodes in a Planetmint federation
     may (and will) differ slightly. In this case, the majority of the nodes
     will decide.
 
@@ -992,10 +992,10 @@ This means that the assets are locked up by a trusted party until an
 ``execute`` condition is presented. In order not to tie up the assets forever,
 the escrow foresees an ``abort`` condition, which is typically an expiry time.
 
-BigchainDB and cryptoconditions provides escrow out-of-the-box, without the
+Planetmint and cryptoconditions provides escrow out-of-the-box, without the
 need of a trusted party.
 
-A threshold condition is used to represent the escrow, since BigchainDB
+A threshold condition is used to represent the escrow, since Planetmint
 transactions cannot have a `pending` state.
 
 .. image:: _static/tx_escrow_execute_abort.png
@@ -1026,7 +1026,7 @@ the fulfillment.
 
     inverted_fulfillment.validate(msg) == not fulfillment.validate(msg)
 
-.. note:: inverted thresholds are BigchainDB-specific and not supported by the
+.. note:: inverted thresholds are Planetmint-specific and not supported by the
     ILP standard. The main reason is that it's difficult to tell whether the
     fulfillment was negated, or just omitted.
 

@@ -1,5 +1,5 @@
 
-.. Copyright BigchainDB GmbH and BigchainDB contributors
+.. Copyright Planetmint GmbH and Planetmint contributors
    SPDX-License-Identifier: (Apache-2.0 AND CC-BY-4.0)
    Code is Apache-2.0 and docs are CC-BY-4.0
 
@@ -18,17 +18,17 @@ Python.
 Overview
 ********
 
-Submitting a transaction to a BigchainDB node consists of three main steps:
+Submitting a transaction to a Planetmint node consists of three main steps:
 
 1. Preparing the transaction payload;
 2. Fulfilling the prepared transaction payload; and
 3. Sending the transaction payload via HTTPS.
 
 Step 1 and 2 can be performed offline on the client. That is, they do not
-require any connection to any BigchainDB node.
+require any connection to any Planetmint node.
 
 For convenience's sake, some utilities are provided to prepare and fulfill a
-transaction via the :class:`~.planetmint_driver.BigchainDB` class, and via the
+transaction via the :class:`~.planetmint_driver.Planetmint` class, and via the
 :mod:`~planetmint_driver.offchain` module. For an introduction on using these
 utilities, see the :ref:`basic-usage` or :ref:`advanced-usage` sections.
 
@@ -50,8 +50,8 @@ In order to perform all of the above, we'll use the following Python libraries:
 * `sha3`_: to hash the serialized transaction; and
 * `cryptoconditions`_: to create conditions and fulfillments
 
-With BigchainDB Server version 2.0 some changes on how to handcraft a transaction were introduced. You can read about
-the changes to the BigchainDB Server in our `blog post`_.
+With Planetmint Server version 2.0 some changes on how to handcraft a transaction were introduced. You can read about
+the changes to the Planetmint Server in our `blog post`_.
 
 High-level view of a transaction in Python
 ==========================================
@@ -111,7 +111,7 @@ Because a transaction must be signed before being sent, the
 
 .. important:: **Implications of Signed Payloads**
 
-    Because BigchainDB relies on cryptographic signatures, the payloads need to
+    Because Planetmint relies on cryptographic signatures, the payloads need to
     be fully prepared and signed on the client side. This prevents the
     server(s) from tampering with the provided data.
 
@@ -179,7 +179,7 @@ We are now going to craft this payload by hand.
 
 version
 -------
-As of BigchainDB 2.0, the transaction ``version`` is set to 2.0.
+As of Planetmint 2.0, the transaction ``version`` is set to 2.0.
 
 .. ipython::
 
@@ -235,7 +235,7 @@ aiming for:
 The difficult parts are the condition details and URI. We'll now see how to
 generate them using the ``cryptoconditions`` library:
 
-.. note:: In BigchainDB keys are encoded in base58 but the cryptoconditions
+.. note:: In Planetmint keys are encoded in base58 but the cryptoconditions
     library expects an unencoded byte string so we will have to decode the
     base58 key before we can use it with cryptoconditions.
 
@@ -561,7 +561,7 @@ Let's check this:
 
     In [0]: json.dumps(fulfilled_creation_tx, sort_keys=True) == json.dumps(handcrafted_creation_tx, sort_keys=True)
 
-The fulfilled transaction, ready to be sent over to a BigchainDB node:
+The fulfilled transaction, ready to be sent over to a Planetmint node:
 
 .. ipython::
 
@@ -662,7 +662,7 @@ Handcrafting a ``CREATE`` transaction can be done as follows:
 send the transaction
 ---------------------
 
-To send it over to BigchainDB we have different options. You can chose from three different methods to change the
+To send it over to Planetmint we have different options. You can chose from three different methods to change the
 broadcasting API used in `Tendermint <http://tendermint.readthedocs.io/projects/tools/en/master/using-tendermint.html#broadcast-api>`_.
 By choosing a mode, a new transaction can be pushed with a different mode. The recommended mode for basic usages is
 ``commit``, which will wait until the transaction is committed to a block or a timeout is reached. The ``sync`` mode
@@ -672,9 +672,9 @@ will return after the transaction is validated, while ``async`` will return righ
 
 .. code-block:: python
 
-    from planetmint_driver import BigchainDB
+    from planetmint_driver import Planetmint
 
-    bdb = BigchainDB('http://bdb-server:9984')
+    bdb = Planetmint('http://bdb-server:9984')
     returned_creation_tx = bdb.transactions.send_async(handcrafted_creation_tx)
 
 A quick check:
@@ -695,7 +695,7 @@ transfer transaction was prepared and fulfilled as follows:
 
 .. ipython::
 
-    In [0]: from planetmint_driver import BigchainDB
+    In [0]: from planetmint_driver import Planetmint
 
     In [0]: from planetmint_driver.offchain import fulfill_transaction, prepare_transaction
 
@@ -703,7 +703,7 @@ transfer transaction was prepared and fulfilled as follows:
 
     In [0]: alice, bob = generate_keypair(), generate_keypair()
 
-    In [0]: bdb = BigchainDB('https://example.com:9984') # Use YOUR BigchainDB Root URL here
+    In [0]: bdb = Planetmint('https://example.com:9984') # Use YOUR Planetmint Root URL here
 
     In [0]: bicycle_asset = {
        ...:     'data': {
@@ -1123,7 +1123,7 @@ In a nutshell
 
     handcrafted_transfer_tx['id'] = transfer_txid
 
-To send it over to BigchainDB we have different options. You can chose from three different methods to change the
+To send it over to Planetmint we have different options. You can chose from three different methods to change the
 broadcasting API used in `Tendermint <http://tendermint.readthedocs.io/projects/tools/en/master/using-tendermint.html#broadcast-api>`_.
 By choosing a mode, a new transaction can be pushed with a different mode. The recommended mode for basic usages is
 ``commit``, which will wait until the transaction is committed to a block or a timeout is reached. The ``sync`` mode
@@ -1134,9 +1134,9 @@ will return after the transaction is validated, while ``async`` will return righ
 
 .. code-block:: python
 
-    from planetmint_driver import BigchainDB
+    from planetmint_driver import Planetmint
 
-    bdb = BigchainDB('http://bdb-server:9984')
+    bdb = Planetmint('http://bdb-server:9984')
     returned_transfer_tx = bdb.transactions.send_async(handcrafted_transfer_tx)
 
 A quick check:
@@ -1250,7 +1250,7 @@ Handcrafting the ``CREATE`` transaction for our :ref:`bicycle sharing example
     # add the id
     token_creation_tx['id'] = shared_creation_txid
 
-To send it over to BigchainDB we have different options. You can chose from three different methods to change the
+To send it over to Planetmint we have different options. You can chose from three different methods to change the
 broadcasting API used in `Tendermint <http://tendermint.readthedocs.io/projects/tools/en/master/using-tendermint.html#broadcast-api>`_.
 By choosing a mode, a new transaction can be pushed with a different mode. The recommended mode for basic usages is
 ``commit``, which will wait until the transaction is committed to a block or a timeout is reached. The ``sync`` mode
@@ -1260,9 +1260,9 @@ will return after the transaction is validated, while ``async`` will return righ
 
 .. code-block:: python
 
-    from planetmint_driver import BigchainDB
+    from planetmint_driver import Planetmint
 
-    bdb = BigchainDB('http://bdb-server:9984')
+    bdb = Planetmint('http://bdb-server:9984')
     returned_creation_tx = bdb.transactions.send_async(token_creation_tx)
 
 A few checks:
@@ -1383,7 +1383,7 @@ to Bob:
     # add the id
     token_transfer_tx['id'] = shared_transfer_txid
 
-To send it over to BigchainDB we have different options. You can chose from three different methods to change the
+To send it over to Planetmint we have different options. You can chose from three different methods to change the
 broadcasting API used in `Tendermint <http://tendermint.readthedocs.io/projects/tools/en/master/using-tendermint.html#broadcast-api>`_.
 By choosing a mode, a new transaction can be pushed with a different mode. The recommended mode for basic usages is
 ``commit``, which will wait until the transaction is committed to a block or a timeout is reached. The ``sync`` mode
@@ -1393,9 +1393,9 @@ will return after the transaction is validated, while ``async`` will return righ
 
 .. code-block:: python
 
-    from planetmint_driver import BigchainDB
+    from planetmint_driver import Planetmint
 
-    bdb = BigchainDB('http://bdb-server:9984')
+    bdb = Planetmint('http://bdb-server:9984')
     returned_transfer_tx = bdb.transactions.send_async(token_transfer_tx)
 
 A few checks:
@@ -1433,11 +1433,11 @@ Say ``alice`` and ``bob`` own a car together:
 
     In [0]: from planetmint_driver import offchain
 
-    In [0]: from planetmint_driver import BigchainDB
+    In [0]: from planetmint_driver import Planetmint
 
-    In [0]: bdb_root_url = 'https://example.com:9984' # Use YOUR BigchainDB Root URL here
+    In [0]: bdb_root_url = 'https://example.com:9984' # Use YOUR Planetmint Root URL here
 
-    In [0]: bdb = BigchainDB(bdb_root_url)
+    In [0]: bdb = Planetmint(bdb_root_url)
 
     In [0]: car_asset = {'data': {'car': {'vin': '5YJRE11B781000196'}}}
 
@@ -1455,7 +1455,7 @@ Say ``alice`` and ``bob`` own a car together:
 
     In [0]: signed_car_creation_tx
 
-To send it over to BigchainDB we have different options. You can chose from three different methods to change the
+To send it over to Planetmint we have different options. You can chose from three different methods to change the
 broadcasting API used in `Tendermint <http://tendermint.readthedocs.io/projects/tools/en/master/using-tendermint.html#broadcast-api>`_.
 By choosing a mode, a new transaction can be pushed with a different mode. The recommended mode for basic usages is
 ``commit``, which will wait until the transaction is committed to a block or a timeout is reached. The ``sync`` mode
@@ -1890,7 +1890,7 @@ Handcrafting the ``'CREATE'`` transaction
     # add the id
     handcrafted_car_creation_tx['id'] = car_creation_txid
 
-To send it over to BigchainDB we have different options. You can chose from three different methods to change the
+To send it over to Planetmint we have different options. You can chose from three different methods to change the
 broadcasting API used in `Tendermint <http://tendermint.readthedocs.io/projects/tools/en/master/using-tendermint.html#broadcast-api>`_.
 By choosing a mode, a new transaction can be pushed with a different mode. The recommended mode for basic usages is
 ``commit``, which will wait until the transaction is committed to a block or a timeout is reached. The ``sync`` mode
@@ -1900,9 +1900,9 @@ will return after the transaction is validated, while ``async`` will return righ
 
 .. code-block:: python
 
-    from planetmint_driver import BigchainDB
+    from planetmint_driver import Planetmint
 
-    bdb = BigchainDB('http://bdb-server:9984')
+    bdb = Planetmint('http://bdb-server:9984')
     returned_car_creation_tx = bdb.transactions.send_async(handcrafted_car_creation_tx)
 
 
@@ -1999,7 +1999,7 @@ Handcrafting the ``'TRANSFER'`` transaction
 
     handcrafted_car_transfer_tx['id'] = car_transfer_txid
 
-To send it over to BigchainDB we have different options. You can chose from three different methods to change the
+To send it over to Planetmint we have different options. You can chose from three different methods to change the
 broadcasting API used in `Tendermint <http://tendermint.readthedocs.io/projects/tools/en/master/using-tendermint.html#broadcast-api>`_.
 By choosing a mode, a new transaction can be pushed with a different mode. The recommended mode for basic usages is
 ``commit``, which will wait until the transaction is committed to a block or a timeout is reached. The ``sync`` mode
@@ -2010,7 +2010,7 @@ will return after the transaction is validated, while ``async`` will return righ
 
 .. code-block:: python
 
-    bdb = BigchainDB('http://bdb-server:9984')
+    bdb = Planetmint('http://bdb-server:9984')
     returned_car_transfer_tx = bdb.transactions.send_async(handcrafted_car_transfer_tx)
 
 
@@ -2148,7 +2148,7 @@ Handcrafting the ``'CREATE'`` transaction
     # add the id
     handcrafted_car_creation_tx['id'] = car_creation_txid
 
-To send it over to BigchainDB we have different options. You can chose from three different methods to change the
+To send it over to Planetmint we have different options. You can chose from three different methods to change the
 broadcasting API used in `Tendermint <http://tendermint.readthedocs.io/projects/tools/en/master/using-tendermint.html#broadcast-api>`_.
 By choosing a mode, a new transaction can be pushed with a different mode. The recommended mode for basic usages is
 ``commit``, which will wait until the transaction is committed to a block or a timeout is reached. The ``sync`` mode
@@ -2158,9 +2158,9 @@ will return after the transaction is validated, while ``async`` will return righ
 
 .. code-block:: python
 
-    from planetmint_driver import BigchainDB
+    from planetmint_driver import Planetmint
 
-    bdb = BigchainDB('http://bdb-server:9984')
+    bdb = Planetmint('http://bdb-server:9984')
     returned_car_creation_tx = bdb.transactions.send_async(handcrafted_car_creation_tx)
 
 
@@ -2255,7 +2255,7 @@ Handcrafting the ``'TRANSFER'`` transaction
 
     handcrafted_car_transfer_tx['id'] = car_transfer_txid
 
-To send it over to BigchainDB we have different options. You can chose from three different methods to change the
+To send it over to Planetmint we have different options. You can chose from three different methods to change the
 broadcasting API used in `Tendermint <http://tendermint.readthedocs.io/projects/tools/en/master/using-tendermint.html#broadcast-api>`_.
 By choosing a mode, a new transaction can be pushed with a different mode. The recommended mode for basic usages is
 ``commit``, which will wait until the transaction is committed to a block or a timeout is reached. The ``sync`` mode
@@ -2265,7 +2265,7 @@ will return after the transaction is validated, while ``async`` will return righ
 
 .. code-block:: python
 
-    bdb = BigchainDB('http://bdb-server:9984')
+    bdb = Planetmint('http://bdb-server:9984')
     returned_car_transfer_tx = bdb.transactions.send_async(handcrafted_car_transfer_tx)
 
 

@@ -1,4 +1,4 @@
-# Copyright BigchainDB GmbH and BigchainDB contributors
+# Copyright Planetmint GmbH and Planetmint contributors
 # SPDX-License-Identifier: (Apache-2.0 AND CC-BY-4.0)
 # Code is Apache-2.0 and docs are CC-BY-4.0
 
@@ -182,14 +182,14 @@ def bdb_nodes(bdb_node, custom_headers):
 
 @fixture
 def driver_multiple_nodes(bdb_nodes):
-    from planetmint_driver import BigchainDB
-    return BigchainDB(*bdb_nodes)
+    from planetmint_driver import Planetmint
+    return Planetmint(*bdb_nodes)
 
 
 @fixture
 def driver(bdb_node):
-    from planetmint_driver import BigchainDB
-    return BigchainDB(bdb_node)
+    from planetmint_driver import Planetmint
+    return Planetmint(bdb_node)
 
 
 @fixture
@@ -554,12 +554,12 @@ def text_search_assets(api_root, transactions_api_full_url, alice_pubkey,
 
     # define the assets that will be used by text_search tests
     assets = [
-        {'msg': 'Hello BigchainDB 1!'},
-        {'msg': 'Hello BigchainDB 2!'},
-        {'msg': 'Hello BigchainDB 3!'}
+        {'msg': 'Hello Planetmint 1!'},
+        {'msg': 'Hello Planetmint 2!'},
+        {'msg': 'Hello Planetmint 3!'}
     ]
 
-    # write the assets to BigchainDB
+    # write the assets to Planetmint
     assets_by_txid = {}
     for asset in assets:
         tx = Transaction.create(

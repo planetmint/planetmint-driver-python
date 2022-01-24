@@ -1,4 +1,4 @@
-# Copyright BigchainDB GmbH and BigchainDB contributors
+# Copyright Planetmint GmbH and Planetmint contributors
 # SPDX-License-Identifier: (Apache-2.0 AND CC-BY-4.0)
 # Code is Apache-2.0 and docs are CC-BY-4.0
 
@@ -38,9 +38,9 @@ autodoc_default_options = {
 templates_path = ['_templates']
 source_suffix = '.rst'
 master_doc = 'index'
-project = 'BigchainDB Python Driver'
+project = 'Planetmint Python Driver'
 now = datetime.datetime.now()
-copyright = str(now.year) + ', BigchainDB Contributors'
+copyright = str(now.year) + ', Planetmint Contributors'
 version = planetmint_driver.__version__
 release = planetmint_driver.__version__
 exclude_patterns = ['_build']
@@ -57,20 +57,20 @@ latex_elements = {}
 
 latex_documents = [
     ('index', 'planetmint_python_driver.tex',
-     'BigchainDB Python Driver Documentation',
-     'BigchainDB', 'manual'),
+     'Planetmint Python Driver Documentation',
+     'Planetmint', 'manual'),
 ]
 
 man_pages = [
     ('index', 'planetmint_python_driver',
-     'BigchainDB Python Driver Documentation',
-     ['BigchainDB'], 1)
+     'Planetmint Python Driver Documentation',
+     ['Planetmint'], 1)
 ]
 
 texinfo_documents = [
     ('index', 'planetmint_python_driver',
-     'BigchainDB Python Driver Documentation',
-     'BigchainDB',
+     'Planetmint Python Driver Documentation',
+     'Planetmint',
      'planetmint_python_driver',
      '',
      'Miscellaneous'),

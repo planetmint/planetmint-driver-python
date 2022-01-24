@@ -1,4 +1,4 @@
-# Copyright BigchainDB GmbH and BigchainDB contributors
+# Copyright Planetmint GmbH and Planetmint contributors
 # SPDX-License-Identifier: (Apache-2.0 AND CC-BY-4.0)
 # Code is Apache-2.0 and docs are CC-BY-4.0
 
@@ -26,8 +26,8 @@ def test_prepare_transaction(operation, return_value, function, monkeypatch):
 
 def test_prepare_transaction_raises():
     from planetmint_driver.offchain import prepare_transaction
-    from planetmint_driver.exceptions import BigchaindbException
-    with raises(BigchaindbException):
+    from planetmint_driver.exceptions import PlanetmintException
+    with raises(PlanetmintException):
         prepare_transaction(operation=None)
 
 
@@ -46,7 +46,7 @@ def test_prepare_create_transaction_default(alice_pubkey):
 
 
 @mark.parametrize('asset', (
-    None, {'data': None}, {'data': {'msg': 'Hello BigchainDB!'}},
+    None, {'data': None}, {'data': {'msg': 'Hello Planetmint!'}},
 ))
 @mark.parametrize('signers', (
     'G7J7bXF8cqSrjrxUKwcF8tCriEKC5CgyPHmtGwUi4BK3',

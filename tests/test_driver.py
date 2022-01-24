@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# Copyright BigchainDB GmbH and BigchainDB contributors
+# Copyright Planetmint GmbH and Planetmint contributors
 # SPDX-License-Identifier: (Apache-2.0 AND CC-BY-4.0)
 # Code is Apache-2.0 and docs are CC-BY-4.0
 
@@ -13,7 +13,7 @@ from sha3 import sha3_256
 from cryptoconditions import Ed25519Sha256
 
 
-class TestBigchainDB:
+class TestPlanetmint:
 
     @mark.parametrize('nodes,headers, normalized_nodes', (
         ((), None, (({'endpoint': 'http://localhost:9984', 'headers': {}},))),
@@ -40,8 +40,8 @@ class TestBigchainDB:
 
     ))
     def test_driver_init(self, nodes, headers, normalized_nodes):
-        from planetmint_driver.driver import BigchainDB
-        driver = BigchainDB(*nodes, headers=headers)
+        from planetmint_driver.driver import Planetmint
+        driver = Planetmint(*nodes, headers=headers)
         nodes = normalized_nodes
         headers = {} if not headers else headers
         assert driver.nodes == normalized_nodes
@@ -57,7 +57,7 @@ class TestBigchainDB:
         response = driver.info()
         assert 'api' in response
         assert 'docs' in response
-        assert response['software'] == 'BigchainDB'
+        assert response['software'] == 'Planetmint'
         assert 'version' in response
 
     def test_api_info(self, driver):

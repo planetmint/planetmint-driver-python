@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# Copyright BigchainDB GmbH and BigchainDB contributors
+# Copyright Planetmint GmbH and Planetmint contributors
 # SPDX-License-Identifier: (Apache-2.0 AND CC-BY-4.0)
 # Code is Apache-2.0 and docs are CC-BY-4.0
 
@@ -50,9 +50,9 @@ docs_require = [
 setup(
     name='planetmint_driver',
     version='0.6.2',
-    description="Python driver for BigchainDB",
+    description="Python driver for Planetmint",
     long_description=readme + '\n\n' + changelog,
-    author="BigchainDB",
+    author="Planetmint",
     author_email='devs@planetmint.com',
     url='https://github.com/planetmint/planetmint-driver',
     packages=find_packages(exclude=['tests*']),

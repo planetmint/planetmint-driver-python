@@ -1,4 +1,4 @@
-# Copyright BigchainDB GmbH and BigchainDB contributors
+# Copyright Planetmint GmbH and Planetmint contributors
 # SPDX-License-Identifier: (Apache-2.0 AND CC-BY-4.0)
 # Code is Apache-2.0 and docs are CC-BY-4.0
 
@@ -7,8 +7,8 @@ from .offchain import prepare_transaction, fulfill_transaction
 from .utils import normalize_nodes
 
 
-class BigchainDB:
-    """A :class:`~planetmint_driver.BigchainDB` driver is able to create, sign,
+class Planetmint:
+    """A :class:`~planetmint_driver.Planetmint` driver is able to create, sign,
        and submit transactions to one or more nodes in a Federation.
 
        If initialized with ``>1`` nodes, the driver will send successive
@@ -19,10 +19,10 @@ class BigchainDB:
 
     def __init__(self, *nodes, transport_class=Transport,
                  headers=None, timeout=20):
-        """Initialize a :class:`~planetmint_driver.BigchainDB` driver instance.
+        """Initialize a :class:`~planetmint_driver.Planetmint` driver instance.
 
         Args:
-            *nodes (list of (str or dict)): BigchainDB nodes to connect to.
+            *nodes (list of (str or dict)): Planetmint nodes to connect to.
                 Currently, the full URL must be given. In the absence of any
                 node, the default(``'http://localhost:9984'``) will be used.
                 If node is passed as a dict, `endpoint` is a required key;
@@ -32,7 +32,7 @@ class BigchainDB:
             headers (dict): Optional headers that will be passed with
                 each request. To pass headers only on a per-request
                 basis, you can pass the headers to the method of choice
-                (e.g. :meth:`BigchainDB().transactions.send_commit()
+                (e.g. :meth:`Planetmint().transactions.send_commit()
                 <.TransactionsEndpoint.send_commit>`).
             timeout (int): Optional timeout in seconds that will be passed
                 to each request.
@@ -125,7 +125,7 @@ class BigchainDB:
             headers (dict): Optional headers to pass to the request.
 
         Returns:
-            dict: Details of the HTTP API provided by the BigchainDB
+            dict: Details of the HTTP API provided by the Planetmint
             server.
 
         """
@@ -138,7 +138,7 @@ class BigchainDB:
 
 class NamespacedDriver:
     """Base class for creating endpoints (namespaced objects) that can be added
-    under the :class:`~planetmint_driver.driver.BigchainDB` driver.
+    under the :class:`~planetmint_driver.driver.Planetmint` driver.
     """
 
     PATH = '/'
@@ -149,8 +149,8 @@ class NamespacedDriver:
         driver instance.
 
         Args:
-            driver (BigchainDB): Instance of
-                :class:`~planetmint_driver.driver.BigchainDB`.
+            driver (Planetmint): Instance of
+                :class:`~planetmint_driver.driver.Planetmint`.
         """
         self.driver = driver
 
@@ -208,7 +208,7 @@ class TransactionsEndpoint(NamespacedDriver):
             dict: The prepared transaction.
 
         Raises:
-            :class:`~.exceptions.BigchaindbException`: If ``operation`` is
+            :class:`~.exceptions.PlanetmintException`: If ``operation`` is
                 not ``'CREATE'`` or ``'TRANSFER'``.
 
         .. important::
@@ -266,7 +266,7 @@ class TransactionsEndpoint(NamespacedDriver):
 
         Returns:
             dict: The fulfilled transaction payload, ready to be sent to a
-            BigchainDB federation.
+            Planetmint federation.
 
         Raises:
             :exc:`~.exceptions.MissingPrivateKeyError`: If a private
@@ -288,7 +288,7 @@ class TransactionsEndpoint(NamespacedDriver):
             headers (dict): Optional headers to pass to the request.
 
         Note:
-            Please note that the id of an asset in BigchainDB is
+            Please note that the id of an asset in Planetmint is
             actually the id of the transaction which created the asset.
             In other words, when querying for an asset id with the
             operation set to ``'CREATE'``, only one transaction should
@@ -298,7 +298,7 @@ class TransactionsEndpoint(NamespacedDriver):
             :meth:`.retrieve` and :meth:`.get` should return the same
             transaction.
 
-                >>> bdb = BigchainDB()
+                >>> bdb = Planetmint()
                 >>> bdb.transactions.retrieve('foo')
                 >>> bdb.transactions.get(asset_id='foo', operation='CREATE')
 
@@ -422,7 +422,7 @@ class OutputsEndpoint(NamespacedDriver):
             `ed25519` condition (at index ``0``) with alice's public
             key::
 
-                >>> bdb = BigchainDB()
+                >>> bdb = Planetmint()
                 >>> bdb.outputs.get(alice_pubkey)
                 ... ['../transactions/da1b64a907ba54/conditions/0']
 

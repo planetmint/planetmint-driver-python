@@ -1,9 +1,9 @@
-# Copyright BigchainDB GmbH and BigchainDB contributors
+# Copyright Planetmint GmbH and Planetmint contributors
 # SPDX-License-Identifier: (Apache-2.0 AND CC-BY-4.0)
 # Code is Apache-2.0 and docs are CC-BY-4.0
 
 """Module for operations that can be performed "offchain", meaning without
-a connection to one or more  BigchainDB federation nodes.
+a connection to one or more  Planetmint federation nodes.
 
 """
 import logging
@@ -17,7 +17,7 @@ from .common.transaction import (
 )
 from .common.exceptions import KeypairMismatchException
 
-from .exceptions import BigchaindbException, MissingPrivateKeyError
+from .exceptions import PlanetmintException, MissingPrivateKeyError
 from .utils import (
     CreateOperation,
     TransferOperation,
@@ -34,7 +34,7 @@ def _prepare_transaction(operation,
                          asset=None,
                          metadata=None,
                          inputs=None):
-    raise BigchaindbException((
+    raise PlanetmintException((
         'Unsupported operation: {}. '
         'Only "CREATE" and "TRANSFER" are supported.'.format(operation)))
 
@@ -85,7 +85,7 @@ def prepare_transaction(*, operation='CREATE', signers=None,
         dict: The prepared transaction.
 
     Raises:
-        :class:`~.exceptions.BigchaindbException`: If ``operation`` is
+        :class:`~.exceptions.PlanetmintException`: If ``operation`` is
             not ``'CREATE'`` or ``'TRANSFER'``.
 
     .. important::
@@ -243,7 +243,7 @@ def prepare_transfer_transaction(*,
 
             # noqa E501
             >>> tx
-                {'asset': {'data': {'msg': 'Hello BigchainDB!'}},
+                {'asset': {'data': {'msg': 'Hello Planetmint!'}},
                  'id': '9650055df2539223586d33d273cb8fd05bd6d485b1fef1caf7c8901a49464c87',
                  'inputs': [{'fulfillment': {'public_key': '3Cxh1eKZk3Wp9KGBWFS7iVde465UvqUKnEqTg2MW4wNf',
                                              'type': 'ed25519-sha-256'},
@@ -330,7 +330,7 @@ def fulfill_transaction(transaction, *, private_keys):
 
     Returns:
         dict: The fulfilled transaction payload, ready to be sent to a
-        BigchainDB federation.
+        Planetmint federation.
 
     Raises:
         :exc:`~.exceptions.MissingPrivateKeyError`: If a private

@@ -1,5 +1,5 @@
 
-.. Copyright BigchainDB GmbH and BigchainDB contributors
+.. Copyright Planetmint GmbH and Planetmint contributors
    SPDX-License-Identifier: (Apache-2.0 AND CC-BY-4.0)
    Code is Apache-2.0 and docs are CC-BY-4.0
 
@@ -13,7 +13,7 @@ Quickstart / Installation
    They should also work on other Linux distributions and on macOS.
    For other operating systems, we recommend using an Ubuntu virtual machine (VM).
 
-The BigchainDB Python Driver depends on:
+The Planetmint Python Driver depends on:
 
 1. Python 3.5+
 2. A recent Python 3 version of ``pip``
@@ -22,7 +22,7 @@ The BigchainDB Python Driver depends on:
 
 If you're missing one of those, then see "How to Install the Dependencies" below before proceeding.
 
-Next, to install the latest *stable* BigchainDB Python Driver (``planetmint_driver``) use:
+Next, to install the latest *stable* Planetmint Python Driver (``planetmint_driver``) use:
 
 .. code-block:: bash
 
@@ -39,7 +39,7 @@ You can find a list of all versions in
 `the release history page on PyPI <https://pypi.org/project/planetmint-driver/#history>`_.
 
 
-Next: :doc:`determine the BigchainDB Root URL of the BigchainDB node or cluster you want to connect to <connect>`.
+Next: :doc:`determine the Planetmint Root URL of the Planetmint node or cluster you want to connect to <connect>`.
 
 
 How to Install the Dependencies
@@ -49,7 +49,7 @@ How to Install the Dependencies
 Dependency 1: Python 3.5+
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
-The BigchainDB Python Driver uses Python 3.5+. You can check your version of Python using:
+The Planetmint Python Driver uses Python 3.5+. You can check your version of Python using:
 
 .. code-block:: bash
 
@@ -101,7 +101,7 @@ Once you have a recent Python 3 version of ``pip``, you should be able to upgrad
 Dependency 4: cryptography and cryptoconditions
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-BigchainDB(server and driver) also depends on `cryptography`_ and `cryptoconditions`_.
+Planetmint(server and driver) also depends on `cryptography`_ and `cryptoconditions`_.
 
 * `cryptography`_ depends on `libssl`_, `libcrypto`_ which also depends on (`Python development library and header files`_).
 * `cryptoconditions`_ depends on `PyNaCl`_ (`Networking and Cryptography library`_) which depends on ``ffi.h``.
@@ -120,7 +120,7 @@ For other operating systems, please refer to `the cryptography installation guid
 Installing the Driver
 ---------------------
 
-Now you can install the BigchainDB Python Driver (``planetmint_driver``) using:
+Now you can install the Planetmint Python Driver (``planetmint_driver``) using:
 
 .. code-block:: bash
 
@@ -130,7 +130,7 @@ Now you can install the BigchainDB Python Driver (``planetmint_driver``) using:
 
     $ pip3 install planetmint_driver
 
-Next: :doc:`determine the BigchainDB Root URL of the BigchainDB node or cluster you want to connect to <connect>`.
+Next: :doc:`determine the Planetmint Root URL of the Planetmint node or cluster you want to connect to <connect>`.
 
 
 Advanced Installation Options
@@ -170,7 +170,7 @@ development.
 
 4. When you're done making changes, check that your changes pass flake8
    and the tests. For the tests, you'll need to  start the MongoDB, Tendermint
-   and BigchainDB servers::
+   and Planetmint servers::
 
     $ docker-compose up -d planetmint
 

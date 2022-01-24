@@ -1,5 +1,5 @@
 <!---
-Copyright BigchainDB GmbH and BigchainDB contributors
+Copyright Planetmint GmbH and Planetmint contributors
 SPDX-License-Identifier: (Apache-2.0 AND CC-BY-4.0)
 Code is Apache-2.0 and docs are CC-BY-4.0
 --->
@@ -8,7 +8,7 @@ Code is Apache-2.0 and docs are CC-BY-4.0
 
 ## Notes
 
-BigchainDB follows
+Planetmint follows
 [the Python form of Semantic Versioning](https://packaging.python.org/tutorials/distributing-packages/#choosing-a-versioning-scheme)
 (i.e. MAJOR.MINOR.PATCH),
 which is almost identical
@@ -24,7 +24,7 @@ We use `0.9` and `0.9.0` as example version and short-version values below. You 
 
 We follow [BEP-1](https://github.com/planetmint/BEPs/tree/master/1), which is our variant of C4, the Collective Code Construction Contract, so a release is just a [tagged commit](https://git-scm.com/book/en/v2/Git-Basics-Tagging) on the `master` branch, i.e. a label for a particular Git commit.
 
-The following steps are what we do to release a new version of _BigchainDB Python Driver_.
+The following steps are what we do to release a new version of _Planetmint Python Driver_.
 
 ## Steps
 
@@ -55,7 +55,7 @@ The following steps are what we do to release a new version of _BigchainDB Pytho
     ```
     sudo chown -R $(whoami):$(whoami) .
     ```
-1. [Log in to readthedocs.org](https://readthedocs.org/accounts/login/) and go to the **BigchainDB Python Driver** project, then:
+1. [Log in to readthedocs.org](https://readthedocs.org/accounts/login/) and go to the **Planetmint Python Driver** project, then:
    - Click on "Builds", select "latest" from the drop-down menu, then click the "Build Version:" button.
    - Wait for the build of "latest" to finish. This can take a few minutes.
    - Go to Admin --> Advanced Settings
@@ -69,7 +69,7 @@ The following steps are what we do to release a new version of _BigchainDB Pytho
      1. Make sure the **stable** branch is _not_ active.
      1. Scroll to the bottom of the page and click "Save".
 
-Congratulations, you have released a new version of BigchainDB Python Driver!
+Congratulations, you have released a new version of Planetmint Python Driver!
 
 ## Post-Release Steps
-Update the BigchainDB Python Driver version in the `acceptance/python/Dockerfile` in the [BigchainDB Server](https://github.com/planetmint/planetmint).
+Update the Planetmint Python Driver version in the `acceptance/python/Dockerfile` in the [Planetmint Server](https://github.com/planetmint/planetmint).
