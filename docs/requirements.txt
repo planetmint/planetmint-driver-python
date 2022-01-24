@@ -1,0 +1,10 @@
+# we need this for readthedocs
+
+Sphinx~=1.0
+sphinx-autobuild
+sphinxcontrib-autorun
+sphinxcontrib-napoleon>=0.4.4
+sphinx_rtd_theme
+sphinxcontrib-httpdomain
+ipython
+matplotlib

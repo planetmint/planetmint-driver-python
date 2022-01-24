@@ -1,0 +1,18 @@
+# Copyright BigchainDB GmbH and BigchainDB contributors
+# SPDX-License-Identifier: (Apache-2.0 AND CC-BY-4.0)
+# Code is Apache-2.0 and docs are CC-BY-4.0
+
+codecov:
+  branch: master
+
+coverage:
+  range: "95...100"
+
+ignore:
+  - "docs/*"
+  - "tests/*"
+  - "planetmint_driver/common/*"
+
+comment:
+  layout: "header, diff, changes, sunburst, uncovered"
+  behavior: default
