@@ -1,0 +1,88 @@
+# Copyright Planetmint GmbH and Planetmint contributors
+# SPDX-License-Identifier: (Apache-2.0 AND CC-BY-4.0)
+# Code is Apache-2.0 and docs are CC-BY-4.0
+
+version: '2.1'
+
+services:
+  planetmint-driver:
+    depends_on:
+      - planetmint
+    build:
+      context: .
+      dockerfile: ./compose/planetmint_driver/Dockerfile
+    volumes:
+      - ./docs:/usr/src/app/docs
+      - ./tests:/usr/src/app/tests
+      - ./planetmint_driver:/usr/src/app/planetmint_driver
+      - ./setup.py:/usr/src/app/setup.py
+      - ./tox.ini:/usr/src/app/tox.ini
+      - ./htmlcov:/usr/src/app/htmlcov
+      - ./coverage.xml:/usr/src/app/coverage.xml
+    environment:
+      BDB_HOST: planetmint
+      PLANETMINT_DATABASE_BACKEND: mongodb
+    command: pytest -v
+  mongodb:
+    image: mongo:3.6
+    ports:
+      - "27017"
+    command: mongod
+  planetmint:
+    depends_on:
+      - mongodb
+      - tendermint
+    build:
+      context: .
+      dockerfile: ./compose/planetmint_server/Dockerfile
+      args:
+        branch: main
+        backend: localmongodb
+    environment:
+      PLANETMINT_DATABASE_HOST: mongodb
+      PLANETMINT_DATABASE_PORT: 27017
+      PLANETMINT_SERVER_BIND: 0.0.0.0:9984
+      PLANETMINT_WSSERVER_HOST: 0.0.0.0
+      PLANETMINT_TENDERMINT_HOST: tendermint
+      PLANETMINT_TENDERMINT_PORT: 26657
+    ports:
+      - "9984"
+      - "9985"
+      - "26658"
+    healthcheck:
+      test: ["CMD", "bash", "-c", "curl http://planetmint:9984 && curl http://tendermint:26657/abci_query"]
+      interval: 3s
+      timeout: 5s
+      retries: 3
+    command: planetmint -l DEBUG start
+  tendermint:
+    image: tendermint/tendermint:v0.31.5
+    entrypoint: ''
+    ports:
+      - "26656:26656"
+      - "26657:26657"
+    command: sh -c "tendermint init && tendermint node --consensus.create_empty_blocks=false --proxy_app=tcp://planetmint:26658"
+  bdb:
+    image: busybox
+    depends_on:
+      planetmint:
+        condition: service_healthy
+  # Build docs only
+  # docker-compose build bdocs
+  # docker-compose up -d bdocs
+  bdocs:
+    depends_on:
+      - vdocs
+    build:
+      context: .
+      dockerfile: ./compose/planetmint_driver/Dockerfile
+    volumes:
+      - .:/usr/src/app/
+    command: make -C docs html
+  vdocs:
+    image: nginx
+    ports:
+      - '55555:80'
+    volumes:
+      - ./docs/_build/html:/usr/share/nginx/html
+
