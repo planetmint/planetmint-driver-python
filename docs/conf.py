@@ -78,6 +78,6 @@ texinfo_documents = [
 
 intersphinx_mapping = {
     'python': ('https://docs.python.org/3', None),
-    'planetmint-server': (
-        'https://docs.planetmint.com/projects/server/en/latest/', None),
+#    'planetmint-server': (
+#        'https://docs.planetmint.com/projects/server/en/latest/', None),
 }
