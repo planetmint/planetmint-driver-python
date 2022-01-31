@@ -52,6 +52,7 @@ setup(
     version='0.9.0',
     description="Python driver for Planetmint",
     long_description=readme + '\n\n' + changelog,
+    long_description_content_type='text/x-rst',
     author="Planetmint",
     author_email='devs@planetmint.com',
     url='https://github.com/planetmint/planetmint-driver',
