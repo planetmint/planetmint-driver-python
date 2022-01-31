@@ -82,6 +82,7 @@ clean: clean-build clean-pyc clean-test ## Remove all build, test, coverage and 
 	@$(ECHO) "Cleaning was successful."
 
 release: dist ## package and upload a release
+	twine check dist/*
 	twine upload dist/*
 
 root-url:
@@ -92,7 +93,7 @@ root-url:
 ###############
 
 dist: clean ## builds source (and not for now, wheel package)
-	python setup.py sdist
+	python setup.py sdist bdist_wheel
 	ls -l dist
 
 check-deps:
