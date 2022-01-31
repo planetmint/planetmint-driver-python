@@ -2,25 +2,28 @@
 # SPDX-License-Identifier: (Apache-2.0 AND CC-BY-4.0)
 # Code is Apache-2.0 and docs are CC-BY-4.0
 
+sudo: required
+os: linux
 dist: focal
 services:
   - docker
-  
+
 language: python
+cache: pip
 python:
   - 3.9
 
 env:
   global:
     - DOCKER_COMPOSE_VERSION=1.25.0
-  matrix:
+  jobs:
     - TOXENV=py39
     - TOXENV=flake8
     - TOXENV=docs
 
-matrix:
+jobs:
   fast_finish: true
-  exclude:
+  include:
     - python: 3.9
       env: TOXENV=flake8
     - python: 3.9
