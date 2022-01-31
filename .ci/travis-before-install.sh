@@ -4,7 +4,7 @@
 # Code is Apache-2.0 and docs are CC-BY-4.0
 
 
-if [[ "${TOXENV}" == "py35" || "${TOXENV}" == "py36" ]]; then
+if [[ "${TOXENV}" == "py39" ]]; then
   sudo apt-get update
   sudo apt-get -y -o Dpkg::Options::="--force-confnew" install docker-ce
 
