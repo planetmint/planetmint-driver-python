@@ -54,7 +54,7 @@ setup(
     long_description=readme + '\n\n' + changelog,
     long_description_content_type='text/x-rst',
     author="Planetmint",
-    author_email='devs@planetmint.com',
+    author_email='contact@ipdb.global',
     url='https://github.com/planetmint/planetmint-driver',
     packages=find_packages(exclude=['tests*']),
     package_dir={'planetmint_driver':
