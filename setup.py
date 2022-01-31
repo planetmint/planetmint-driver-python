@@ -49,7 +49,7 @@ docs_require = [
 
 setup(
     name='planetmint_driver',
-    version='0.6.2',
+    version='0.9.0',
     description="Python driver for Planetmint",
     long_description=readme + '\n\n' + changelog,
     author="Planetmint",
@@ -60,7 +60,7 @@ setup(
                  'planetmint_driver'},
     include_package_data=True,
     install_requires=install_requires,
-    python_requires='>=3.5',
+    python_requires='>=3.9',
     license="Apache Software License 2.0",
     zip_safe=False,
     keywords='planetmint_driver',
@@ -69,9 +69,7 @@ setup(
         'Intended Audience :: Developers',
         'License :: OSI Approved :: Apache Software License',
         'Natural Language :: English',
-        'Programming Language :: Python :: 3 :: Only',
-        'Programming Language :: Python :: 3.5',
-        'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.9',
     ],
     test_suite='tests',
     extras_require={
