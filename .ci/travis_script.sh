@@ -6,7 +6,7 @@
 
 set -e -x
 
-if [[ "${TOXENV}" == "py35" || "${TOXENV}" == "py36" ]]; then
+if [[ "${TOXENV}" == "py39" ]]; then
   docker-compose run --rm planetmint-driver pytest -v --cov=planetmint_driver --cov-report xml:htmlcov/coverage.xml
 else
   tox -e ${TOXENV}

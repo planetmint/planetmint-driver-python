@@ -13,7 +13,7 @@ with open('CHANGELOG.rst') as changelog_file:
 
 install_requires = [
     'requests>=2.20.0',
-    'cryptoconditions==0.8.0',
+    'planetmint-cryptoconditions>=0.9.0',
     'pysha3~=1.0.2',
     'python-rapidjson~=0.6.0',
     'python-rapidjson-schema==0.1.1',
@@ -49,11 +49,12 @@ docs_require = [
 
 setup(
     name='planetmint_driver',
-    version='0.9.0',
+    version='0.9.1',
     description="Python driver for Planetmint",
     long_description=readme + '\n\n' + changelog,
+    long_description_content_type='text/x-rst',
     author="Planetmint",
-    author_email='devs@planetmint.com',
+    author_email='contact@ipdb.global',
     url='https://github.com/planetmint/planetmint-driver',
     packages=find_packages(exclude=['tests*']),
     package_dir={'planetmint_driver':

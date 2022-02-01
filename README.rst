@@ -10,18 +10,15 @@
    :target: https://gitter.im/planetmint/planetmint-driver?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge
 
 
-.. image:: https://img.shields.io/pypi/v/planetmint-driver.svg
-        :target: https://pypi.python.org/pypi/planetmint-driver
+.. image:: https://badge.fury.io/py/planetmint-driver.svg
+    :target: https://badge.fury.io/py/planetmint-driver
 
-.. image:: https://img.shields.io/travis/planetmint/planetmint-driver/master.svg
-        :target: https://travis-ci.com/planetmint/planetmint-driver
+.. image:: https://app.travis-ci.com/planetmint/planetmint-driver.svg?branch=main
+    :target: https://app.travis-ci.com/planetmint/planetmint-driver
 
 .. image:: https://img.shields.io/codecov/c/github/planetmint/planetmint-driver/master.svg
     :target: https://codecov.io/github/planetmint/planetmint-driver?branch=master
 
-.. image:: https://readthedocs.org/projects/planetmint-python-driver/badge/?version=latest
-        :target: http://planetmint.readthedocs.io/projects/py-driver/en/latest/?badge=latest
-        :alt: Documentation Status
 
 Planetmint Python Driver
 ==========================
