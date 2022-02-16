@@ -56,12 +56,12 @@ services:
       retries: 3
     command: planetmint -l DEBUG start
   tendermint:
-    image: tendermint/tendermint:v0.31.5
+    image: tendermint/tendermint:v0.34.15
     entrypoint: ''
     ports:
       - "26656:26656"
       - "26657:26657"
-    command: sh -c "tendermint init && tendermint node --consensus.create_empty_blocks=false --proxy_app=tcp://planetmint:26658"
+    command: sh -c "tendermint init && tendermint node --consensus.create_empty_blocks=false --rpc.laddr=tcp://0.0.0.0:26657 --proxy_app=tcp://planetmint:26658"
   bdb:
     image: busybox
     depends_on:
