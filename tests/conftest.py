@@ -249,6 +249,7 @@ def alice_transaction_signature(signed_alice_transaction):
         signed_alice_transaction['inputs'][0]['fulfillment']
     ).signature
 
+
 @fixture
 def persisted_alice_transaction(signed_alice_transaction,
                                 transactions_api_full_url):

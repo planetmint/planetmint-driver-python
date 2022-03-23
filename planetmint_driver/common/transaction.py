@@ -844,8 +844,8 @@ class Transaction(object):
                     - Ed25519Fulfillment
             Args:
                 callback (function): A callback used to sign inputs. Callback
-                    takes input dict and message to sign as arguments and returns
-                    signature (bytes).
+                    takes input dict and message to sign as arguments
+                    and returns signature (bytes).
             Returns:
                 :class:`~planetmint.common.transaction.Transaction`
         """
