@@ -365,7 +365,7 @@ def fulfill_with_signing_delegation(transaction, signing_callback):
             further used to construct fulfillment.
     Returns:
         dict: The fulfilled transaction payload, ready to be sent to a
-            BigchainDB federation.
+            Planetmint federation.
     """
     return (Transaction.from_dict(transaction)
             .delegate_signing(signing_callback)

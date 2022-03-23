@@ -847,7 +847,7 @@ class Transaction(object):
                     takes input dict and message to sign as arguments and returns
                     signature (bytes).
             Returns:
-                :class:`~bigchaindb.common.transaction.Transaction`
+                :class:`~planetmint.common.transaction.Transaction`
         """
         tx_dict = self.to_dict()
         tx_dict = self._remove_signatures(tx_dict)
