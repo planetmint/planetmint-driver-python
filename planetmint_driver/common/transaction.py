@@ -543,14 +543,13 @@ class Transaction(object):
         if (operation == Transaction.CREATE and
                 asset is not None and
                 not (isinstance(asset, dict) and 'data' in asset)):
-            raise TypeError(('`asset` must be None or a dict holding a `data`'
-                             " property instance for '{}' "
-                             "Transactions".format(operation)))
+            raise TypeError('`asset` must be None or a dict holding a `data` '
+                            ' property instance for \'{}\' '
+                            'Transactions'.format(operation))
         elif (operation == Transaction.TRANSFER and
-                not (isinstance(asset, dict) and 'id' in asset)):
-            raise TypeError(('`asset` must be a dict holding an `id` property '
-                             "for 'TRANSFER' Transactions"))
-
+              not (isinstance(asset, dict) and 'id' in asset)):
+            raise TypeError('`asset` must be a dict holding an `id` property '
+                            'for {} Transactions'.format(operation))
         if outputs and not isinstance(outputs, list):
             raise TypeError('`outputs` must be a list instance or None')
 
@@ -834,6 +833,33 @@ class Transaction(object):
 
         self._hash()
 
+        return self
+
+    def delegate_signing(self, callback):
+        """Fulfills a previous Transaction's Output by signing Inputs using callback.
+
+            Note:
+                This method works only for the following Cryptoconditions
+                currently:
+                    - Ed25519Fulfillment
+            Args:
+                callback (function): A callback used to sign inputs. Callback
+                    takes input dict and message to sign as arguments and returns
+                    signature (bytes).
+            Returns:
+                :class:`~bigchaindb.common.transaction.Transaction`
+        """
+        tx_dict = self.to_dict()
+        tx_dict = self._remove_signatures(tx_dict)
+        tx_serialized = self._to_str(tx_dict)
+        message = sha3_256(tx_serialized.encode())
+        for input_ in self.inputs:
+            if input_.fulfills:
+                message.update('{}{}'.format(
+                    input_.fulfills.txid, input_.fulfills.output).encode())
+            signature = callback(input_.to_dict(), message.digest())
+            input_.fulfillment.signature = signature
+        self._hash()
         return self
 
     @classmethod
