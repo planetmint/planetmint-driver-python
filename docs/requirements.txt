@@ -1,5 +1,6 @@
 # we need this for readthedocs
 
+jinja2==3.0.0
 Sphinx~=1.0
 sphinx-autobuild
 sphinxcontrib-autorun

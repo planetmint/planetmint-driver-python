@@ -34,7 +34,8 @@ tests_require = [
 dev_require = [
     'ipdb',
     'ipython',
-    'pre-commit'
+    'pre-commit',
+    'jinja2==3.0.0'
 ]
 
 docs_require = [
