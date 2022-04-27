@@ -36,7 +36,7 @@ services:
       context: .
       dockerfile: ./compose/planetmint_server/Dockerfile
       args:
-        branch: main
+        branch: asset-migration
         backend: localmongodb
     environment:
       PLANETMINT_DATABASE_HOST: mongodb

@@ -60,3 +60,6 @@ target/
 
 # planetmint configuration
 .planetmint
+
+# VSCode
+.vscode

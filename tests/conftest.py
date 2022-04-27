@@ -228,7 +228,7 @@ def alice_transaction_obj(alice_pubkey):
     return Transaction.create(
         tx_signers=[alice_pubkey],
         recipients=[([alice_pubkey], 1)],
-        assets={'serial_number': serial_number},
+        assets=[{'serial_number': serial_number}],
     )
 
 
@@ -256,7 +256,7 @@ def persisted_random_transaction(alice_pubkey,
                                  alice_privkey):
     from uuid import uuid4
     from planetmint_driver.common.transaction import Transaction
-    assets = {'data': {'x': str(uuid4())}}
+    assets = [{'data': {'x': str(uuid4())}}]
     tx = Transaction.create(
         tx_signers=[alice_pubkey],
         recipients=[([alice_pubkey], 1)],
@@ -271,7 +271,7 @@ def sent_persisted_random_transaction(alice_pubkey,
                                       transactions_api_full_url):
     from uuid import uuid4
     from planetmint_driver.common.transaction import Transaction
-    assets = {'data': {'x': str(uuid4())}}
+    assets = [{'data': {'x': str(uuid4())}}]
     tx = Transaction.create(
         tx_signers=[alice_pubkey],
         recipients=[([alice_pubkey], 1)],
@@ -317,9 +317,9 @@ def prepared_carol_bicycle_transaction(carol_keypair, bicycle_data):
     condition = make_ed25519_condition(carol_keypair.public_key)
     fulfillment = make_fulfillment(carol_keypair.public_key)
     tx = {
-        'assets': {
+        'assets': [{
             'data': bicycle_data,
-        },
+        }],
         'metadata': None,
         'operation': 'CREATE',
         'outputs': (condition,),
@@ -358,9 +358,9 @@ def prepared_carol_car_transaction(carol_keypair, car_data):
     condition = make_ed25519_condition(carol_keypair.public_key)
     fulfillment = make_fulfillment(carol_keypair.public_key)
     tx = {
-        'assets': {
+        'assets': [{
             'data': car_data,
-        },
+        }],
         'metadata': None,
         'operation': 'CREATE',
         'outputs': (condition,),
@@ -401,7 +401,7 @@ def persisted_transfer_carol_car_to_dimi(carol_keypair, dimi_pubkey,
     output_txid = persisted_carol_car_transaction['id']
     ed25519_dimi = Ed25519Sha256(public_key=base58.b58decode(dimi_pubkey))
     transaction = {
-        'assets': {'id': output_txid},
+        'assets': [{'id': output_txid}],
         'metadata': None,
         'operation': 'TRANSFER',
         'outputs': ({
@@ -453,7 +453,7 @@ def persisted_transfer_dimi_car_to_ewy(dimi_keypair, ewy_pubkey,
     output_txid = persisted_transfer_carol_car_to_dimi['id']
     ed25519_ewy = Ed25519Sha256(public_key=base58.b58decode(ewy_pubkey))
     transaction = {
-        'assets': {'id': persisted_transfer_carol_car_to_dimi['assets']['id']},
+        'assets': [{'id': persisted_transfer_carol_car_to_dimi['assets'][0]['id']}],
         'metadata': None,
         'operation': 'TRANSFER',
         'outputs': ({
@@ -501,11 +501,11 @@ def persisted_transfer_dimi_car_to_ewy(dimi_keypair, ewy_pubkey,
 def unsigned_transaction():
     return {
         'operation': 'CREATE',
-        'assets': {
+        'assets': [{
             'data': {
                 'serial_number': 'NNP43x-DaYoSWg=='
             }
-        },
+        }],
         'version': '2.0',
         'outputs': [
             {
