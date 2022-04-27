@@ -228,7 +228,7 @@ def alice_transaction_obj(alice_pubkey):
     return Transaction.create(
         tx_signers=[alice_pubkey],
         recipients=[([alice_pubkey], 1)],
-        asset={'serial_number': serial_number},
+        assets={'serial_number': serial_number},
     )
 
 
@@ -256,11 +256,11 @@ def persisted_random_transaction(alice_pubkey,
                                  alice_privkey):
     from uuid import uuid4
     from planetmint_driver.common.transaction import Transaction
-    asset = {'data': {'x': str(uuid4())}}
+    assets = {'data': {'x': str(uuid4())}}
     tx = Transaction.create(
         tx_signers=[alice_pubkey],
         recipients=[([alice_pubkey], 1)],
-        asset=asset,
+        assets=assets,
     )
     return tx.sign([alice_privkey]).to_dict()
 
@@ -271,11 +271,11 @@ def sent_persisted_random_transaction(alice_pubkey,
                                       transactions_api_full_url):
     from uuid import uuid4
     from planetmint_driver.common.transaction import Transaction
-    asset = {'data': {'x': str(uuid4())}}
+    assets = {'data': {'x': str(uuid4())}}
     tx = Transaction.create(
         tx_signers=[alice_pubkey],
         recipients=[([alice_pubkey], 1)],
-        asset=asset,
+        assets=assets,
     )
     tx_signed = tx.sign([alice_privkey])
     response = requests.post(transactions_api_full_url,
@@ -317,7 +317,7 @@ def prepared_carol_bicycle_transaction(carol_keypair, bicycle_data):
     condition = make_ed25519_condition(carol_keypair.public_key)
     fulfillment = make_fulfillment(carol_keypair.public_key)
     tx = {
-        'asset': {
+        'assets': {
             'data': bicycle_data,
         },
         'metadata': None,
@@ -358,7 +358,7 @@ def prepared_carol_car_transaction(carol_keypair, car_data):
     condition = make_ed25519_condition(carol_keypair.public_key)
     fulfillment = make_fulfillment(carol_keypair.public_key)
     tx = {
-        'asset': {
+        'assets': {
             'data': car_data,
         },
         'metadata': None,
@@ -401,7 +401,7 @@ def persisted_transfer_carol_car_to_dimi(carol_keypair, dimi_pubkey,
     output_txid = persisted_carol_car_transaction['id']
     ed25519_dimi = Ed25519Sha256(public_key=base58.b58decode(dimi_pubkey))
     transaction = {
-        'asset': {'id': output_txid},
+        'assets': {'id': output_txid},
         'metadata': None,
         'operation': 'TRANSFER',
         'outputs': ({
@@ -453,7 +453,7 @@ def persisted_transfer_dimi_car_to_ewy(dimi_keypair, ewy_pubkey,
     output_txid = persisted_transfer_carol_car_to_dimi['id']
     ed25519_ewy = Ed25519Sha256(public_key=base58.b58decode(ewy_pubkey))
     transaction = {
-        'asset': {'id': persisted_transfer_carol_car_to_dimi['asset']['id']},
+        'assets': {'id': persisted_transfer_carol_car_to_dimi['assets']['id']},
         'metadata': None,
         'operation': 'TRANSFER',
         'outputs': ({
@@ -501,7 +501,7 @@ def persisted_transfer_dimi_car_to_ewy(dimi_keypair, ewy_pubkey,
 def unsigned_transaction():
     return {
         'operation': 'CREATE',
-        'asset': {
+        'assets': {
             'data': {
                 'serial_number': 'NNP43x-DaYoSWg=='
             }
@@ -548,8 +548,8 @@ def text_search_assets(api_root, transactions_api_full_url, alice_pubkey,
     response = response.json()
     if len(response) == 3:
         assets = {}
-        for asset in response:
-            assets[asset['id']] = asset['data']
+        for assets in response:
+            assets[assets['id']] = assets['data']
         return assets
 
     # define the assets that will be used by text_search tests
@@ -561,16 +561,16 @@ def text_search_assets(api_root, transactions_api_full_url, alice_pubkey,
 
     # write the assets to Planetmint
     assets_by_txid = {}
-    for asset in assets:
+    for assets in assets:
         tx = Transaction.create(
             tx_signers=[alice_pubkey],
             recipients=[([alice_pubkey], 1)],
-            asset=asset,
+            assets=assets,
             metadata={'But here\'s my number': 'So call me maybe'},
         )
         tx_signed = tx.sign([alice_privkey])
         requests.post(transactions_api_full_url, json=tx_signed.to_dict())
-        assets_by_txid[tx_signed.id] = asset
+        assets_by_txid[tx_signed.id] = assets
 
-    # return the assets indexed with the txid that created the asset
+    # return the assets indexed with the txid that created the assets
     return assets_by_txid

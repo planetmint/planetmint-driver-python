@@ -85,7 +85,7 @@ class TestTransactionsEndpoint:
         transaction = driver.transactions.prepare(signers=[alice_pubkey])
         assert 'id' in transaction
         assert 'version' in transaction
-        assert 'asset' in transaction
+        assert 'assets' in transaction
         assert 'outputs' in transaction
         assert 'inputs' in transaction
         assert 'metadata' in transaction
@@ -161,8 +161,8 @@ class TestTransactionsEndpoint:
             assert any(tx['id'] == signed_carol_car_transaction['id']
                        for tx in response)
         if operation in (None, 'TRANSFER'):
-            assert all(tx['asset']['id'] == signed_carol_car_transaction['id']
-                       for tx in response if 'id' in tx['asset'])
+            assert all(tx['assets']['id'] == signed_carol_car_transaction['id']
+                       for tx in response if 'id' in tx['assets'])
 
 
 class TestOutputsEndpoint:
@@ -189,9 +189,9 @@ class TestOutputsEndpoint:
             return driver.transactions.prepare(
                     operation='CREATE',
                     signers=carol.public_key,
-                    asset={
+                    assets={
                         'data': {
-                            'asset': {
+                            'assets': {
                                 'serial_number': str(uuid.uuid4()),
                                 'manufacturer': str(uuid.uuid4()),
                             },
@@ -236,7 +236,7 @@ class TestOutputsEndpoint:
         }
         transfer_tx = driver.transactions.prepare(
             operation='TRANSFER',
-            asset=transfer_asset,
+            assets=transfer_asset,
             inputs=transfer_input,
             recipients=dimi.public_key,
         )
@@ -271,7 +271,7 @@ class TestBlocksEndpoint:
 class TestAssetsMetadataEndpoint:
 
     def test_assets_get_search_no_results(self, driver):
-        # no asset matches the search string
+        # no assets matches the search string
         response = driver.assets.get(search='abcdef')
         assert response == []
 
@@ -280,8 +280,8 @@ class TestAssetsMetadataEndpoint:
         response = driver.assets.get(search='planetmint')
         assert len(response) == 3
 
-        for asset in response:
-            assert text_search_assets[asset['id']] == asset['data']
+        for assets in response:
+            assert text_search_assets[assets['id']] == assets['data']
 
     def test_assets_get_search_limit(self, driver, text_search_assets):
         # we have 3 assets that match 'planetmint' in text_search_assets but

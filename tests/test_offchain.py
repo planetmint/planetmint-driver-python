@@ -18,7 +18,7 @@ def test_prepare_transaction(operation, return_value, function, monkeypatch):
     from planetmint_driver.offchain import prepare_transaction
 
     def mock(signers=None, recipients=None,
-             inputs=None, asset=None, metadata=None):
+             inputs=None, assets=None, metadata=None):
         return return_value
     monkeypatch.setattr(offchain, function, mock)
     assert prepare_transaction(operation=operation) == return_value
@@ -36,8 +36,8 @@ def test_prepare_create_transaction_default(alice_pubkey):
     create_transaction = prepare_create_transaction(signers=alice_pubkey)
     assert 'id' in create_transaction
     assert 'version' in create_transaction
-    assert 'asset' in create_transaction
-    assert create_transaction['asset'] == {'data': None}
+    assert 'assets' in create_transaction
+    assert create_transaction['assets'] == {'data': None}
     assert 'outputs' in create_transaction
     assert 'inputs' in create_transaction
     assert 'metadata' in create_transaction
@@ -45,7 +45,7 @@ def test_prepare_create_transaction_default(alice_pubkey):
     assert create_transaction['operation'] == 'CREATE'
 
 
-@mark.parametrize('asset', (
+@mark.parametrize('assets', (
     None, {'data': None}, {'data': {'msg': 'Hello Planetmint!'}},
 ))
 @mark.parametrize('signers', (
@@ -58,14 +58,14 @@ def test_prepare_create_transaction_default(alice_pubkey):
     ('2dBVUoATxEzEqRdsi64AFsJnn2ywLCwnbNwW7K9BuVuS',),
     [(['2dBVUoATxEzEqRdsi64AFsJnn2ywLCwnbNwW7K9BuVuS'], 1)],
 ))
-def test_prepare_create_transaction(asset, signers, recipients):
+def test_prepare_create_transaction(assets, signers, recipients):
     from planetmint_driver.offchain import prepare_create_transaction
     create_transaction = prepare_create_transaction(
-        signers=signers, recipients=recipients, asset=asset)
+        signers=signers, recipients=recipients, assets=assets)
     assert 'id' in create_transaction
     assert 'version' in create_transaction
-    assert 'asset' in create_transaction
-    assert create_transaction['asset'] == asset or {'data': None}
+    assert 'assets' in create_transaction
+    assert create_transaction['assets'] == assets or {'data': None}
     assert 'outputs' in create_transaction
     assert 'inputs' in create_transaction
     assert 'metadata' in create_transaction
@@ -90,13 +90,13 @@ def test_prepare_transfer_transaction(signed_alice_transaction, recipients):
         },
         'owners_before': condition['public_keys']
     }
-    asset = {'id': signed_alice_transaction['id']}
+    assets = {'id': signed_alice_transaction['id']}
     transfer_transaction = prepare_transfer_transaction(
-        inputs=input_, recipients=recipients, asset=asset)
+        inputs=input_, recipients=recipients, assets=assets)
     assert 'id' in transfer_transaction
     assert 'version' in transfer_transaction
-    assert 'asset' in transfer_transaction
-    assert 'id' in transfer_transaction['asset']
+    assert 'assets' in transfer_transaction
+    assert 'id' in transfer_transaction['assets']
     assert 'outputs' in transfer_transaction
     assert 'inputs' in transfer_transaction
     assert 'metadata' in transfer_transaction

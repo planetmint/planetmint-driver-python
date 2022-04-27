@@ -286,7 +286,7 @@ class TransactionLink(object):
 
 
 class Output(object):
-    """An Output is used to lock an asset.
+    """An Output is used to lock an assets.
 
     Wraps around a Crypto-condition Condition.
 
@@ -497,7 +497,7 @@ class Transaction(object):
                 spend.
             outputs (:obj:`list` of :class:`~planetmint.common.
                 transaction.Output`, optional): Define the assets to lock.
-            asset (dict): Asset payload for this Transaction. ``CREATE``
+            assets (dict): Asset payload for this Transaction. ``CREATE``
                 Transactions require a dict with a ``data``
                 property while ``TRANSFER`` Transactions require a dict with a
                 ``id`` property.
@@ -511,7 +511,7 @@ class Transaction(object):
     ALLOWED_OPERATIONS = (CREATE, TRANSFER)
     VERSION = '2.0'
 
-    def __init__(self, operation, asset, inputs=None, outputs=None,
+    def __init__(self, operation, assets, inputs=None, outputs=None,
                  metadata=None, version=None, hash_id=None):
         """The constructor allows to create a customizable Transaction.
 
@@ -521,7 +521,7 @@ class Transaction(object):
 
             Args:
                 operation (str): Defines the operation of the Transaction.
-                asset (dict): Asset payload for this Transaction.
+                assets (dict): Asset payload for this Transaction.
                 inputs (:obj:`list` of :class:`~planetmint.common.
                     transaction.Input`, optional): Define the assets to
                 outputs (:obj:`list` of :class:`~planetmint.common.
@@ -541,14 +541,14 @@ class Transaction(object):
         # dicts holding a `data` property. Asset payloads for 'TRANSFER'
         # operations must be dicts holding an `id` property.
         if (operation == Transaction.CREATE and
-                asset is not None and
-                not (isinstance(asset, dict) and 'data' in asset)):
-            raise TypeError(('`asset` must be None or a dict holding a `data`'
+                assets is not None and
+                not (isinstance(assets, dict) and 'data' in assets)):
+            raise TypeError(('`assets` must be None or a dict holding a `data`'
                              " property instance for '{}' "
                              "Transactions".format(operation)))
         elif (operation == Transaction.TRANSFER and
-                not (isinstance(asset, dict) and 'id' in asset)):
-            raise TypeError(('`asset` must be a dict holding an `id` property '
+                not (isinstance(assets, dict) and 'id' in assets)):
+            raise TypeError(('`assets` must be a dict holding an `id` property '
                              "for 'TRANSFER' Transactions"))
 
         if outputs and not isinstance(outputs, list):
@@ -562,7 +562,7 @@ class Transaction(object):
 
         self.version = version if version is not None else self.VERSION
         self.operation = operation
-        self.asset = asset
+        self.assets = assets
         self.inputs = inputs or []
         self.outputs = outputs or []
         self.metadata = metadata
@@ -577,7 +577,7 @@ class Transaction(object):
         if self.operation == Transaction.CREATE:
             self._asset_id = self._id
         elif self.operation == Transaction.TRANSFER:
-            self._asset_id = self.asset['id']
+            self._asset_id = self.assets['id']
         return (UnspentOutput(
             transaction_id=self._id,
             output_index=output_index,
@@ -605,7 +605,7 @@ class Transaction(object):
         self._id = hash_data(self.serialized)
 
     @classmethod
-    def create(cls, tx_signers, recipients, metadata=None, asset=None):
+    def create(cls, tx_signers, recipients, metadata=None, assets=None):
         """A simple way to generate a `CREATE` transaction.
 
             Note:
@@ -626,7 +626,7 @@ class Transaction(object):
                     Transaction.
                 metadata (dict): The metadata to be stored along with the
                     Transaction.
-                asset (dict): The metadata associated with the asset that will
+                assets (dict): The metadata associated with the assets that will
                     be created in this Transaction.
 
             Returns:
@@ -640,8 +640,8 @@ class Transaction(object):
             raise ValueError('`tx_signers` list cannot be empty')
         if len(recipients) == 0:
             raise ValueError('`recipients` list cannot be empty')
-        if not (asset is None or isinstance(asset, dict)):
-            raise TypeError('`asset` must be a dict or None')
+        if not (assets is None or isinstance(assets, dict)):
+            raise TypeError('`assets` must be a dict or None')
 
         inputs = []
         outputs = []
@@ -658,7 +658,7 @@ class Transaction(object):
         # generate inputs
         inputs.append(Input.generate(tx_signers))
 
-        return cls(cls.CREATE, {'data': asset}, inputs, outputs, metadata)
+        return cls(cls.CREATE, {'data': assets}, inputs, outputs, metadata)
 
     @classmethod
     def transfer(cls, inputs, recipients, asset_id, metadata=None):
@@ -691,7 +691,7 @@ class Transaction(object):
                 recipients (:obj:`list` of :obj:`tuple`): A list of
                     ([keys],amount) that represent the recipients of this
                     Transaction.
-                asset_id (str): The asset ID of the asset to be transferred in
+                asset_id (str): The assets ID of the assets to be transferred in
                     this Transaction.
                 metadata (dict): Python dictionary to be stored along with the
                     Transaction.
@@ -1063,7 +1063,7 @@ class Transaction(object):
             'outputs': [output.to_dict() for output in self.outputs],
             'operation': str(self.operation),
             'metadata': self.metadata,
-            'asset': self.asset,
+            'assets': self.assets,
             'version': self.version,
             'id': self._id,
         }
@@ -1113,19 +1113,19 @@ class Transaction(object):
 
     @staticmethod
     def get_asset_id(transactions):
-        """Get the asset id from a list of :class:`~.Transactions`.
+        """Get the assets id from a list of :class:`~.Transactions`.
 
         This is useful when we want to check if the multiple inputs of a
-        transaction are related to the same asset id.
+        transaction are related to the same assets id.
 
         Args:
             transactions (:obj:`list` of :class:`~planetmint.common.
                 transaction.Transaction`): A list of Transactions.
                 Usually input Transactions that should have a matching
-                asset ID.
+                assets ID.
 
         Returns:
-            str: ID of the asset.
+            str: ID of the assets.
 
         Raises:
             :exc:`AssetIdMismatch`: If the inputs are related to different
@@ -1135,15 +1135,15 @@ class Transaction(object):
         if not isinstance(transactions, list):
             transactions = [transactions]
 
-        # create a set of the transactions' asset ids
+        # create a set of the transactions' assets ids
         asset_ids = {tx.id if tx.operation == Transaction.CREATE
-                     else tx.asset['id']
+                     else tx.assets['id']
                      for tx in transactions}
 
-        # check that all the transasctions have the same asset id
+        # check that all the transasctions have the same assets id
         if len(asset_ids) > 1:
             raise AssetIdMismatch(('All inputs of all transactions passed'
-                                   ' need to have the same asset id'))
+                                   ' need to have the same assets id'))
         return asset_ids.pop()
 
     @staticmethod
@@ -1182,5 +1182,5 @@ class Transaction(object):
         """
         inputs = [Input.from_dict(input_) for input_ in tx['inputs']]
         outputs = [Output.from_dict(output) for output in tx['outputs']]
-        return cls(tx['operation'], tx['asset'], inputs, outputs,
+        return cls(tx['operation'], tx['assets'], inputs, outputs,
                    tx['metadata'], tx['version'], hash_id=tx['id'])
