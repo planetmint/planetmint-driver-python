@@ -193,7 +193,7 @@ def prepare_create_transaction(*,
         signers,
         recipients,
         metadata=metadata,
-        assets=assets['data'] if assets else None,
+        assets=assets if assets else None,
     )
     return transaction.to_dict()
 
@@ -313,7 +313,7 @@ def prepare_transfer_transaction(*,
     transaction = Transaction.transfer(
         fulfillments,
         recipients,
-        asset_id=assets['id'],
+        asset_id=assets[0]['id'], # TODO: will not work for multiple assets refactor with pm
         metadata=metadata,
     )
     return transaction.to_dict()

@@ -547,16 +547,18 @@ def text_search_assets(api_root, transactions_api_full_url, alice_pubkey,
                             params={'search': 'planetmint'})
     response = response.json()
     if len(response) == 3:
-        assets = {}
-        for assets in response:
-            assets[assets['id']] = assets['data']
+        assets = []
+        for asset in response:
+            # TODO: test this thoroughly
+            # assets[assets['id']] = assets['data']
+            assets.append(asset)
         return assets
 
     # define the assets that will be used by text_search tests
     assets = [
-        {'msg': 'Hello Planetmint 1!'},
-        {'msg': 'Hello Planetmint 2!'},
-        {'msg': 'Hello Planetmint 3!'}
+        [{'msg': 'Hello Planetmint 1!'}],
+        [{'msg': 'Hello Planetmint 2!'}],
+        [{'msg': 'Hello Planetmint 3!'}]
     ]
 
     # write the assets to Planetmint

@@ -189,14 +189,14 @@ class TestOutputsEndpoint:
             return driver.transactions.prepare(
                     operation='CREATE',
                     signers=carol.public_key,
-                    assets={
+                    assets=[{
                         'data': {
                             'assets': {
                                 'serial_number': str(uuid.uuid4()),
                                 'manufacturer': str(uuid.uuid4()),
                             },
                         },
-                    },
+                    }],
             )
 
         carol, dimi = generate_keypair(), generate_keypair()
@@ -222,9 +222,9 @@ class TestOutputsEndpoint:
 
         # transfer second transaction to dimi
         create_tx2 = driver.transactions.retrieve(create_tx2['id'])
-        transfer_asset = {
+        transfer_assets = [{
             'id': create_tx2['id'],
-        }
+        }]
         output = create_tx2['outputs'][0]
         transfer_input = {
             'fulfillment': output['condition']['details'],
@@ -236,7 +236,7 @@ class TestOutputsEndpoint:
         }
         transfer_tx = driver.transactions.prepare(
             operation='TRANSFER',
-            assets=transfer_asset,
+            assets=transfer_assets,
             inputs=transfer_input,
             recipients=dimi.public_key,
         )

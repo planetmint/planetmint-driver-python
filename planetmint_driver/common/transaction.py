@@ -511,6 +511,7 @@ class Transaction(object):
     ALLOWED_OPERATIONS = (CREATE, TRANSFER)
     VERSION = '2.0'
 
+    # TODO: adjust Args doc text
     def __init__(self, operation, assets, inputs=None, outputs=None,
                  metadata=None, version=None, hash_id=None):
         """The constructor allows to create a customizable Transaction.
@@ -542,7 +543,7 @@ class Transaction(object):
         # operations must be dicts holding an `id` property.
         if (operation == Transaction.CREATE and
                 assets is not None and
-                not (isinstance(assets, dict) and 'data' in assets)):
+                not (isinstance(assets, list) and 'data' in assets[0])):
             raise TypeError(('`assets` must be None or a dict holding a `data`'
                              " property instance for '{}' "
                              "Transactions".format(operation)))
@@ -640,8 +641,8 @@ class Transaction(object):
             raise ValueError('`tx_signers` list cannot be empty')
         if len(recipients) == 0:
             raise ValueError('`recipients` list cannot be empty')
-        if not (assets is None or isinstance(assets, dict)):
-            raise TypeError('`assets` must be a dict or None')
+        if not (assets is None or (isinstance(assets, list) and len(assets) == 1)):
+            raise TypeError('`assets` must be a list of length 1 or None')
 
         inputs = []
         outputs = []
@@ -658,7 +659,11 @@ class Transaction(object):
         # generate inputs
         inputs.append(Input.generate(tx_signers))
 
-        return cls(cls.CREATE, {'data': assets}, inputs, outputs, metadata)
+        # NOTE: Dirty hack for getting test green
+        # TODO: Adjust for real multiasset support
+        data = assets[0] if assets else None
+
+        return cls(cls.CREATE, [{'data': data}], inputs, outputs, metadata)
 
     @classmethod
     def transfer(cls, inputs, recipients, asset_id, metadata=None):
@@ -1137,7 +1142,7 @@ class Transaction(object):
 
         # create a set of the transactions' assets ids
         asset_ids = {tx.id if tx.operation == Transaction.CREATE
-                     else tx.assets['id']
+                     else tx.assets[0]['id']
                      for tx in transactions}
 
         # check that all the transasctions have the same assets id
