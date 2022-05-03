@@ -139,13 +139,13 @@ class TestTransactionsEndpoint:
         with raises(TypeError) as exc:
             driver.transactions.get()
         assert exc.value.args == (
-            "get() missing 1 required keyword-only argument: 'asset_id'",)
+            "get() missing 1 required keyword-only argument: 'asset_ids'",)
 
     @mark.parametrize('query_params', (
         {}, {'operation': 'CREATE'}, {'operation': 'TRANSFER'}
     ))
     def test_get_empty(self, driver, query_params):
-        response = driver.transactions.get(asset_id='a' * 64)
+        response = driver.transactions.get(asset_ids=['a' * 64])
         assert response == []
 
     @mark.parametrize('operation,tx_qty', [
@@ -155,7 +155,7 @@ class TestTransactionsEndpoint:
     def test_get(self, driver,
                  signed_carol_car_transaction, operation, tx_qty):
         response = driver.transactions.get(
-            asset_id=signed_carol_car_transaction['id'], operation=operation)
+            asset_ids=[signed_carol_car_transaction['id']], operation=operation)
         assert len(response) == tx_qty
         if operation in (None, 'CREATE'):
             assert any(tx['id'] == signed_carol_car_transaction['id']

@@ -275,7 +275,7 @@ class TransactionsEndpoint(NamespacedDriver):
         """
         return fulfill_transaction(transaction, private_keys=private_keys)
 
-    def get(self, *, asset_id, operation=None, headers=None):
+    def get(self, *, asset_ids, operation=None, headers=None):
         """Given an assets id, get its list of transactions (and
         optionally filter for only ``'CREATE'`` or ``'TRANSFER'``
         transactions).
@@ -313,7 +313,7 @@ class TransactionsEndpoint(NamespacedDriver):
         return self.transport.forward_request(
             method='GET',
             path=self.path,
-            params={'asset_id': asset_id, 'operation': operation},
+            params={'asset_ids': asset_ids, 'operation': operation},
             headers=headers,
         )
 
