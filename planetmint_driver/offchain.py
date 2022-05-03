@@ -313,7 +313,7 @@ def prepare_transfer_transaction(*,
     transaction = Transaction.transfer(
         fulfillments,
         recipients,
-        asset_id=assets[0]['id'], # TODO: will not work for multiple assets refactor with pm
+        asset_ids=assets,
         metadata=metadata,
     )
     return transaction.to_dict()

@@ -548,7 +548,7 @@ class Transaction(object):
                              " property instance for '{}' "
                              "Transactions".format(operation)))
         elif (operation == Transaction.TRANSFER and
-                not (isinstance(assets, dict) and 'id' in assets)):
+                not (isinstance(assets, list) and 'id' in assets[0])): # TODO: adjust so that every element will be checked
             raise TypeError(('`assets` must be a dict holding an `id` property '
                              "for 'TRANSFER' Transactions"))
 
@@ -666,7 +666,7 @@ class Transaction(object):
         return cls(cls.CREATE, [{'data': data}], inputs, outputs, metadata)
 
     @classmethod
-    def transfer(cls, inputs, recipients, asset_id, metadata=None):
+    def transfer(cls, inputs, recipients, asset_ids, metadata=None):
         """A simple way to generate a `TRANSFER` transaction.
 
             Note:
@@ -722,11 +722,11 @@ class Transaction(object):
             pub_keys, amount = recipient
             outputs.append(Output.generate(pub_keys, amount))
 
-        if not isinstance(asset_id, str):
-            raise TypeError('`asset_id` must be a string')
+        if not isinstance(asset_ids, list):
+            raise TypeError('`asset_ids` must be a list')
 
         inputs = deepcopy(inputs)
-        return cls(cls.TRANSFER, {'id': asset_id}, inputs, outputs, metadata)
+        return cls(cls.TRANSFER, asset_ids, inputs, outputs, metadata)
 
     def __eq__(self, other):
         try:

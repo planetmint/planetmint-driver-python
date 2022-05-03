@@ -96,7 +96,7 @@ def test_prepare_transfer_transaction(signed_alice_transaction, recipients):
     assert 'id' in transfer_transaction
     assert 'version' in transfer_transaction
     assert 'assets' in transfer_transaction
-    assert 'id' in transfer_transaction['assets']
+    assert 'id' in transfer_transaction['assets'][0] # TODO: test this for more than one asset
     assert 'outputs' in transfer_transaction
     assert 'inputs' in transfer_transaction
     assert 'metadata' in transfer_transaction
