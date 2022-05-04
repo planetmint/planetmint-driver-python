@@ -279,7 +279,9 @@ class TestAssetsMetadataEndpoint:
         # we have 3 assets that match 'planetmint' in text_search_assets
         response = driver.assets.get(search='planetmint')
         assert len(response) == 3
-        assert response == text_search_assets
+        for asset in response:
+            search_asset = next((tsa for tsa in text_search_assets if tsa['id'] == asset['id']), None)
+            assert search_asset['data'] == asset['data']
 
     def test_assets_get_search_limit(self, driver, text_search_assets):
         # we have 3 assets that match 'planetmint' in text_search_assets but
