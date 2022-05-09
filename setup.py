@@ -38,6 +38,7 @@ dev_require = [
 ]
 
 docs_require = [
+    'Jinja2<=3.0.0'
     'Sphinx~=1.0',
     'sphinx-autobuild',
     'sphinxcontrib-autorun',

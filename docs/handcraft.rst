@@ -64,14 +64,14 @@ From the point of view of Python, a transaction is simply a dictionary:
 
     {
         'operation': 'CREATE',
-        'asset': {
+        'assets': [{
             'data': {
                 'bicycle': {
                     'manufacturer': 'bkfab',
                     'serial_number': 'abcd1234'
                 }
             }
-        },
+        }],
         'version': '2.0',
         'outputs': [
             {
@@ -143,21 +143,21 @@ to:
 
     In [0]: from planetmint_driver.offchain import prepare_transaction
 
-    In [0]: bicycle = {
+    In [0]: bicycle = [{
        ...:     'data': {
        ...:         'bicycle': {
        ...:             'serial_number': 'abcd1234',
        ...:             'manufacturer': 'bkfab',
        ...:         },
        ...:     },
-       ...: }
+       ...: }]
 
     In [0]: metadata = {'planet': 'earth'}
 
     In [0]: prepared_creation_tx = prepare_transaction(
        ...:     operation='CREATE',
        ...:     signers=alice.public_key,
-       ...:     asset=bicycle,
+       ...:     assets=bicycle,
        ...:     metadata=metadata,
        ...: )
 
@@ -193,14 +193,14 @@ for how to construct assets in ``TRANSFER`` transactions):
 
 .. ipython::
 
-    In [0]: asset = {
+    In [0]: asset = [{
        ...:     'data': {
        ...:         'bicycle': {
        ...:             'manufacturer': 'bkfab',
        ...:             'serial_number': 'abcd1234',
        ...:         },
        ...:     },
-       ...: }
+       ...: }]
 
 metadata
 --------
@@ -374,7 +374,7 @@ Putting it all together:
 .. ipython::
 
     In [0]: handcrafted_creation_tx = {
-       ...:     'asset': asset,
+       ...:     'assets': asset,
        ...:     'metadata': metadata,
        ...:     'operation': operation,
        ...:     'outputs': outputs,
@@ -441,14 +441,14 @@ Let's recap how we've put all the code together to generate the above payload:
 
     version = '2.0'
 
-    asset = {
+    asset = [{
         'data': {
             'bicycle': {
                 'manufacturer': 'bkfab',
                 'serial_number': 'abcd1234',
             },
         },
-    }
+    }]
 
     metadata = {'planet': 'earth'}
 
@@ -475,7 +475,7 @@ Let's recap how we've put all the code together to generate the above payload:
     inputs = (input_,)
 
     handcrafted_creation_tx = {
-        'asset': asset,
+        'assets': asset,
         'metadata': metadata,
         'operation': operation,
         'outputs': outputs,
@@ -590,14 +590,14 @@ Handcrafting a ``CREATE`` transaction can be done as follows:
 
     version = '2.0'
 
-    asset = {
+    asset = [{
         'data': {
             'bicycle': {
                 'manufacturer': 'bkfab',
                 'serial_number': 'abcd1234',
             },
         },
-    }
+    }]
 
     metadata = {'planet': 'earth'}
 
@@ -624,7 +624,7 @@ Handcrafting a ``CREATE`` transaction can be done as follows:
     inputs = (input_,)
 
     handcrafted_creation_tx = {
-        'asset': asset,
+        'assets': asset,
         'metadata': metadata,
         'operation': operation,
         'outputs': outputs,
@@ -705,14 +705,14 @@ transfer transaction was prepared and fulfilled as follows:
 
     In [0]: bdb = Planetmint('https://example.com:9984') # Use YOUR Planetmint Root URL here
 
-    In [0]: bicycle_asset = {
+    In [0]: bicycle_asset = [{
        ...:     'data': {
        ...:          'bicycle': {
        ...:               'serial_number': 'abcd1234',
        ...:               'manufacturer': 'bkfab'
        ...:          },
        ...:     },
-       ...: }
+       ...: }]
 
     In [0]: bicycle_asset_metadata = {
        ...:     'planet': 'earth'
@@ -721,7 +721,7 @@ transfer transaction was prepared and fulfilled as follows:
     In [0]: prepared_creation_tx = bdb.transactions.prepare(
        ...:     operation='CREATE',
        ...:     signers=alice.public_key,
-       ...:     asset=bicycle_asset,
+       ...:     assets=bicycle_asset,
        ...:     metadata=bicycle_asset_metadata
        ...: )
 
@@ -745,13 +745,13 @@ transfer transaction was prepared and fulfilled as follows:
        ...:     'owners_before': output['public_keys'],
        ...: }
 
-    In [0]: transfer_asset = {
+    In [0]: transfer_asset = [{
        ...:     'id': creation_tx['id'],
-       ...: }
+       ...: }]
 
     In [0]: prepared_transfer_tx = prepare_transaction(
        ...:     operation='TRANSFER',
-       ...:     asset=transfer_asset,
+       ...:     assets=transfer_asset,
        ...:     inputs=transfer_input,
        ...:     recipients=bob.public_key,
        ...: )
@@ -853,7 +853,7 @@ Putting it all together:
 .. ipython::
 
     In [0]: handcrafted_transfer_tx = {
-       ...:     'asset': asset,
+       ...:     'assets': asset,
        ...:     'metadata': metadata,
        ...:     'operation': operation,
        ...:     'outputs': outputs,
@@ -951,7 +951,7 @@ Let's recap how we got here:
     inputs = (input_,)
 
     handcrafted_transfer_tx = {
-        'asset': asset,
+        'assets': asset,
         'metadata': metadata,
         'operation': operation,
         'outputs': outputs,
@@ -1083,7 +1083,7 @@ In a nutshell
     inputs = (input_,)
 
     handcrafted_transfer_tx = {
-        'asset': asset,
+        'assets': asset,
         'metadata': metadata,
         'operation': operation,
         'outputs': outputs,
@@ -1168,7 +1168,7 @@ Handcrafting the ``CREATE`` transaction for our :ref:`bicycle sharing example
     bob, carly = generate_keypair(), generate_keypair()
     version = '2.0'
 
-    bicycle_token = {
+    bicycle_token = [{
         'data': {
             'token_for': {
                 'bicycle': {
@@ -1178,7 +1178,7 @@ Handcrafting the ``CREATE`` transaction for our :ref:`bicycle sharing example
             },
             'description': 'Time share token. Each token equals one hour of riding.',
         },
-    }
+    }]
 
     # CRYPTO-CONDITIONS: instantiate an Ed25519 crypto-condition for carly
     ed25519 = Ed25519Sha256(public_key=base58.b58decode(carly.public_key))
@@ -1209,7 +1209,7 @@ Handcrafting the ``CREATE`` transaction for our :ref:`bicycle sharing example
 
     token_creation_tx = {
         'operation': 'CREATE',
-        'asset': bicycle_token,
+        'assets': bicycle_token,
         'metadata': None,
         'outputs': (output,),
         'inputs': (input_,),
@@ -1337,7 +1337,7 @@ to Bob:
 
     token_transfer_tx = {
         'operation': 'TRANSFER',
-        'asset': {'id': token_creation_tx['id']},
+        'assets': {'id': token_creation_tx['id']},
         'metadata': None,
         'outputs': (bob_output, carly_output),
         'inputs': (input_,),
@@ -1439,13 +1439,13 @@ Say ``alice`` and ``bob`` own a car together:
 
     In [0]: bdb = Planetmint(bdb_root_url)
 
-    In [0]: car_asset = {'data': {'car': {'vin': '5YJRE11B781000196'}}}
+    In [0]: car_asset = [{'data': {'car': {'vin': '5YJRE11B781000196'}}}]
 
     In [0]: car_creation_tx = offchain.prepare_transaction(
        ...:     operation='CREATE',
        ...:     signers=alice.public_key,
        ...:     recipients=(alice.public_key, bob.public_key),
-       ...:     asset=car_asset,
+       ...:     assets=car_asset,
        ...: )
 
     In [0]: signed_car_creation_tx = offchain.fulfill_transaction(
@@ -1493,7 +1493,7 @@ their car over to ``carol``:
     In [0]: car_transfer_tx = offchain.prepare_transaction(
        ...:     operation='TRANSFER',
        ...:     recipients=carol.public_key,
-       ...:     asset={'id': asset},
+       ...:     assets=[{'id': asset}],
        ...:     inputs=input_,
        ...: )
 
@@ -1607,7 +1607,7 @@ Craft the payload:
 
     In [0]: handcrafted_car_creation_tx = {
        ...:     'operation': 'CREATE',
-       ...:     'asset': car_asset,
+       ...:     'assets': car_asset,
        ...:     'metadata': None,
        ...:     'outputs': (output,),
        ...:     'inputs': (input_,),
@@ -1706,7 +1706,7 @@ Craft the payload:
 
     In [0]: handcrafted_car_transfer_tx = {
        ...:     'operation': 'TRANSFER',
-       ...:     'asset': {'id': handcrafted_car_creation_tx['id']},
+       ...:     'assets': {'id': handcrafted_car_creation_tx['id']},
        ...:     'metadata': None,
        ...:     'outputs': (output,),
        ...:     'inputs': (input_,),
@@ -1848,7 +1848,7 @@ Handcrafting the ``'CREATE'`` transaction
     # Craft the payload:
     handcrafted_car_creation_tx = {
         'operation': 'CREATE',
-        'asset': car_asset,
+        'assets': car_asset,
         'metadata': None,
         'outputs': (output,),
         'inputs': (input_,),
@@ -1948,7 +1948,7 @@ Handcrafting the ``'TRANSFER'`` transaction
     # Craft the payload:
     handcrafted_car_transfer_tx = {
         'operation': 'TRANSFER',
-        'asset': {'id': handcrafted_car_creation_tx['id']},
+        'assets': {'id': handcrafted_car_creation_tx['id']},
         'metadata': None,
         'outputs': (output,),
         'inputs': (input_,),
@@ -2105,7 +2105,7 @@ Handcrafting the ``'CREATE'`` transaction
     # Craft the payload:
     handcrafted_car_creation_tx = {
         'operation': 'CREATE',
-        'asset': car_asset,
+        'assets': car_asset,
         'metadata': None,
         'outputs': (output,),
         'inputs': (input_,),
@@ -2207,7 +2207,7 @@ Handcrafting the ``'TRANSFER'`` transaction
     # Craft the payload:
     handcrafted_car_transfer_tx = {
         'operation': 'TRANSFER',
-        'asset': {'id': handcrafted_car_creation_tx['id']},
+        'assets': {'id': handcrafted_car_creation_tx['id']},
         'metadata': None,
         'outputs': (output,),
         'inputs': (input_,),

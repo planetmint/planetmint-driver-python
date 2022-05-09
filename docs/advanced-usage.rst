@@ -100,11 +100,11 @@ Define a digital asset data payload
 
 .. ipython::
 
-    In [0]: digital_asset_payload = {'data': {'msg': 'Hello Planetmint!'}}
+    In [0]: digital_asset_payload = [{'data': {'msg': 'Hello Planetmint!'}}]
 
     In [0]: tx = bdb.transactions.prepare(operation='CREATE',
        ...:                               signers=alice.public_key,
-       ...:                               asset=digital_asset_payload)
+       ...:                               assets=digital_asset_payload)
 
 All transactions need to be signed by the user creating the transaction.
 
@@ -245,9 +245,9 @@ simply points to the id of the asset's ``CREATE`` transaction):
 
     In [0]: transfer_asset_id = signed_tx['id']
 
-    In [0]: transfer_asset = {
+    In [0]: transfer_asset = [{
        ...:     'id': transfer_asset_id,
-       ...: }
+       ...: }]
 
 Create a second test user, ``bob``:
 
@@ -264,7 +264,7 @@ And prepare the transfer transaction:
     In [0]: tx_transfer = bdb.transactions.prepare(
        ...:     operation='TRANSFER',
        ...:     inputs=input_,
-       ...:     asset=transfer_asset,
+       ...:     assets=transfer_asset,
        ...:     recipients=bob.public_key,
        ...: )
 
@@ -338,14 +338,14 @@ Recap: Asset Transfer
         'owners_before': output['public_keys'],
     }
     transfer_asset_id = signed_tx['id']
-    transfer_asset = {
+    transfer_asset = [{
         'id': transfer_asset_id,
-    }
+    }]
     bob = generate_keypair()
     tx_transfer = bdb.transactions.prepare(
         operation='TRANSFER',
         inputs=input_,
-        asset=transfer_asset,
+        assets=transfer_asset,
         recipients=bob.public_key,
     )
     signed_tx_transfer = bdb.transactions.fulfill(
@@ -378,7 +378,7 @@ Create another transfer transaction with the same input
     In [0]: tx_transfer_2 = bdb.transactions.prepare(
        ...:     operation='TRANSFER',
        ...:     inputs=input_,
-       ...:     asset=transfer_asset,
+       ...:     assets=transfer_asset,
        ...:     recipients=alice_secret_stash.public_key,
        ...: )
 
@@ -423,13 +423,13 @@ Say ``alice`` and ``bob`` own a car together:
 
 .. ipython::
 
-    In [0]: car_asset = {
+    In [0]: car_asset = [{
        ...:     'data': {
        ...:         'car': {
        ...:             'vin': '5YJRE11B781000196'
        ...:         }
        ...:     }
-       ...: }
+       ...: }]
 
 and they agree that ``alice`` will be the one issuing the asset. To create a
 new digital asset with `multiple` owners, one can simply provide a
@@ -441,7 +441,7 @@ list or tuple of ``recipients``:
        ...:     operation='CREATE',
        ...:     signers=alice.public_key,
        ...:     recipients=(alice.public_key, bob.public_key),
-       ...:     asset=car_asset,
+       ...:     assets=car_asset,
        ...: )
 
     In [0]: signed_car_creation_tx = bdb.transactions.fulfill(
@@ -470,18 +470,18 @@ Let's see how the example looks like when ``alice`` and ``bob`` are the issuers:
 
     alice, bob = generate_keypair(), generate_keypair()
 
-    car_asset = {
+    car_asset = [{
         'data': {
             'car': {
                 'vin': '5YJRE11B781000196'
             }
         }
-    }
+    }]
     car_creation_tx = bdb.transactions.prepare(
         operation='CREATE',
         signers=(alice.public_key, bob.public_key),
         recipients=(alice.public_key, bob.public_key),
-        asset=car_asset,
+        assets=car_asset,
     )
     signed_car_creation_tx = bdb.transactions.fulfill(
         car_creation_tx,
@@ -526,9 +526,9 @@ and the asset (because it's a ``CREATE`` transaction):
 
 .. ipython::
 
-    In [0]: transfer_asset = {
+    In [0]: transfer_asset = [{
        ...:     'id': signed_car_creation_tx['id'],
-       ...: }
+       ...: }]
 
 then ``alice`` can prepare the transfer:
 
@@ -537,7 +537,7 @@ then ``alice`` can prepare the transfer:
     In [0]: car_transfer_tx = bdb.transactions.prepare(
        ...:     operation='TRANSFER',
        ...:     recipients=carol.public_key,
-       ...:     asset=transfer_asset,
+       ...:     assets=transfer_asset,
        ...:     inputs=input_,
        ...: )
 
