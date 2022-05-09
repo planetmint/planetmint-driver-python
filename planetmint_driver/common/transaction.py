@@ -548,7 +548,8 @@ class Transaction(object):
                              " property instance for '{}' "
                              "Transactions".format(operation)))
         elif (operation == Transaction.TRANSFER and
-                not (isinstance(assets, list) and 'id' in assets[0])): # TODO: adjust so that every element will be checked
+                not (isinstance(assets, list)
+                     and reduce(lambda acc, asset: acc and 'id' in asset, assets, True))):
             raise TypeError(('`assets` must be a dict holding an `id` property '
                              "for 'TRANSFER' Transactions"))
 

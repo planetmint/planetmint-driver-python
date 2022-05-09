@@ -549,7 +549,7 @@ def text_search_assets(api_root, transactions_api_full_url, alice_pubkey,
     if len(response) == 3:
         assets = []
         for asset in response:
-            assets.append(asset)    
+            assets.append(asset)
         return assets
 
     # define the assets that will be used by text_search tests

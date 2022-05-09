@@ -72,7 +72,7 @@ docs: ## Generate Sphinx HTML documentation, including API docs
 	$(BROWSER) docs/_build/html/index.html
 
 lint: check-deps ## Check style with flake8
-	@$(DC) run --rm planetmint-driver flake8 planetmint_driver tests
+	@$(DC) run --rm planetmint-driver flake8 --max-line-length 119 planetmint_driver tests
 
 cov: check-deps ## Check code coverage and open the result in the browser
 	@$(DC) run --rm planetmint-driver pytest -v --cov=planetmint_driver --cov-report html
