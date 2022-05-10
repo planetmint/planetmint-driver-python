@@ -497,9 +497,9 @@ class Transaction(object):
                 spend.
             outputs (:obj:`list` of :class:`~planetmint.common.
                 transaction.Output`, optional): Define the assets to lock.
-            assets (dict): Asset payload for this Transaction. ``CREATE``
-                Transactions require a dict with a ``data``
-                property while ``TRANSFER`` Transactions require a dict with a
+            assets (:obj:`list` of :obj:`dict`): Asset payload for this Transaction. ``CREATE``
+                Transactions require a list containing exactly one dict with a ``data``
+                property while ``TRANSFER`` Transactions require a list containing a dict with a
                 ``id`` property.
             metadata (dict):
                 Metadata to be stored along with the Transaction.
@@ -511,7 +511,6 @@ class Transaction(object):
     ALLOWED_OPERATIONS = (CREATE, TRANSFER)
     VERSION = '2.0'
 
-    # TODO: adjust Args doc text
     def __init__(self, operation, assets, inputs=None, outputs=None,
                  metadata=None, version=None, hash_id=None):
         """The constructor allows to create a customizable Transaction.
@@ -522,7 +521,7 @@ class Transaction(object):
 
             Args:
                 operation (str): Defines the operation of the Transaction.
-                assets (dict): Asset payload for this Transaction.
+                assets (:obj:`list` of :obj:`dict`): Asset payload for this Transaction.
                 inputs (:obj:`list` of :class:`~planetmint.common.
                     transaction.Input`, optional): Define the assets to
                 outputs (:obj:`list` of :class:`~planetmint.common.
@@ -628,7 +627,7 @@ class Transaction(object):
                     Transaction.
                 metadata (dict): The metadata to be stored along with the
                     Transaction.
-                assets (dict): The metadata associated with the assets that will
+                assets (:obj:`list` of :obj:`dict`): The metadata associated with the asset that will
                     be created in this Transaction.
 
             Returns:
