@@ -34,7 +34,8 @@ tests_require = [
 dev_require = [
     'ipdb',
     'ipython',
-    'pre-commit'
+    'pre-commit',
+    'jinja2==3.0.0'
 ]
 
 docs_require = [
@@ -50,7 +51,7 @@ docs_require = [
 
 setup(
     name='planetmint_driver',
-    version='0.9.1',
+    version='0.9.4',
     description="Python driver for Planetmint",
     long_description=readme + '\n\n' + changelog,
     long_description_content_type='text/x-rst',
