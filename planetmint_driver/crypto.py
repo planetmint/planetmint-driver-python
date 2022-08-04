@@ -7,7 +7,7 @@ from collections import namedtuple
 from cryptoconditions import crypto
 
 
-CryptoKeypair = namedtuple('CryptoKeypair', ('private_key', 'public_key'))
+CryptoKeypair = namedtuple("CryptoKeypair", ("private_key", "public_key"))
 
 
 def generate_keypair(seed=None):
@@ -23,5 +23,4 @@ def generate_keypair(seed=None):
         :attr:`~planetmint_driver.crypto.CryptoKeypair.public_key`.
 
     """
-    return CryptoKeypair(
-        *(k.decode() for k in crypto.ed25519_generate_key_pair(seed)))
+    return CryptoKeypair(*(k.decode() for k in crypto.ed25519_generate_key_pair(seed)))
