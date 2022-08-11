@@ -259,18 +259,20 @@ class TestAssetsMetadataEndpoint:
         response = driver.assets.get(search="abcdef")
         assert response == []
 
-    def test_assets_get_search(self, driver, text_search_assets):
+    @mark.parametrize("search", [("Planetmint"), ("planetmint")])
+    def test_assets_get_search(self, driver, text_search_assets, search):
         # we have 3 assets that match 'planetmint' in text_search_assets
-        response = driver.assets.get(search="planetmint")
+        response = driver.assets.get(search=search)
         assert len(response) == 3
 
         for asset in response:
             assert text_search_assets[asset["id"]] == asset["data"]
 
-    def test_assets_get_search_limit(self, driver, text_search_assets):
+    @mark.parametrize("search", [("Planetmint"), ("planetmint")])
+    def test_assets_get_search_limit(self, driver, search):
         # we have 3 assets that match 'planetmint' in text_search_assets but
         # we are limiting the number of returned results to 2
-        response = driver.assets.get(search="planetmint", limit=2)
+        response = driver.assets.get(search=search, limit=2)
         assert len(response) == 2
 
     def test_metadata_get_search_no_results(self, driver):
