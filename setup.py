@@ -47,6 +47,7 @@ docs_require = [
     'sphinx_rtd_theme',
     'sphinxcontrib-httpdomain',
     'matplotlib',
+    'base58'
 ]
 
 setup(
