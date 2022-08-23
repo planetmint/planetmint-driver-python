@@ -15,8 +15,7 @@ def test_get_connection():
         connection = pool.get_connection()
         assert connection.node_url == 0
 
-    connections = [Connection(node_url=0), Connection(node_url=1),
-                   Connection(node_url=2)]
+    connections = [Connection(node_url=0), Connection(node_url=1), Connection(node_url=2)]
     pool = Pool(connections)
 
     for _ in range(10):

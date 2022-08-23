@@ -21,7 +21,7 @@ import sha3
 from cryptoconditions import crypto
 
 
-CryptoKeypair = namedtuple('CryptoKeypair', ('private_key', 'public_key'))
+CryptoKeypair = namedtuple("CryptoKeypair", ("private_key", "public_key"))
 
 
 def hash_data(data):
@@ -40,8 +40,7 @@ def generate_key_pair():
 
     """
     # TODO FOR CC: Adjust interface so that this function becomes unnecessary
-    return CryptoKeypair(
-        *(k.decode() for k in crypto.ed25519_generate_key_pair()))
+    return CryptoKeypair(*(k.decode() for k in crypto.ed25519_generate_key_pair()))
 
 
 PrivateKey = crypto.Ed25519SigningKey

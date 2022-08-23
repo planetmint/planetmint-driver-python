@@ -15,9 +15,7 @@ NO_TIMEOUT_BACKOFF_CAP = 10  # seconds
 
 
 class Transport:
-    """Transport class.
-
-    """
+    """Transport class."""
 
     def __init__(self, *nodes, timeout=None):
         """Initializes an instance of
@@ -31,12 +29,9 @@ class Transport:
         """
         self.nodes = nodes
         self.timeout = timeout
-        self.connection_pool = Pool([Connection(node_url=node['endpoint'],
-                                                headers=node['headers'])
-                                     for node in nodes])
+        self.connection_pool = Pool([Connection(node_url=node["endpoint"], headers=node["headers"]) for node in nodes])
 
-    def forward_request(self, method, path=None,
-                        json=None, params=None, headers=None):
+    def forward_request(self, method, path=None, json=None, params=None, headers=None):
         """Makes HTTP requests to the configured nodes.
 
            Retries connection errors
@@ -65,8 +60,7 @@ class Transport:
         """
         error_trace = []
         timeout = self.timeout
-        backoff_cap = NO_TIMEOUT_BACKOFF_CAP if timeout is None \
-            else timeout / 2
+        backoff_cap = NO_TIMEOUT_BACKOFF_CAP if timeout is None else timeout / 2
         while timeout is None or timeout > 0:
             connection = self.connection_pool.get_connection()
 

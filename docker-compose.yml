@@ -28,21 +28,35 @@ services:
     ports:
       - "27017"
     command: mongod
+  tarantool:
+    build:
+      context: .
+      dockerfile: ./compose/tarantool/Dockerfile
+    ports:
+      - "5200:5200"
+      - "3301:3301"
+      - "3303:3303"
+      - "8081:8081"
+    command: tarantool /opt/tarantool/basic.lua
+    restart: always
   planetmint:
     depends_on:
-      - mongodb
+      # - mongodb
+      - tarantool
       - tendermint
     build:
       context: .
       dockerfile: ./compose/planetmint_server/Dockerfile
       args:
         branch: main
-        backend: localmongodb
+        backend: tarantool_db
     environment:
-      PLANETMINT_DATABASE_HOST: mongodb
-      PLANETMINT_DATABASE_PORT: 27017
+      PLANETMINT_DATABASE_BACKEND: tarantool_db 
+      PLANETMINT_DATABASE_HOST: tarantool
+      PLANETMINT_DATABASE_PORT: 3303
       PLANETMINT_SERVER_BIND: 0.0.0.0:9984
       PLANETMINT_WSSERVER_HOST: 0.0.0.0
+      PLANETMINT_WSSERVER_ADVERTISED_HOST: planetmint
       PLANETMINT_TENDERMINT_HOST: tendermint
       PLANETMINT_TENDERMINT_PORT: 26657
     ports:
@@ -53,7 +67,7 @@ services:
       test: ["CMD", "bash", "-c", "curl http://planetmint:9984 && curl http://tendermint:26657/abci_query"]
       interval: 3s
       timeout: 5s
-      retries: 3
+      retries: 5
     command: planetmint -l DEBUG start
   tendermint:
     image: tendermint/tendermint:v0.34.15
