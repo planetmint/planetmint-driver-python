@@ -19,16 +19,9 @@ jobs:
         with:
           python-version: 3.9
 
-      - name: Start containers
-        run: docker-compose up -d planetmint-driver
-      
       - name: Run tests
-        continue-on-error: true
-        run: docker-compose run --rm planetmint-driver pytest -v --cov=planetmint_driver --cov-report xml:htmlcov/coverage.xml
-        
-      - name: planetmint logs
-        run: docker-compose logs planetmint
-      
+        run: make test
+              
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
 
