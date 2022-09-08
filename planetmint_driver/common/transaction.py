@@ -28,7 +28,12 @@ from functools import reduce
 
 import base58
 from cryptoconditions import Fulfillment, ThresholdSha256, Ed25519Sha256
-from cryptoconditions.exceptions import ParsingError, ASN1DecodeError, ASN1EncodeError, UnsupportedTypeError
+from cryptoconditions.exceptions import (
+    ParsingError,
+    ASN1DecodeError,
+    ASN1EncodeError,
+    UnsupportedTypeError,
+)
 from sha3 import sha3_256
 
 from .crypto import PrivateKey, hash_data
@@ -506,7 +511,16 @@ class Transaction(object):
     ALLOWED_OPERATIONS = (CREATE, TRANSFER)
     VERSION = "2.0"
 
-    def __init__(self, operation, asset, inputs=None, outputs=None, metadata=None, version=None, hash_id=None):
+    def __init__(
+        self,
+        operation,
+        asset,
+        inputs=None,
+        outputs=None,
+        metadata=None,
+        version=None,
+        hash_id=None,
+    ):
         """The constructor allows to create a customizable Transaction.
 
         Note:
@@ -744,7 +758,11 @@ class Transaction(object):
         #       as inputs.
         indices = indices or range(len(self.outputs))
         return [
-            Input(self.outputs[idx].fulfillment, self.outputs[idx].public_keys, TransactionLink(self.id, idx))
+            Input(
+                self.outputs[idx].fulfillment,
+                self.outputs[idx].public_keys,
+                TransactionLink(self.id, idx),
+            )
             for idx in indices
         ]
 
@@ -1174,4 +1192,12 @@ class Transaction(object):
         """
         inputs = [Input.from_dict(input_) for input_ in tx["inputs"]]
         outputs = [Output.from_dict(output) for output in tx["outputs"]]
-        return cls(tx["operation"], tx["asset"], inputs, outputs, tx["metadata"], tx["version"], hash_id=tx["id"])
+        return cls(
+            tx["operation"],
+            tx["asset"],
+            inputs,
+            outputs,
+            tx["metadata"],
+            tx["version"],
+            hash_id=tx["id"],
+        )

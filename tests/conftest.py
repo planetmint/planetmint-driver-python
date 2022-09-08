@@ -291,7 +291,8 @@ def sent_persisted_random_transaction(alice_pubkey, alice_privkey, transactions_
 @fixture
 def block_with_alice_transaction(sent_persisted_random_transaction, blocks_api_full_url):
     return requests.get(
-        blocks_api_full_url, params={"transaction_id": sent_persisted_random_transaction["id"]}
+        blocks_api_full_url,
+        params={"transaction_id": sent_persisted_random_transaction["id"]},
     ).json()[0]
 
 
@@ -393,7 +394,10 @@ def persisted_carol_car_transaction(transactions_api_full_url, signed_carol_car_
 
 @fixture
 def persisted_transfer_carol_car_to_dimi(
-    carol_keypair, dimi_pubkey, transactions_api_full_url, persisted_carol_car_transaction
+    carol_keypair,
+    dimi_pubkey,
+    transactions_api_full_url,
+    persisted_carol_car_transaction,
 ):
     output_txid = persisted_carol_car_transaction["id"]
     ed25519_dimi = Ed25519Sha256(public_key=base58.b58decode(dimi_pubkey))
@@ -450,7 +454,10 @@ def persisted_transfer_carol_car_to_dimi(
 
 @fixture
 def persisted_transfer_dimi_car_to_ewy(
-    dimi_keypair, ewy_pubkey, transactions_api_full_url, persisted_transfer_carol_car_to_dimi
+    dimi_keypair,
+    ewy_pubkey,
+    transactions_api_full_url,
+    persisted_transfer_carol_car_to_dimi,
 ):
     output_txid = persisted_transfer_carol_car_to_dimi["id"]
     ed25519_ewy = Ed25519Sha256(public_key=base58.b58decode(ewy_pubkey))
@@ -550,7 +557,11 @@ def text_search_assets(api_root, transactions_api_full_url, alice_pubkey, alice_
         return assets
 
     # define the assets that will be used by text_search tests
-    assets = [{"msg": "Hello Planetmint 1!"}, {"msg": "Hello Planetmint 2!"}, {"msg": "Hello Planetmint 3!"}]
+    assets = [
+        {"msg": "Hello Planetmint 1!"},
+        {"msg": "Hello Planetmint 2!"},
+        {"msg": "Hello Planetmint 3!"},
+    ]
 
     # write the assets to Planetmint
     assets_by_txid = {}

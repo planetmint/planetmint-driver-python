@@ -13,7 +13,10 @@ from pytest import mark
         ("http://localhost", ({"endpoint": "http://localhost:9984", "headers": {}},)),
         ("http://localhost:80", ({"endpoint": "http://localhost:80", "headers": {}},)),
         ("https://node.xyz", ({"endpoint": "https://node.xyz:443", "headers": {}},)),
-        ("https://node.xyz/path", ({"endpoint": "https://node.xyz:443/path", "headers": {}},)),
+        (
+            "https://node.xyz/path",
+            ({"endpoint": "https://node.xyz:443/path", "headers": {}},),
+        ),
     ),
 )
 def test_single_node_normalization(node, normalized_node):
