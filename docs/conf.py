@@ -57,10 +57,24 @@ htmlhelp_basename = "planetmint_python_driverdoc"
 latex_elements = {}
 
 latex_documents = [
-    ("index", "planetmint_python_driver.tex", "Planetmint Python Driver Documentation", "Planetmint", "manual"),
+    (
+        "index",
+        "planetmint_python_driver.tex",
+        "Planetmint Python Driver Documentation",
+        "Planetmint",
+        "manual",
+    ),
 ]
 
-man_pages = [("index", "planetmint_python_driver", "Planetmint Python Driver Documentation", ["Planetmint"], 1)]
+man_pages = [
+    (
+        "index",
+        "planetmint_python_driver",
+        "Planetmint Python Driver Documentation",
+        ["Planetmint"],
+        1,
+    )
+]
 
 texinfo_documents = [
     (

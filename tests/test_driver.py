@@ -164,12 +164,22 @@ class TestTransactionsEndpoint:
 
 class TestOutputsEndpoint:
     def test_get_outputs(
-        self, driver, carol_pubkey, persisted_carol_bicycle_transaction, persisted_carol_car_transaction
+        self,
+        driver,
+        carol_pubkey,
+        persisted_carol_bicycle_transaction,
+        persisted_carol_car_transaction,
     ):
         outputs = driver.outputs.get(carol_pubkey)
         assert len(outputs) == 2
-        assert {"transaction_id": persisted_carol_bicycle_transaction["id"], "output_index": 0} in outputs
-        assert {"transaction_id": persisted_carol_car_transaction["id"], "output_index": 0} in outputs
+        assert {
+            "transaction_id": persisted_carol_bicycle_transaction["id"],
+            "output_index": 0,
+        } in outputs
+        assert {
+            "transaction_id": persisted_carol_car_transaction["id"],
+            "output_index": 0,
+        } in outputs
 
     def test_get_outputs_with_spent_query_param(self, driver):
         from planetmint_driver.crypto import generate_keypair

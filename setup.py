@@ -13,10 +13,15 @@ with open("CHANGELOG.rst") as changelog_file:
 
 install_requires = [
     "requests>=2.20.0",
-    "planetmint-cryptoconditions>=0.9.0",
+    "planetmint-cryptoconditions>=0.10.0",
     "pysha3~=1.0.2",
     "python-rapidjson~=0.6.0",
     "python-rapidjson-schema==0.1.1",
+    "base58",
+    "pynacl==1.4.0",
+    "pyasn1",
+    "zenroom==2.1.0.dev1655293214",
+    "cryptography==3.4.7",
 ]
 
 tests_require = [
@@ -46,7 +51,7 @@ docs_require = [
 
 setup(
     name="planetmint_driver",
-    version="0.9.4",
+    version="0.10.0",
     description="Python driver for Planetmint",
     long_description=readme + "\n\n" + changelog,
     long_description_content_type="text/x-rst",

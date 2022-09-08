@@ -160,7 +160,10 @@ def test_fulfill_transaction_raises(alice_transaction, bob_privkey):
 def test_transaction_fulfill_with_signingning_delegation(
     alice_privkey, alice_transaction, alice_transaction_signature
 ):
-    from planetmint_driver.offchain import fulfill_transaction, fulfill_with_signing_delegation
+    from planetmint_driver.offchain import (
+        fulfill_transaction,
+        fulfill_with_signing_delegation,
+    )
 
     fulfilled_transaction = fulfill_transaction(alice_transaction, private_keys=alice_privkey)
 

@@ -9,7 +9,12 @@ a connection to one or more  Planetmint federation nodes.
 import logging
 from functools import singledispatch
 
-from .common.transaction import Input, Transaction, TransactionLink, _fulfillment_from_details
+from .common.transaction import (
+    Input,
+    Transaction,
+    TransactionLink,
+    _fulfillment_from_details,
+)
 from .common.exceptions import KeypairMismatchException
 
 from .exceptions import PlanetmintException, MissingPrivateKeyError
@@ -286,7 +291,8 @@ def prepare_transfer_transaction(*, inputs, recipients, asset, metadata=None):
             _fulfillment_from_details(input_["fulfillment"]),
             input_["owners_before"],
             fulfills=TransactionLink(
-                txid=input_["fulfills"]["transaction_id"], output=input_["fulfills"]["output_index"]
+                txid=input_["fulfills"]["transaction_id"],
+                output=input_["fulfills"]["output_index"],
             ),
         )
         for input_ in inputs

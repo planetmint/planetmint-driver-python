@@ -327,7 +327,11 @@ class TransactionsEndpoint(NamespacedDriver):
 
         """
         return self.transport.forward_request(
-            method="POST", path=self.path, json=transaction, params={"mode": "async"}, headers=headers
+            method="POST",
+            path=self.path,
+            json=transaction,
+            params={"mode": "async"},
+            headers=headers,
         )
 
     def send_sync(self, transaction, headers=None):
@@ -343,7 +347,11 @@ class TransactionsEndpoint(NamespacedDriver):
 
         """
         return self.transport.forward_request(
-            method="POST", path=self.path, json=transaction, params={"mode": "sync"}, headers=headers
+            method="POST",
+            path=self.path,
+            json=transaction,
+            params={"mode": "sync"},
+            headers=headers,
         )
 
     def send_commit(self, transaction, headers=None):
@@ -359,7 +367,11 @@ class TransactionsEndpoint(NamespacedDriver):
 
         """
         return self.transport.forward_request(
-            method="POST", path=self.path, json=transaction, params={"mode": "commit"}, headers=headers
+            method="POST",
+            path=self.path,
+            json=transaction,
+            params={"mode": "commit"},
+            headers=headers,
         )
 
     def retrieve(self, txid, headers=None):
@@ -491,7 +503,10 @@ class AssetsEndpoint(NamespacedDriver):
 
         """
         return self.transport.forward_request(
-            method="GET", path=self.path, params={"search": search, "limit": limit}, headers=headers
+            method="GET",
+            path=self.path,
+            params={"search": search, "limit": limit},
+            headers=headers,
         )
 
 
@@ -519,5 +534,8 @@ class MetadataEndpoint(NamespacedDriver):
 
         """
         return self.transport.forward_request(
-            method="GET", path=self.path, params={"search": search, "limit": limit}, headers=headers
+            method="GET",
+            path=self.path,
+            params={"search": search, "limit": limit},
+            headers=headers,
         )
