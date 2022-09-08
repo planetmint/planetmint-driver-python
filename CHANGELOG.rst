@@ -6,6 +6,14 @@
 Changelog
 =========
 
+
+0.6.2 (2022-09-08)
+------------------
+Changed
+^^^^^^^
+* In setup.py, changed crypto-conditions dependency to above 0.10.0
+
+
 0.6.2 (2018-11-03)
 ------------------
 Changed
