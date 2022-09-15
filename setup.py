@@ -34,6 +34,7 @@ tests_require = [
     "pytest-sugar",
     "pytest-xdist",
     "responses~=0.5.1",
+    "planetmint-ipld>=0.0.3",
 ]
 
 dev_require = ["ipdb", "ipython", "pre-commit", "jinja2==3.0.0"]
@@ -51,7 +52,7 @@ docs_require = [
 
 setup(
     name="planetmint_driver",
-    version="0.10.0",
+    version="0.11.0",
     description="Python driver for Planetmint",
     long_description=readme + "\n\n" + changelog,
     long_description_content_type="text/x-rst",

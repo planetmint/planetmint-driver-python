@@ -6,6 +6,12 @@
 Changelog
 =========
 
+0.11.0 (2022-09-15)
+------------------
+Changed
+^^^^^^^
+* Breaking: fixed the faulty default placemnt of the "data"-tag into assets. Thereby caused obfuscation got removed.
+* Breaking: adjusted to the IPLD definitions of planetmint. 
 
 0.6.2 (2022-09-08)
 ------------------

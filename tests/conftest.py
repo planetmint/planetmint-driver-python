@@ -12,6 +12,7 @@ import base58
 from cryptoconditions import Ed25519Sha256
 from pytest import fixture
 from sha3 import sha3_256
+from ipld import multihash, marshal
 
 from planetmint_driver.common.transaction import Transaction, _fulfillment_to_details
 
@@ -232,7 +233,7 @@ def alice_transaction_obj(alice_pubkey):
     return Transaction.create(
         tx_signers=[alice_pubkey],
         recipients=[([alice_pubkey], 1)],
-        asset={"serial_number": serial_number},
+        asset={ "data" : multihash(marshal({"serial_number": serial_number})) },
     )
 
 
@@ -263,7 +264,7 @@ def persisted_random_transaction(alice_pubkey, alice_privkey):
     from uuid import uuid4
     from planetmint_driver.common.transaction import Transaction
 
-    asset = {"data": {"x": str(uuid4())}}
+    asset = {"data": multihash(marshal({"x": str(uuid4())}))}
     tx = Transaction.create(
         tx_signers=[alice_pubkey],
         recipients=[([alice_pubkey], 1)],
@@ -277,7 +278,7 @@ def sent_persisted_random_transaction(alice_pubkey, alice_privkey, transactions_
     from uuid import uuid4
     from planetmint_driver.common.transaction import Transaction
 
-    asset = {"data": {"x": str(uuid4())}}
+    asset = {"data": multihash(marshal({"x": str(uuid4())}))}
     tx = Transaction.create(
         tx_signers=[alice_pubkey],
         recipients=[([alice_pubkey], 1)],
@@ -322,7 +323,7 @@ def prepared_carol_bicycle_transaction(carol_keypair, bicycle_data):
     fulfillment = make_fulfillment(carol_keypair.public_key)
     tx = {
         "asset": {
-            "data": bicycle_data,
+            "data": multihash( marshal( bicycle_data )),
         },
         "metadata": None,
         "operation": "CREATE",
@@ -359,9 +360,9 @@ def prepared_carol_car_transaction(carol_keypair, car_data):
     condition = make_ed25519_condition(carol_keypair.public_key)
     fulfillment = make_fulfillment(carol_keypair.public_key)
     tx = {
-        "asset": {
-            "data": car_data,
-        },
+        "asset": { 
+            "data": multihash( marshal( car_data )),
+        } ,
         "metadata": None,
         "operation": "CREATE",
         "outputs": (condition,),
@@ -515,7 +516,7 @@ def persisted_transfer_dimi_car_to_ewy(
 def unsigned_transaction():
     return {
         "operation": "CREATE",
-        "asset": {"data": {"serial_number": "NNP43x-DaYoSWg=="}},
+        "asset": {"data": multihash(marshal({"serial_number": "NNP43x-DaYoSWg=="}))},
         "version": "2.0",
         "outputs": [
             {
@@ -543,10 +544,17 @@ def unsigned_transaction():
         "id": None,
         "metadata": None,
     }
-
+@fixture
+def search_assets():
+    assets = [
+        {"data" : multihash(marshal({"msg": "Hello Planetmint 1!"}))},
+        {"data" : multihash(marshal({"msg": "Hello Planetmint 2!"}))},
+        {"data" : multihash(marshal({"msg": "Hello Planetmint 3!"}))},
+    ]
+    return assets
 
 @fixture
-def text_search_assets(api_root, transactions_api_full_url, alice_pubkey, alice_privkey):
+def text_search_assets(api_root, transactions_api_full_url, alice_pubkey, alice_privkey, search_assets):
     # check if the fixture was already executed
     response = requests.get(api_root + "/assets", params={"search": "planetmint"})
     response = response.json()
@@ -557,20 +565,15 @@ def text_search_assets(api_root, transactions_api_full_url, alice_pubkey, alice_
         return assets
 
     # define the assets that will be used by text_search tests
-    assets = [
-        {"msg": "Hello Planetmint 1!"},
-        {"msg": "Hello Planetmint 2!"},
-        {"msg": "Hello Planetmint 3!"},
-    ]
 
     # write the assets to Planetmint
     assets_by_txid = {}
-    for asset in assets:
+    for asset in search_assets:
         tx = Transaction.create(
             tx_signers=[alice_pubkey],
             recipients=[([alice_pubkey], 1)],
             asset=asset,
-            metadata={"But here's my number": "So call me maybe"},
+            metadata="So call me maybe",
         )
         tx_signed = tx.sign([alice_privkey])
         requests.post(transactions_api_full_url, json=tx_signed.to_dict())

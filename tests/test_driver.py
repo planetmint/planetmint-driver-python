@@ -11,7 +11,7 @@ from pytest import mark, raises
 from requests.utils import default_headers
 from sha3 import sha3_256
 from cryptoconditions import Ed25519Sha256
-
+from ipld import multihash, marshal
 
 class TestPlanetmint:
     @mark.parametrize(
@@ -190,12 +190,12 @@ class TestOutputsEndpoint:
                 operation="CREATE",
                 signers=carol.public_key,
                 asset={
-                    "data": {
+                    "data": multihash( marshal({ 
                         "asset": {
                             "serial_number": str(uuid.uuid4()),
                             "manufacturer": str(uuid.uuid4()),
                         },
-                    },
+                    },))
                 },
             )
 
@@ -269,21 +269,22 @@ class TestAssetsMetadataEndpoint:
         response = driver.assets.get(search="abcdef")
         assert response == []
 
-    @mark.parametrize("search", [("Planetmint"), ("Planetmint")])
-    def test_assets_get_search(self, driver, text_search_assets, search):
+    @mark.parametrize("search", [(multihash(marshal({"msg": "Hello Planetmint 1!"})) ), (multihash(marshal({"msg": "Hello Planetmint 2!"})) ), (multihash(marshal({"msg": "Hello Planetmint 3!"})) )])
+    def test_assets_get_search(self, driver, text_search_assets, search, search_assets):
         # we have 3 assets that match 'planetmint' in text_search_assets
-        response = driver.assets.get(search=search)
-        assert len(response) == 3
+        for asset in search_assets:
+            response = driver.assets.get(search=asset["data"])
+            assert len(response) == 1
 
         for asset in response:
-            assert text_search_assets[asset["id"]] == asset["data"]
+            assert text_search_assets[asset["id"]]["data"] == asset["data"]
 
-    @mark.parametrize("search", [("Planetmint"), ("Planetmint")])
+    @mark.parametrize("search", [(multihash(marshal({"msg": "Hello Planetmint 1!"})) ), (multihash(marshal({"msg": "Hello Planetmint 2!"})) ), (multihash(marshal({"msg": "Hello Planetmint 3!"})) )])
     def test_assets_get_search_limit(self, driver, search):
         # we have 3 assets that match 'planetmint' in text_search_assets but
         # we are limiting the number of returned results to 2
         response = driver.assets.get(search=search, limit=2)
-        assert len(response) == 2
+        assert len(response) == 1
 
     def test_metadata_get_search_no_results(self, driver):
         # no metadata matches the search string
