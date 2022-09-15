@@ -13,6 +13,7 @@ from sha3 import sha3_256
 from cryptoconditions import Ed25519Sha256
 from ipld import multihash, marshal
 
+
 class TestPlanetmint:
     @mark.parametrize(
         "nodes,headers, normalized_nodes",
@@ -190,12 +191,16 @@ class TestOutputsEndpoint:
                 operation="CREATE",
                 signers=carol.public_key,
                 asset={
-                    "data": multihash( marshal({ 
-                        "asset": {
-                            "serial_number": str(uuid.uuid4()),
-                            "manufacturer": str(uuid.uuid4()),
-                        },
-                    },))
+                    "data": multihash(
+                        marshal(
+                            {
+                                "asset": {
+                                    "serial_number": str(uuid.uuid4()),
+                                    "manufacturer": str(uuid.uuid4()),
+                                },
+                            },
+                        )
+                    )
                 },
             )
 
@@ -269,7 +274,14 @@ class TestAssetsMetadataEndpoint:
         response = driver.assets.get(search="abcdef")
         assert response == []
 
-    @mark.parametrize("search", [(multihash(marshal({"msg": "Hello Planetmint 1!"})) ), (multihash(marshal({"msg": "Hello Planetmint 2!"})) ), (multihash(marshal({"msg": "Hello Planetmint 3!"})) )])
+    @mark.parametrize(
+        "search",
+        [
+            (multihash(marshal({"msg": "Hello Planetmint 1!"}))),
+            (multihash(marshal({"msg": "Hello Planetmint 2!"}))),
+            (multihash(marshal({"msg": "Hello Planetmint 3!"}))),
+        ],
+    )
     def test_assets_get_search(self, driver, text_search_assets, search, search_assets):
         # we have 3 assets that match 'planetmint' in text_search_assets
         for asset in search_assets:
@@ -279,7 +291,14 @@ class TestAssetsMetadataEndpoint:
         for asset in response:
             assert text_search_assets[asset["id"]]["data"] == asset["data"]
 
-    @mark.parametrize("search", [(multihash(marshal({"msg": "Hello Planetmint 1!"})) ), (multihash(marshal({"msg": "Hello Planetmint 2!"})) ), (multihash(marshal({"msg": "Hello Planetmint 3!"})) )])
+    @mark.parametrize(
+        "search",
+        [
+            (multihash(marshal({"msg": "Hello Planetmint 1!"}))),
+            (multihash(marshal({"msg": "Hello Planetmint 2!"}))),
+            (multihash(marshal({"msg": "Hello Planetmint 3!"}))),
+        ],
+    )
     def test_assets_get_search_limit(self, driver, search):
         # we have 3 assets that match 'planetmint' in text_search_assets but
         # we are limiting the number of returned results to 2
