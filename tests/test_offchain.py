@@ -42,7 +42,7 @@ def test_prepare_create_transaction_default(alice_pubkey):
     assert "id" in create_transaction
     assert "version" in create_transaction
     assert "asset" in create_transaction
-    assert create_transaction["asset"] == {"data": None}
+    assert create_transaction["asset"] == None
     assert "outputs" in create_transaction
     assert "inputs" in create_transaction
     assert "metadata" in create_transaction

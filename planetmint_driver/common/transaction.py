@@ -561,8 +561,8 @@ class Transaction(object):
         if inputs and not isinstance(inputs, list):
             raise TypeError("`inputs` must be a list instance or None")
 
-        if metadata is not None and not isinstance(metadata, dict):
-            raise TypeError("`metadata` must be a dict or None")
+        if metadata is not None and not isinstance(metadata, str):
+            raise TypeError("`metadata` must be a str or None")
 
         self.version = version if version is not None else self.VERSION
         self.operation = operation
@@ -662,7 +662,7 @@ class Transaction(object):
         # generate inputs
         inputs.append(Input.generate(tx_signers))
 
-        return cls(cls.CREATE, {"data": asset}, inputs, outputs, metadata)
+        return cls(cls.CREATE, asset, inputs, outputs, metadata)
 
     @classmethod
     def transfer(cls, inputs, recipients, asset_id, metadata=None):
