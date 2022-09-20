@@ -50,13 +50,15 @@ represents a bicycle:
 
 .. ipython::
 
+    In [0]: from ipld import multihash, marshal
+
     In [0]: bicycle = {
-       ...:     'data': {
+       ...:     'data': multihash( marshal( {
        ...:         'bicycle': {
        ...:             'serial_number': 'abcd1234',
        ...:             'manufacturer': 'bkfab',
        ...:         },
-       ...:     },
+       ...:     } )),
        ...: }
 
 We'll suppose that the bike belongs to Alice, and that it will be transferred
@@ -73,7 +75,9 @@ For example:
 
 .. ipython::
 
-    In [0]: metadata = {'planet': 'earth'}
+    In [0]: from ipld import multihash, marshal
+
+    In [0]: metadata = multihash( marshal( {'planet': 'earth'} ))
 
 
 Cryptographic Identities Generation

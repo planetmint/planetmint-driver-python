@@ -10,3 +10,4 @@ RUN pip install --upgrade pip
 COPY . /usr/src/app/
 
 RUN pip install --no-cache-dir -e .[dev]
+RUN pip install sphinx-press-theme==0.8.0
