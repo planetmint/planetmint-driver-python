@@ -10,3 +10,5 @@ sphinxcontrib-httpdomain
 ipython
 matplotlib
 base58
+sphinx-press-theme==0.8.0
+

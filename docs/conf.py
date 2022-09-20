@@ -49,8 +49,8 @@ pygments_style = "sphinx"
 todo_include_todos = True
 suppress_warnings = ["image.nonlocal_uri"]
 
-html_theme = "sphinx_rtd_theme"
-html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
+html_theme = "press"
+#html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
 html_static_path = ["_static"]
 htmlhelp_basename = "planetmint_python_driverdoc"
 
