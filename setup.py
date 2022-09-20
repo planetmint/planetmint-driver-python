@@ -40,7 +40,7 @@ tests_require = [
 dev_require = ["ipdb", "ipython", "pre-commit", "jinja2==3.0.0"]
 
 docs_require = [
-    "Sphinx~=1.0",
+    "Sphinx",
     "sphinx-autobuild",
     "sphinxcontrib-autorun",
     "sphinxcontrib-napoleon>=0.4.4",

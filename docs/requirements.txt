@@ -1,7 +1,7 @@
 # we need this for readthedocs
 
 jinja2==3.0.0
-Sphinx~=1.0
+Sphinx
 sphinx-autobuild
 sphinxcontrib-autorun
 sphinxcontrib-napoleon>=0.4.4
@@ -11,4 +11,3 @@ ipython
 matplotlib
 base58
 sphinx-press-theme==0.8.0
-
