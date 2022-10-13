@@ -9,13 +9,15 @@ a connection to one or more  Planetmint federation nodes.
 import logging
 from functools import singledispatch
 
-from .common.transaction import (
+from transactions.common.transaction import (
     Input,
     Transaction,
     TransactionLink,
-    _fulfillment_from_details
 )
-from .common.exceptions import KeypairMismatchException
+from transactions.types.assets.create import Create
+from transactions.types.assets.transfer import Transfer
+from transactions.common.utils import _fulfillment_from_details
+from transactions.common.exceptions import KeypairMismatchException
 
 from .exceptions import PlanetmintException, MissingPrivateKeyError
 from .utils import (
@@ -28,32 +30,25 @@ logger = logging.getLogger(__name__)
 
 
 @singledispatch
-def _prepare_transaction(operation,
-                         signers=None,
-                         recipients=None,
-                         assets=None,
-                         metadata=None,
-                         inputs=None):
-    raise PlanetmintException((
-        'Unsupported operation: {}. '
-        'Only "CREATE" and "TRANSFER" are supported.'.format(operation)))
+def _prepare_transaction(operation, signers=None, recipients=None, assets=None, metadata=None, inputs=None):
+    raise PlanetmintException(
+        ("Unsupported operation: {}. " 'Only "CREATE" and "TRANSFER" are supported.'.format(operation))
+    )
 
 
 @_prepare_transaction.register(CreateOperation)
 def _prepare_create_transaction_dispatcher(operation, **kwargs):
-    del kwargs['inputs']
+    del kwargs["inputs"]
     return prepare_create_transaction(**kwargs)
 
 
 @_prepare_transaction.register(TransferOperation)
 def _prepare_transfer_transaction_dispatcher(operation, **kwargs):
-    del kwargs['signers']
+    del kwargs["signers"]
     return prepare_transfer_transaction(**kwargs)
 
 
-def prepare_transaction(*, operation='CREATE', signers=None,
-                        recipients=None, assets=None, metadata=None,
-                        inputs=None):
+def prepare_transaction(*, operation="CREATE", signers=None, recipients=None, assets=None, metadata=None, inputs=None):
     """Prepares a transaction payload, ready to be fulfilled. Depending on
     the value of ``operation``, simply dispatches to either
     :func:`~.prepare_create_transaction` or
@@ -133,11 +128,7 @@ def prepare_transaction(*, operation='CREATE', signers=None,
     )
 
 
-def prepare_create_transaction(*,
-                               signers,
-                               recipients=None,
-                               assets=None,
-                               metadata=None):
+def prepare_create_transaction(*, signers, recipients=None, assets=None, metadata=None):
     """Prepares a ``"CREATE"`` transaction payload, ready to be
     fulfilled.
 
@@ -189,7 +180,7 @@ def prepare_create_transaction(*,
     elif isinstance(recipients, tuple):
         recipients = [(list(recipients), 1)]
 
-    transaction = Transaction.create(
+    transaction = Create.generate(
         signers,
         recipients,
         metadata=metadata,
@@ -198,11 +189,7 @@ def prepare_create_transaction(*,
     return transaction.to_dict()
 
 
-def prepare_transfer_transaction(*,
-                                 inputs,
-                                 recipients,
-                                 assets,
-                                 metadata=None):
+def prepare_transfer_transaction(*, inputs, recipients, assets, metadata=None):
     """Prepares a ``"TRANSFER"`` transaction payload, ready to be
     fulfilled.
 
@@ -292,7 +279,7 @@ def prepare_transfer_transaction(*,
 
     """
     if not isinstance(inputs, (list, tuple)):
-        inputs = (inputs, )
+        inputs = (inputs,)
     if not isinstance(recipients, (list, tuple)):
         recipients = [([recipients], 1)]
 
@@ -302,15 +289,18 @@ def prepare_transfer_transaction(*,
         recipients = [(list(recipients), 1)]
 
     fulfillments = [
-        Input(_fulfillment_from_details(input_['fulfillment']),
-              input_['owners_before'],
-              fulfills=TransactionLink(
-                  txid=input_['fulfills']['transaction_id'],
-                  output=input_['fulfills']['output_index']))
+        Input(
+            _fulfillment_from_details(input_["fulfillment"]),
+            input_["owners_before"],
+            fulfills=TransactionLink(
+                txid=input_["fulfills"]["transaction_id"],
+                output=input_["fulfills"]["output_index"],
+            ),
+        )
         for input_ in inputs
     ]
 
-    transaction = Transaction.transfer(
+    transaction = Transfer.generate(
         fulfillments,
         recipients,
         asset_ids=assets,
@@ -349,7 +339,7 @@ def fulfill_transaction(transaction, *, private_keys):
     try:
         signed_transaction = transaction_obj.sign(private_keys)
     except KeypairMismatchException as exc:
-        raise MissingPrivateKeyError('A private key is missing!') from exc
+        raise MissingPrivateKeyError("A private key is missing!") from exc
 
     return signed_transaction.to_dict()
 
@@ -367,6 +357,4 @@ def fulfill_with_signing_delegation(transaction, signing_callback):
         dict: The fulfilled transaction payload, ready to be sent to a
             Planetmint federation.
     """
-    return (Transaction.from_dict(transaction)
-            .delegate_signing(signing_callback)
-            .to_dict())
+    return Transaction.from_dict(transaction).delegate_signing(signing_callback).to_dict()

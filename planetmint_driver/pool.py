@@ -20,12 +20,12 @@ class AbstractPicker(metaclass=ABCMeta):
                 :class:`~planetmint_driver.connection.Connection` instances.
 
         """
-        pass    # pragma: no cover
+        pass  # pragma: no cover
 
 
 class RoundRobinPicker(AbstractPicker):
     """Picks a :class:`~planetmint_driver.connection.Connection`
-       instance from a list of connections.
+    instance from a list of connections.
 
     """
 
@@ -45,9 +45,7 @@ class RoundRobinPicker(AbstractPicker):
             return connections[0]
 
         def key(conn):
-            return (datetime.min
-                    if conn.backoff_time is None
-                    else conn.backoff_time)
+            return datetime.min if conn.backoff_time is None else conn.backoff_time
 
         return min(*connections, key=key)
 

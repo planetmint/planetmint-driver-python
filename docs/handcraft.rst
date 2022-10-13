@@ -141,18 +141,22 @@ to:
 
 .. ipython::
 
-    In [0]: from planetmint_driver.offchain import prepare_transaction
+    In [0]: from ipld import multihash, marshal
 
     In [0]: bicycle = [{
-       ...:     'data': {
-       ...:         'bicycle': {
+       ...:     'data': 
+       ...:         multihash( marshal( { 'bicycle': {
        ...:             'serial_number': 'abcd1234',
        ...:             'manufacturer': 'bkfab',
-       ...:         },
-       ...:     },
+       ...:         }, 
+       ...:     } )),
        ...: }]
 
-    In [0]: metadata = {'planet': 'earth'}
+    In [0]: from ipld import multihash, marshal
+
+    In [0]: metadata = multihash( marshal( {'planet': 'earth'} ))
+
+    In [0]: from planetmint_driver.offchain import prepare_transaction
 
     In [0]: prepared_creation_tx = prepare_transaction(
        ...:     operation='CREATE',
@@ -700,23 +704,24 @@ transfer transaction was prepared and fulfilled as follows:
     In [0]: from planetmint_driver.offchain import fulfill_transaction, prepare_transaction
 
     In [0]: from planetmint_driver.crypto import generate_keypair
+    In [0]: from ipld import multihash, marshal
 
     In [0]: alice, bob = generate_keypair(), generate_keypair()
 
     In [0]: bdb = Planetmint('https://example.com:9984') # Use YOUR Planetmint Root URL here
 
     In [0]: bicycle_asset = [{
-       ...:     'data': {
+       ...:     'data': multihash( marshal( {
        ...:          'bicycle': {
        ...:               'serial_number': 'abcd1234',
        ...:               'manufacturer': 'bkfab'
        ...:          },
-       ...:     },
+       ...:     } )),
        ...: }]
 
-    In [0]: bicycle_asset_metadata = {
+    In [0]: bicycle_asset_metadata =  multihash( marshal(  {
        ...:     'planet': 'earth'
-       ...: }
+       ...: } ))
 
     In [0]: prepared_creation_tx = bdb.transactions.prepare(
        ...:     operation='CREATE',

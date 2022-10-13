@@ -11,7 +11,7 @@ Attributes:
 """
 from urllib.parse import urlparse, urlunparse
 
-DEFAULT_NODE = 'http://localhost:9984'
+DEFAULT_NODE = "http://localhost:9984"
 
 
 class CreateOperation:
@@ -23,8 +23,8 @@ class TransferOperation:
 
 
 ops_map = {
-    'CREATE': CreateOperation,
-    'TRANSFER': TransferOperation,
+    "CREATE": CreateOperation,
+    "TRANSFER": TransferOperation,
 }
 
 
@@ -60,19 +60,19 @@ def _normalize_operation(operation):
 
 
 def _get_default_port(scheme):
-    return 443 if scheme == 'https' else 9984
+    return 443 if scheme == "https" else 9984
 
 
 def normalize_url(node):
     """Normalizes the given node url"""
     if not node:
         node = DEFAULT_NODE
-    elif '://' not in node:
-        node = '//{}'.format(node)
-    parts = urlparse(node, scheme='http', allow_fragments=False)
+    elif "://" not in node:
+        node = "//{}".format(node)
+    parts = urlparse(node, scheme="http", allow_fragments=False)
     port = parts.port if parts.port else _get_default_port(parts.scheme)
-    netloc = '{}:{}'.format(parts.hostname, port)
-    return urlunparse((parts.scheme, netloc, parts.path, '', '', ''))
+    netloc = "{}:{}".format(parts.hostname, port)
+    return urlunparse((parts.scheme, netloc, parts.path, "", "", ""))
 
 
 def normalize_node(node, headers=None):
@@ -80,11 +80,11 @@ def normalize_node(node, headers=None):
     headers = {} if headers is None else headers
     if isinstance(node, str):
         url = normalize_url(node)
-        return {'endpoint': url, 'headers': headers}
+        return {"endpoint": url, "headers": headers}
 
-    url = normalize_url(node['endpoint'])
-    node_headers = node.get('headers', {})
-    return {'endpoint': url, 'headers': {**headers, **node_headers}}
+    url = normalize_url(node["endpoint"])
+    node_headers = node.get("headers", {})
+    return {"endpoint": url, "headers": {**headers, **node_headers}}
 
 
 def normalize_nodes(*nodes, headers=None):

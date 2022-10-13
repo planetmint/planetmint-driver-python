@@ -50,14 +50,26 @@ represents a bicycle:
 
 .. ipython::
 
+<<<<<<< HEAD
     In [0]: bicycle = [{
        ...:     'data': {
+=======
+    In [0]: from ipld import multihash, marshal
+
+    In [0]: bicycle = {
+       ...:     'data': multihash( marshal( {
+>>>>>>> main
        ...:         'bicycle': {
        ...:             'serial_number': 'abcd1234',
        ...:             'manufacturer': 'bkfab',
        ...:         },
+<<<<<<< HEAD
        ...:     },
        ...: }]
+=======
+       ...:     } )),
+       ...: }
+>>>>>>> main
 
 We'll suppose that the bike belongs to Alice, and that it will be transferred
 to Bob.
@@ -73,7 +85,9 @@ For example:
 
 .. ipython::
 
-    In [0]: metadata = {'planet': 'earth'}
+    In [0]: from ipld import multihash, marshal
+
+    In [0]: metadata = multihash( marshal( {'planet': 'earth'} ))
 
 
 Cryptographic Identities Generation

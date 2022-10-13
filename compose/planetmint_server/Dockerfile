@@ -1,14 +1,41 @@
-FROM python:3.9
+ARG python_version=3.9
+FROM python:${python_version}-slim
+LABEL maintainer "contact@ipdb.global"
 
-RUN apt-get update && apt-get install -y vim zsh cmake
+RUN apt-get update \
+    && apt-get install -y git zsh curl\
+    && apt-get install -y tarantool-common\
+    && apt-get install -y vim build-essential cmake\
+    && pip install -U pip \
+    && apt-get autoremove \
+    && apt-get clean
 
-ARG branch
 ARG backend
-RUN mkdir -p /usr/src/app
-WORKDIR /usr/src/app
+ARG abci_status
 
-RUN pip install --upgrade pip ipdb ipython
+# When developing with Python in a docker container, we are using PYTHONBUFFERED
+# to force stdin, stdout and stderr to be totally unbuffered and to capture logs/outputs
+ENV PYTHONUNBUFFERED 0
 
-COPY . /usr/src/app/
-ENV PLANETMINT_DATABASE_BACKEND "${backend}"
-RUN pip install git+https://github.com/planetmint/planetmint.git@"${branch}"#egg=planetmint
+ENV PLANETMINT_DATABASE_PORT 3303
+ENV PLANETMINT_DATABASE_BACKEND $backend
+ENV PLANETMINT_SERVER_BIND 0.0.0.0:9984
+ENV PLANETMINT_WSSERVER_HOST 0.0.0.0
+ENV PLANETMINT_WSSERVER_SCHEME ws
+
+ENV PLANETMINT_WSSERVER_ADVERTISED_HOST 0.0.0.0
+ENV PLANETMINT_WSSERVER_ADVERTISED_SCHEME ws
+
+ENV PLANETMINT_TENDERMINT_PORT 26657
+
+ENV PLANETMINT_CI_ABCI ${abci_status}
+
+# RUN mkdir -p /usr/src/app
+# COPY . /usr/src/app/
+# WORKDIR /usr/src/app
+RUN git clone https://github.com/planetmint/planetmint.git
+WORKDIR /planetmint
+RUN pip install -e .[dev]
+RUN pip install base58>=2.1.1 pynacl==1.4.0 zenroom==2.1.0.dev1655293214 pyasn1==0.4.8 cryptography==3.4.7
+
+RUN planetmint -y configure

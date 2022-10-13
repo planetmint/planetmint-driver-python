@@ -15,7 +15,7 @@ from .exceptions import HTTP_EXCEPTIONS, TransportError
 
 BACKOFF_DELAY = 0.5  # seconds
 
-HttpResponse = namedtuple('HttpResponse', ('status_code', 'headers', 'data'))
+HttpResponse = namedtuple("HttpResponse", ("status_code", "headers", "data"))
 
 
 class Connection:
@@ -38,9 +38,9 @@ class Connection:
         self._retries = 0
         self.backoff_time = None
 
-    def request(self, method, *, path=None, json=None,
-                params=None, headers=None, timeout=None,
-                backoff_cap=None, **kwargs):
+    def request(
+        self, method, *, path=None, json=None, params=None, headers=None, timeout=None, backoff_cap=None, **kwargs
+    ):
         """Performs an HTTP request with the given parameters.
 
            Implements exponential backoff.
@@ -94,8 +94,7 @@ class Connection:
             connExc = err
             raise err
         finally:
-            self.update_backoff_time(success=connExc is None,
-                                     backoff_cap=backoff_cap)
+            self.update_backoff_time(success=connExc is None, backoff_cap=backoff_cap)
         return response
 
     def get_backoff_timedelta(self):
@@ -110,7 +109,7 @@ class Connection:
             self.backoff_time = None
         else:
             utcnow = datetime.utcnow()
-            backoff_delta = BACKOFF_DELAY * 2 ** self._retries
+            backoff_delta = BACKOFF_DELAY * 2**self._retries
             if backoff_cap is not None:
                 backoff_delta = min(backoff_delta, backoff_cap)
             self.backoff_time = utcnow + timedelta(seconds=backoff_delta)
@@ -125,6 +124,6 @@ class Connection:
             json = None
         if not (200 <= response.status_code < 300):
             exc_cls = HTTP_EXCEPTIONS.get(response.status_code, TransportError)
-            raise exc_cls(response.status_code, text, json, kwargs['url'])
+            raise exc_cls(response.status_code, text, json, kwargs["url"])
         data = json if json is not None else text
         return HttpResponse(response.status_code, response.headers, data)
