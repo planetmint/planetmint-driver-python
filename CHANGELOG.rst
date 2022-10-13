@@ -6,6 +6,12 @@
 Changelog
 =========
 
+Unreleased
+----------
+Changed
+^^^^^^^
+* replaced common module with planetmint-transactions package
+
 0.11.0 (2022-09-15)
 -------------------
 Changed
