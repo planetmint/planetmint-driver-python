@@ -305,17 +305,21 @@ class TestAssetsMetadataEndpoint:
         response = driver.assets.get(search=search, limit=2)
         assert len(response) == 1
 
+    # NOTE: test cases are skipped because metadata text search is disabled on planetmint
+    @mark.skip
     def test_metadata_get_search_no_results(self, driver):
         # no metadata matches the search string
         response = driver.metadata.get(search="abcdef")
         assert response == []
 
-    def test_metadata_get_search(self, driver, text_search_assets):
+    @mark.skip
+    def test_metadata_get_search(self, driver):
         # we have 3 transactions that match 'call me maybe' in our block
         response = driver.metadata.get(search="call me maybe")
         assert len(response) == 3
 
-    def test_metadata_get_search_limit(self, driver, text_search_assets):
+    @mark.skip
+    def test_metadata_get_search_limit(self, driver):
         # we have 3 transactions that match 'call me maybe' in our block
         # we are limiting the number of returned results to 2
         response = driver.metadata.get(search="call me maybe", limit=2)

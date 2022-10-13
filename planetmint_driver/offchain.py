@@ -9,13 +9,15 @@ a connection to one or more  Planetmint federation nodes.
 import logging
 from functools import singledispatch
 
-from .common.transaction import (
+from transactions.common.transaction import (
     Input,
     Transaction,
     TransactionLink,
-    _fulfillment_from_details,
 )
-from .common.exceptions import KeypairMismatchException
+from transactions.types.assets.create import Create
+from transactions.types.assets.transfer import Transfer
+from transactions.common.utils import _fulfillment_from_details
+from transactions.common.exceptions import KeypairMismatchException
 
 from .exceptions import PlanetmintException, MissingPrivateKeyError
 from .utils import (
@@ -178,7 +180,7 @@ def prepare_create_transaction(*, signers, recipients=None, asset=None, metadata
     elif isinstance(recipients, tuple):
         recipients = [(list(recipients), 1)]
 
-    transaction = Transaction.create(
+    transaction = Create.generate(
         signers,
         recipients,
         metadata=metadata,
@@ -298,7 +300,7 @@ def prepare_transfer_transaction(*, inputs, recipients, asset, metadata=None):
         for input_ in inputs
     ]
 
-    transaction = Transaction.transfer(
+    transaction = Transfer.generate(
         fulfillments,
         recipients,
         asset_id=asset["id"],
