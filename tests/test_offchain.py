@@ -3,11 +3,12 @@
 # Code is Apache-2.0 and docs are CC-BY-4.0
 
 import rapidjson
+
+
 from cryptoconditions import Fulfillment
 from sha3 import sha3_256
-
 from pytest import raises, mark
-
+from ipld import multihash, marshal
 
 @mark.parametrize(
     "operation,function,return_value",
@@ -54,8 +55,7 @@ def test_prepare_create_transaction_default(alice_pubkey):
     "asset",
     (
         None,
-        {"data": None},
-        {"data": {"msg": "Hello Planetmint!"}},
+        {"data": multihash(marshal({"msg": "Hello Planetmint!"}))},
     ),
 )
 @mark.parametrize(
@@ -156,7 +156,8 @@ def test_fulfill_transaction_raises(alice_transaction, bob_privkey):
     with raises(MissingPrivateKeyError):
         fulfill_transaction(alice_transaction, private_keys=bob_privkey)
 
-
+# NOTE: skipped this test case because delegate_signing was removed from class Transaction
+@mark.skip
 def test_transaction_fulfill_with_signingning_delegation(
     alice_privkey, alice_transaction, alice_transaction_signature
 ):

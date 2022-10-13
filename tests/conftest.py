@@ -14,7 +14,8 @@ from pytest import fixture
 from sha3 import sha3_256
 from ipld import multihash, marshal
 
-from planetmint_driver.common.transaction import Transaction, _fulfillment_to_details
+from transactions.types.assets.create import Create
+from transactions.common.utils import _fulfillment_to_details
 
 
 def make_ed25519_condition(public_key, *, amount=1):
@@ -230,7 +231,7 @@ def mock_requests_post(monkeypatch):
 @fixture
 def alice_transaction_obj(alice_pubkey):
     serial_number = b64encode(urandom(10), altchars=b"-_").decode()
-    return Transaction.create(
+    return Create.generate(
         tx_signers=[alice_pubkey],
         recipients=[([alice_pubkey], 1)],
         asset={"data": multihash(marshal({"serial_number": serial_number}))},
@@ -262,10 +263,9 @@ def persisted_alice_transaction(signed_alice_transaction, transactions_api_full_
 @fixture
 def persisted_random_transaction(alice_pubkey, alice_privkey):
     from uuid import uuid4
-    from planetmint_driver.common.transaction import Transaction
 
     asset = {"data": multihash(marshal({"x": str(uuid4())}))}
-    tx = Transaction.create(
+    tx = Create.generate(
         tx_signers=[alice_pubkey],
         recipients=[([alice_pubkey], 1)],
         asset=asset,
@@ -276,10 +276,9 @@ def persisted_random_transaction(alice_pubkey, alice_privkey):
 @fixture
 def sent_persisted_random_transaction(alice_pubkey, alice_privkey, transactions_api_full_url):
     from uuid import uuid4
-    from planetmint_driver.common.transaction import Transaction
 
     asset = {"data": multihash(marshal({"x": str(uuid4())}))}
-    tx = Transaction.create(
+    tx = Create.generate(
         tx_signers=[alice_pubkey],
         recipients=[([alice_pubkey], 1)],
         asset=asset,
@@ -572,11 +571,11 @@ def text_search_assets(api_root, transactions_api_full_url, alice_pubkey, alice_
     # write the assets to Planetmint
     assets_by_txid = {}
     for asset in search_assets:
-        tx = Transaction.create(
+        tx = Create.generate(
             tx_signers=[alice_pubkey],
             recipients=[([alice_pubkey], 1)],
             asset=asset,
-            metadata="So call me maybe",
+            metadata=multihash(marshal({"msg": "So call me maybe"})),
         )
         tx_signed = tx.sign([alice_privkey])
         requests.post(transactions_api_full_url, json=tx_signed.to_dict())

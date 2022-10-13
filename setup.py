@@ -22,6 +22,7 @@ install_requires = [
     "pyasn1",
     "zenroom==2.1.0.dev1655293214",
     "cryptography==3.4.7",
+    "planetmint-transactions==0.1.0"
 ]
 
 tests_require = [
