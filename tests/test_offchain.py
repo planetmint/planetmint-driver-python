@@ -10,6 +10,7 @@ from sha3 import sha3_256
 from pytest import raises, mark
 from ipld import multihash, marshal
 
+
 @mark.parametrize(
     "operation,function,return_value",
     (
@@ -155,6 +156,7 @@ def test_fulfill_transaction_raises(alice_transaction, bob_privkey):
 
     with raises(MissingPrivateKeyError):
         fulfill_transaction(alice_transaction, private_keys=bob_privkey)
+
 
 # NOTE: skipped this test case because delegate_signing was removed from class Transaction
 @mark.skip
