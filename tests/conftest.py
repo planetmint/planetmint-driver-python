@@ -574,12 +574,12 @@ def text_search_assets(api_root, transactions_api_full_url, alice_pubkey, alice_
         tx = Create.generate(
             tx_signers=[alice_pubkey],
             recipients=[([alice_pubkey], 1)],
-            asset=asset,
+            assets=[asset],
             metadata=multihash(marshal({"msg": "So call me maybe"})),
         )
         tx_signed = tx.sign([alice_privkey])
         requests.post(transactions_api_full_url, json=tx_signed.to_dict())
-        assets_to_return.append({'id': tx_signed.id, 'data': assets[0]})
+        assets_to_return.append({'id': tx_signed.id, 'data': asset})
 
     # return the assets indexed with the txid that created the assets
     return assets_to_return

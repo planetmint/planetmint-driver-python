@@ -143,7 +143,7 @@ class TestTransactionsEndpoint:
         """
         with raises(TypeError) as exc:
             driver.transactions.get()
-        assert exc.value.args == ("get() missing 1 required keyword-only argument: 'asset_id'",)
+        assert exc.value.args == ("get() missing 1 required keyword-only argument: 'asset_ids'",)
 
     @mark.parametrize("query_params", ({}, {"operation": "CREATE"}, {"operation": "TRANSFER"}))
     def test_get_empty(self, driver, query_params):

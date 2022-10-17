@@ -44,7 +44,7 @@ def test_prepare_create_transaction_default(alice_pubkey):
     assert "id" in create_transaction
     assert "version" in create_transaction
     assert "assets" in create_transaction
-    assert create_transaction["asset"] == None
+    assert create_transaction["assets"] == None
     assert "outputs" in create_transaction
     assert "inputs" in create_transaction
     assert "metadata" in create_transaction
@@ -82,7 +82,7 @@ def test_prepare_create_transaction(assets, signers, recipients):
     assert "id" in create_transaction
     assert "version" in create_transaction
     assert "assets" in create_transaction
-    assert create_transaction["asset"] == assets or [{"data": None}]
+    assert create_transaction["assets"] == assets or [{"data": None}]
     assert "outputs" in create_transaction
     assert "inputs" in create_transaction
     assert "metadata" in create_transaction
