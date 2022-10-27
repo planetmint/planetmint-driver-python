@@ -225,9 +225,7 @@ class TestOutputsEndpoint:
 
         # transfer second transaction to dimi
         create_tx2 = driver.transactions.retrieve(create_tx2["id"])
-        transfer_assets = [{
-            "id": create_tx2["id"],
-        }]
+        transfer_assets = [create_tx2["id"]]
         output = create_tx2["outputs"][0]
         transfer_input = {
             "fulfillment": output["condition"]["details"],
@@ -289,7 +287,8 @@ class TestAssetsMetadataEndpoint:
             assert len(response) == 1
 
         for asset in response:
-            assert text_search_assets[asset["id"]]["data"] == asset["data"]
+            txt_s_asset = next(txt_s_asset for txt_s_asset in text_search_assets if txt_s_asset["id"] == asset["id"])
+            assert txt_s_asset["data"] == asset["data"]
 
     @mark.parametrize(
         "search",

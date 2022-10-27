@@ -264,7 +264,7 @@ def persisted_alice_transaction(signed_alice_transaction, transactions_api_full_
 def persisted_random_transaction(alice_pubkey, alice_privkey):
     from uuid import uuid4
 
-    assets = {"data": multihash(marshal({"x": str(uuid4())}))}
+    assets = [{"data": multihash(marshal({"x": str(uuid4())}))}]
     tx = Create.generate(
         tx_signers=[alice_pubkey],
         recipients=[([alice_pubkey], 1)],
@@ -328,7 +328,7 @@ def prepared_carol_bicycle_transaction(carol_keypair, bicycle_data):
         "operation": "CREATE",
         "outputs": (condition,),
         "inputs": (fulfillment,),
-        "version": "2.0",
+        "version": "3.0",
         "id": None,
     }
     return tx
@@ -366,7 +366,7 @@ def prepared_carol_car_transaction(carol_keypair, car_data):
         "operation": "CREATE",
         "outputs": (condition,),
         "inputs": (fulfillment,),
-        "version": "2.0",
+        "version": "3.0",
         "id": None,
     }
     return tx
@@ -425,7 +425,7 @@ def persisted_transfer_carol_car_to_dimi(
                 "owners_before": (carol_keypair.public_key,),
             },
         ),
-        "version": "2.0",
+        "version": "3.0",
         "id": None,
     }
     serialized_transaction = json.dumps(
@@ -485,7 +485,7 @@ def persisted_transfer_dimi_car_to_ewy(
                 "owners_before": (dimi_keypair.public_key,),
             },
         ),
-        "version": "2.0",
+        "version": "3.0",
         "id": None,
     }
     serialized_transaction = json.dumps(
@@ -516,7 +516,7 @@ def unsigned_transaction():
     return {
         "operation": "CREATE",
         "assets": [{"data": multihash(marshal({"serial_number": "NNP43x-DaYoSWg=="}))}],
-        "version": "2.0",
+        "version": "3.0",
         "outputs": [
             {
                 "condition": {
@@ -579,7 +579,7 @@ def text_search_assets(api_root, transactions_api_full_url, alice_pubkey, alice_
         )
         tx_signed = tx.sign([alice_privkey])
         requests.post(transactions_api_full_url, json=tx_signed.to_dict())
-        assets_to_return.append({'id': tx_signed.id, 'data': asset})
+        assets_to_return.append({'id': tx_signed.id, 'data': asset["data"]})
 
     # return the assets indexed with the txid that created the assets
     return assets_to_return
