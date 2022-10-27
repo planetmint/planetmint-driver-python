@@ -321,9 +321,11 @@ def prepared_carol_bicycle_transaction(carol_keypair, bicycle_data):
     condition = make_ed25519_condition(carol_keypair.public_key)
     fulfillment = make_fulfillment(carol_keypair.public_key)
     tx = {
-        "assets": [{
-            "data": multihash(marshal(bicycle_data)),
-        }],
+        "assets": [
+            {
+                "data": multihash(marshal(bicycle_data)),
+            }
+        ],
         "metadata": None,
         "operation": "CREATE",
         "outputs": (condition,),
@@ -359,9 +361,11 @@ def prepared_carol_car_transaction(carol_keypair, car_data):
     condition = make_ed25519_condition(carol_keypair.public_key)
     fulfillment = make_fulfillment(carol_keypair.public_key)
     tx = {
-        "assets": [{
-            "data": multihash(marshal(car_data)),
-        }],
+        "assets": [
+            {
+                "data": multihash(marshal(car_data)),
+            }
+        ],
         "metadata": None,
         "operation": "CREATE",
         "outputs": (condition,),
@@ -579,7 +583,7 @@ def text_search_assets(api_root, transactions_api_full_url, alice_pubkey, alice_
         )
         tx_signed = tx.sign([alice_privkey])
         requests.post(transactions_api_full_url, json=tx_signed.to_dict())
-        assets_to_return.append({'id': tx_signed.id, 'data': asset["data"]})
+        assets_to_return.append({"id": tx_signed.id, "data": asset["data"]})
 
     # return the assets indexed with the txid that created the assets
     return assets_to_return

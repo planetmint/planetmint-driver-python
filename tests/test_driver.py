@@ -190,18 +190,20 @@ class TestOutputsEndpoint:
             return driver.transactions.prepare(
                 operation="CREATE",
                 signers=carol.public_key,
-                assets=[{
-                    "data": multihash(
-                        marshal(
-                            {
-                                "asset": {
-                                    "serial_number": str(uuid.uuid4()),
-                                    "manufacturer": str(uuid.uuid4()),
+                assets=[
+                    {
+                        "data": multihash(
+                            marshal(
+                                {
+                                    "asset": {
+                                        "serial_number": str(uuid.uuid4()),
+                                        "manufacturer": str(uuid.uuid4()),
+                                    },
                                 },
-                            },
+                            )
                         )
-                    )
-                }],
+                    }
+                ],
             )
 
         carol, dimi = generate_keypair(), generate_keypair()

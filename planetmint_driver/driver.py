@@ -176,8 +176,7 @@ class TransactionsEndpoint(NamespacedDriver):
     PATH = "/transactions/"
 
     @staticmethod
-    def prepare(*, operation='CREATE', signers=None,
-                recipients=None, assets=None, metadata=None, inputs=None):
+    def prepare(*, operation="CREATE", signers=None, recipients=None, assets=None, metadata=None, inputs=None):
         """Prepares a transaction payload, ready to be fulfilled.
 
         Args:
@@ -311,7 +310,7 @@ class TransactionsEndpoint(NamespacedDriver):
         return self.transport.forward_request(
             method="GET",
             path=self.path,
-            params={'asset_ids': asset_ids, 'operation': operation},
+            params={"asset_ids": asset_ids, "operation": operation},
             headers=headers,
         )
 
