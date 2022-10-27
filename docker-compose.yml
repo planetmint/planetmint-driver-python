@@ -48,8 +48,8 @@ services:
       context: .
       dockerfile: ./compose/planetmint_server/Dockerfile
       args:
-        branch: update-asset-migration
-        backend: localmongodb
+        branch: main
+        backend: tarantool_db
     environment:
       PLANETMINT_DATABASE_BACKEND: tarantool_db 
       PLANETMINT_DATABASE_HOST: tarantool
