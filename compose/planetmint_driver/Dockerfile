@@ -11,5 +11,3 @@ COPY . /usr/src/app/
 
 RUN pip install --no-cache-dir -e .[dev]
 RUN pip install sphinx-press-theme==0.8.0
-# TODO: remove next line before merging 
-RUN pip install git+https://github.com/planetmint/transactions.git@asset-migration
