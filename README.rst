@@ -51,9 +51,9 @@ That will install the latest *stable* Planetmint Python Driver. If you want to i
 
 .. code-block:: text
 
-    pip install -U planetmint_driver==0.5.0a4
+    pip install -U planetmint_driver==0.11.1
 
-The above command will install version 0.5.0a4 (Alpha 4). You can find a list of all versions in `the release history page on PyPI <https://pypi.org/project/planetmint-driver/#history>`_.
+The above command will install version 0.11.1. You can find a list of all versions in `the release history page on PyPI <https://pypi.org/project/planetmint-driver/#history>`_.
 
 More information on how to install the driver can be found in the `Quickstart`_
 
