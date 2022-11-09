@@ -10,7 +10,7 @@ from planetmint_driver.crypto import generate_keypair
 from ipld import multihash, marshal
 
 
-def test_zenroom_signing(
+def test_zenroom_signing_simple(
     gen_key_zencode,
     secret_key_to_private_key_zencode,
     fulfill_script_zencode,
@@ -22,7 +22,6 @@ def test_zenroom_signing(
 
     biolabs = generate_keypair()
     version = "2.0"
-
     alice = json.loads(zencode_exec(gen_key_zencode).output)["keyring"]
     bob = json.loads(zencode_exec(gen_key_zencode).output)["keyring"]
 
@@ -152,11 +151,11 @@ def test_zenroom_signing(
     tx["script"] = input_signed
     tx["id"] = None
     json_str_tx = json.dumps(tx, sort_keys=True, skipkeys=False, separators=(",", ":"))
+    
     # SHA3: hash the serialized id-less transaction to generate the id
     shared_creation_txid = sha3_256(json_str_tx.encode()).hexdigest()
     tx["id"] = shared_creation_txid
-    # tx = json.dumps(tx)
-    # `https://example.com:9984`
+
     print(f"TX                \n{tx}")
     plntmnt = Planetmint( bdb_node )
     sent_transfer_tx = plntmnt.transactions.send_commit(tx)

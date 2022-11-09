@@ -603,18 +603,23 @@ FULFILL_SCRIPT = """Scenario 'ecdh': Bob verifies the signature from Alice
     Then print the string 'ok'"""
 
 SK_TO_PK = """Scenario 'ecdh': Create the keypair
+    Scenario 'reflow': Create the key
     Given that I am known as '{}'
     Given I have the 'keyring'
     When I create the ecdh public key
     When I create the bitcoin address
+    When I create the reflow public key
     Then print my 'ecdh public key'
-    Then print my 'bitcoin address'"""
+    Then print my 'bitcoin address'
+    Then print my 'reflow public key'"""
 
 GENERATE_KEYPAIR = """Scenario 'ecdh': Create the keypair
+    Scenario 'reflow': Create the key
     Given that I am known as 'Pippo'
     When I create the ecdh key
     When I create the bitcoin key
-    Then print data"""
+    When I create the reflow key
+    Then print keyring"""
 
 INITIAL_STATE = {"also": "more data"}
 SCRIPT_INPUT = {
