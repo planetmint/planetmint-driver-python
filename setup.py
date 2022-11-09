@@ -34,7 +34,7 @@ tests_require = [
     "pytest-env",
     "pytest-sugar",
     "pytest-xdist",
-    "responses~=0.5.1",
+    "responses>=0.22.0",
     "planetmint-ipld>=0.0.3",
 ]
 
