@@ -234,7 +234,7 @@ def alice_transaction_obj(alice_pubkey):
     return Create.generate(
         tx_signers=[alice_pubkey],
         recipients=[([alice_pubkey], 1)],
-        asset={"data": multihash(marshal({"serial_number": serial_number}))},
+        assets=[{"data": multihash(marshal({"serial_number": serial_number}))}],
     )
 
 
@@ -264,11 +264,11 @@ def persisted_alice_transaction(signed_alice_transaction, transactions_api_full_
 def persisted_random_transaction(alice_pubkey, alice_privkey):
     from uuid import uuid4
 
-    asset = {"data": multihash(marshal({"x": str(uuid4())}))}
+    assets = [{"data": multihash(marshal({"x": str(uuid4())}))}]
     tx = Create.generate(
         tx_signers=[alice_pubkey],
         recipients=[([alice_pubkey], 1)],
-        asset=asset,
+        assets=assets,
     )
     return tx.sign([alice_privkey]).to_dict()
 
@@ -277,11 +277,11 @@ def persisted_random_transaction(alice_pubkey, alice_privkey):
 def sent_persisted_random_transaction(alice_pubkey, alice_privkey, transactions_api_full_url):
     from uuid import uuid4
 
-    asset = {"data": multihash(marshal({"x": str(uuid4())}))}
+    assets = [{"data": multihash(marshal({"x": str(uuid4())}))}]
     tx = Create.generate(
         tx_signers=[alice_pubkey],
         recipients=[([alice_pubkey], 1)],
-        asset=asset,
+        assets=assets,
     )
     tx_signed = tx.sign([alice_privkey])
     response = requests.post(transactions_api_full_url, json=tx_signed.to_dict())
@@ -321,14 +321,16 @@ def prepared_carol_bicycle_transaction(carol_keypair, bicycle_data):
     condition = make_ed25519_condition(carol_keypair.public_key)
     fulfillment = make_fulfillment(carol_keypair.public_key)
     tx = {
-        "asset": {
-            "data": multihash(marshal(bicycle_data)),
-        },
+        "assets": [
+            {
+                "data": multihash(marshal(bicycle_data)),
+            }
+        ],
         "metadata": None,
         "operation": "CREATE",
         "outputs": (condition,),
         "inputs": (fulfillment,),
-        "version": "2.0",
+        "version": "3.0",
         "id": None,
     }
     return tx
@@ -359,14 +361,16 @@ def prepared_carol_car_transaction(carol_keypair, car_data):
     condition = make_ed25519_condition(carol_keypair.public_key)
     fulfillment = make_fulfillment(carol_keypair.public_key)
     tx = {
-        "asset": {
-            "data": multihash(marshal(car_data)),
-        },
+        "assets": [
+            {
+                "data": multihash(marshal(car_data)),
+            }
+        ],
         "metadata": None,
         "operation": "CREATE",
         "outputs": (condition,),
         "inputs": (fulfillment,),
-        "version": "2.0",
+        "version": "3.0",
         "id": None,
     }
     return tx
@@ -402,7 +406,7 @@ def persisted_transfer_carol_car_to_dimi(
     output_txid = persisted_carol_car_transaction["id"]
     ed25519_dimi = Ed25519Sha256(public_key=base58.b58decode(dimi_pubkey))
     transaction = {
-        "asset": {"id": output_txid},
+        "assets": [{"id": output_txid}],
         "metadata": None,
         "operation": "TRANSFER",
         "outputs": (
@@ -425,7 +429,7 @@ def persisted_transfer_carol_car_to_dimi(
                 "owners_before": (carol_keypair.public_key,),
             },
         ),
-        "version": "2.0",
+        "version": "3.0",
         "id": None,
     }
     serialized_transaction = json.dumps(
@@ -462,7 +466,7 @@ def persisted_transfer_dimi_car_to_ewy(
     output_txid = persisted_transfer_carol_car_to_dimi["id"]
     ed25519_ewy = Ed25519Sha256(public_key=base58.b58decode(ewy_pubkey))
     transaction = {
-        "asset": {"id": persisted_transfer_carol_car_to_dimi["asset"]["id"]},
+        "assets": [{"id": persisted_transfer_carol_car_to_dimi["assets"][0]["id"]}],
         "metadata": None,
         "operation": "TRANSFER",
         "outputs": (
@@ -485,7 +489,7 @@ def persisted_transfer_dimi_car_to_ewy(
                 "owners_before": (dimi_keypair.public_key,),
             },
         ),
-        "version": "2.0",
+        "version": "3.0",
         "id": None,
     }
     serialized_transaction = json.dumps(
@@ -515,8 +519,8 @@ def persisted_transfer_dimi_car_to_ewy(
 def unsigned_transaction():
     return {
         "operation": "CREATE",
-        "asset": {"data": multihash(marshal({"serial_number": "NNP43x-DaYoSWg=="}))},
-        "version": "2.0",
+        "assets": [{"data": multihash(marshal({"serial_number": "NNP43x-DaYoSWg=="}))}],
+        "version": "3.0",
         "outputs": [
             {
                 "condition": {
@@ -561,7 +565,7 @@ def text_search_assets(api_root, transactions_api_full_url, alice_pubkey, alice_
     response = requests.get(api_root + "/assets", params={"search": "planetmint"})
     response = response.json()
     if len(response) == 3:
-        assets = {}
+        assets = []
         for asset in response:
             assets[asset["id"]] = asset["data"]
         return assets
@@ -569,17 +573,17 @@ def text_search_assets(api_root, transactions_api_full_url, alice_pubkey, alice_
     # define the assets that will be used by text_search tests
 
     # write the assets to Planetmint
-    assets_by_txid = {}
+    assets_to_return = []
     for asset in search_assets:
         tx = Create.generate(
             tx_signers=[alice_pubkey],
             recipients=[([alice_pubkey], 1)],
-            asset=asset,
+            assets=[asset],
             metadata=multihash(marshal({"msg": "So call me maybe"})),
         )
         tx_signed = tx.sign([alice_privkey])
         requests.post(transactions_api_full_url, json=tx_signed.to_dict())
-        assets_by_txid[tx_signed.id] = asset
+        assets_to_return.append({"id": tx_signed.id, "data": asset["data"]})
 
-    # return the assets indexed with the txid that created the asset
-    return assets_by_txid
+    # return the assets indexed with the txid that created the assets
+    return assets_to_return

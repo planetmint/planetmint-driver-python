@@ -30,7 +30,7 @@ logger = logging.getLogger(__name__)
 
 
 @singledispatch
-def _prepare_transaction(operation, signers=None, recipients=None, asset=None, metadata=None, inputs=None):
+def _prepare_transaction(operation, signers=None, recipients=None, assets=None, metadata=None, inputs=None):
     raise PlanetmintException(
         ("Unsupported operation: {}. " 'Only "CREATE" and "TRANSFER" are supported.'.format(operation))
     )
@@ -48,7 +48,7 @@ def _prepare_transfer_transaction_dispatcher(operation, **kwargs):
     return prepare_transfer_transaction(**kwargs)
 
 
-def prepare_transaction(*, operation="CREATE", signers=None, recipients=None, asset=None, metadata=None, inputs=None):
+def prepare_transaction(*, operation="CREATE", signers=None, recipients=None, assets=None, metadata=None, inputs=None):
     """Prepares a transaction payload, ready to be fulfilled. Depending on
     the value of ``operation``, simply dispatches to either
     :func:`~.prepare_create_transaction` or
@@ -59,13 +59,13 @@ def prepare_transaction(*, operation="CREATE", signers=None, recipients=None, as
             or ``'TRANSFER'``. Case insensitive. Defaults to ``'CREATE'``.
         signers (:obj:`list` | :obj:`tuple` | :obj:`str`, optional):
             One or more public keys representing the issuer(s) of
-            the asset being created. Only applies for ``'CREATE'``
+            the assets being created. Only applies for ``'CREATE'``
             operations. Defaults to ``None``.
         recipients (:obj:`list` | :obj:`tuple` | :obj:`str`, optional):
             One or more public keys representing the new recipients(s)
-            of the asset being created or transferred.
+            of the assets being created or transferred.
             Defaults to ``None``.
-        asset (:obj:`dict`, optional): The asset to be created or
+        assets (:obj:`dict`, optional): The assets to be created or
             transferred. MUST be supplied for ``'TRANSFER'`` operations.
             Defaults to ``None``.
         metadata (:obj:`dict`, optional): Metadata associated with the
@@ -88,8 +88,8 @@ def prepare_transaction(*, operation="CREATE", signers=None, recipients=None, as
         **CREATE operations**
 
         * ``signers`` MUST be set.
-        * ``recipients``, ``asset``, and ``metadata`` MAY be set.
-        * If ``asset`` is set, it MUST be in the form of::
+        * ``recipients``, ``assets``, and ``metadata`` MAY be set.
+        * If ``assets`` is set, it MUST be in the form of::
 
             {
                 'data': {
@@ -106,8 +106,8 @@ def prepare_transaction(*, operation="CREATE", signers=None, recipients=None, as
 
         **TRANSFER operations**
 
-        * ``recipients``, ``asset``, and ``inputs`` MUST be set.
-        * ``asset`` MUST be in the form of::
+        * ``recipients``, ``assets``, and ``inputs`` MUST be set.
+        * ``assets`` MUST be in the form of::
 
             {
                 'id': '<Asset ID (i.e. TX ID of its CREATE transaction)>'
@@ -122,24 +122,24 @@ def prepare_transaction(*, operation="CREATE", signers=None, recipients=None, as
         operation,
         signers=signers,
         recipients=recipients,
-        asset=asset,
+        assets=assets,
         metadata=metadata,
         inputs=inputs,
     )
 
 
-def prepare_create_transaction(*, signers, recipients=None, asset=None, metadata=None):
+def prepare_create_transaction(*, signers, recipients=None, assets=None, metadata=None):
     """Prepares a ``"CREATE"`` transaction payload, ready to be
     fulfilled.
 
     Args:
         signers (:obj:`list` | :obj:`tuple` | :obj:`str`): One
-            or more public keys representing the issuer(s) of the asset
+            or more public keys representing the issuer(s) of the assets
             being created.
         recipients (:obj:`list` | :obj:`tuple` | :obj:`str`, optional):
             One or more public keys representing the new recipients(s)
-            of the asset being created. Defaults to ``None``.
-        asset (:obj:`dict`, optional): The asset to be created.
+            of the assets being created. Defaults to ``None``.
+        assets (:obj:`dict`, optional): The assets to be created.
             Defaults to ``None``.
         metadata (:obj:`dict`, optional): Metadata associated with the
             transaction. Defaults to ``None``.
@@ -149,7 +149,7 @@ def prepare_create_transaction(*, signers, recipients=None, asset=None, metadata
 
     .. important::
 
-        * If ``asset`` is set, it MUST be in the form of::
+        * If ``assets`` is set, it MUST be in the form of::
 
                 {
                     'data': {
@@ -184,12 +184,12 @@ def prepare_create_transaction(*, signers, recipients=None, asset=None, metadata
         signers,
         recipients,
         metadata=metadata,
-        asset=asset,
+        assets=assets if assets else None,
     )
     return transaction.to_dict()
 
 
-def prepare_transfer_transaction(*, inputs, recipients, asset, metadata=None):
+def prepare_transfer_transaction(*, inputs, recipients, assets, metadata=None):
     """Prepares a ``"TRANSFER"`` transaction payload, ready to be
     fulfilled.
 
@@ -200,9 +200,9 @@ def prepare_transfer_transaction(*, inputs, recipients, asset, metadata=None):
             :obj:`dict`.
         recipients (:obj:`str` | :obj:`list` | :obj:`tuple`): One or
             more public keys representing the new recipients(s) of the
-            asset being transferred.
-        asset (:obj:`dict`): A single-key dictionary holding the ``id``
-            of the asset being transferred with this transaction.
+            assets being transferred.
+        assets (:obj:`dict`): A single-key dictionary holding the ``id``
+            of the assets being transferred with this transaction.
         metadata (:obj:`dict`): Metadata associated with the
             transaction. Defaults to ``None``.
 
@@ -211,7 +211,7 @@ def prepare_transfer_transaction(*, inputs, recipients, asset, metadata=None):
 
     .. important::
 
-        * ``asset`` MUST be in the form of::
+        * ``assets`` MUST be in the form of::
 
             {
                 'id': '<Asset ID (i.e. TX ID of its CREATE transaction)>'
@@ -223,14 +223,14 @@ def prepare_transfer_transaction(*, inputs, recipients, asset, metadata=None):
 
         In case it may not be clear what an input should look like, say
         Alice (public key: ``'3Cxh1eKZk3Wp9KGBWFS7iVde465UvqUKnEqTg2MW4wNf'``)
-        wishes to transfer an asset over to Bob
+        wishes to transfer an assets over to Bob
         (public key: ``'EcRawy3Y22eAUSS94vLF8BVJi62wbqbD9iSUSUNU9wAA'``).
-        Let the asset creation transaction payload be denoted by
+        Let the assets creation transaction payload be denoted by
         ``tx``::
 
             # noqa E501
             >>> tx
-                {'asset': {'data': {'msg': 'Hello Planetmint!'}},
+                {'assets': {'data': {'msg': 'Hello Planetmint!'}},
                  'id': '9650055df2539223586d33d273cb8fd05bd6d485b1fef1caf7c8901a49464c87',
                  'inputs': [{'fulfillment': {'public_key': '3Cxh1eKZk3Wp9KGBWFS7iVde465UvqUKnEqTg2MW4wNf',
                                              'type': 'ed25519-sha-256'},
@@ -274,7 +274,7 @@ def prepare_transfer_transaction(*, inputs, recipients, asset, metadata=None):
         >>> prepare_transfer_transaction(
         ...     inputs=input_,
         ...     recipients='EcRawy3Y22eAUSS94vLF8BVJi62wbqbD9iSUSUNU9wAA',
-        ...     asset=tx['transaction']['asset'],
+        ...     assets=tx['transaction']['assets'],
         ... )
 
     """
@@ -303,7 +303,7 @@ def prepare_transfer_transaction(*, inputs, recipients, asset, metadata=None):
     transaction = Transfer.generate(
         fulfillments,
         recipients,
-        asset_id=asset["id"],
+        asset_ids=assets,
         metadata=metadata,
     )
     return transaction.to_dict()

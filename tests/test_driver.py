@@ -91,7 +91,7 @@ class TestTransactionsEndpoint:
         transaction = driver.transactions.prepare(signers=[alice_pubkey])
         assert "id" in transaction
         assert "version" in transaction
-        assert "asset" in transaction
+        assert "assets" in transaction
         assert "outputs" in transaction
         assert "inputs" in transaction
         assert "metadata" in transaction
@@ -143,23 +143,23 @@ class TestTransactionsEndpoint:
         """
         with raises(TypeError) as exc:
             driver.transactions.get()
-        assert exc.value.args == ("get() missing 1 required keyword-only argument: 'asset_id'",)
+        assert exc.value.args == ("get() missing 1 required keyword-only argument: 'asset_ids'",)
 
     @mark.parametrize("query_params", ({}, {"operation": "CREATE"}, {"operation": "TRANSFER"}))
     def test_get_empty(self, driver, query_params):
-        response = driver.transactions.get(asset_id="a" * 64)
+        response = driver.transactions.get(asset_ids=["a" * 64])
         assert response == []
 
     @mark.parametrize("operation,tx_qty", [(None, 3), ("CREATE", 1), ("TRANSFER", 2)])
     @mark.usefixtures("persisted_transfer_dimi_car_to_ewy")
     def test_get(self, driver, signed_carol_car_transaction, operation, tx_qty):
-        response = driver.transactions.get(asset_id=signed_carol_car_transaction["id"], operation=operation)
+        response = driver.transactions.get(asset_ids=[signed_carol_car_transaction["id"]], operation=operation)
         assert len(response) == tx_qty
         if operation in (None, "CREATE"):
             assert any(tx["id"] == signed_carol_car_transaction["id"] for tx in response)
         if operation in (None, "TRANSFER"):
             assert all(
-                tx["asset"]["id"] == signed_carol_car_transaction["id"] for tx in response if "id" in tx["asset"]
+                tx["assets"]["id"] == signed_carol_car_transaction["id"] for tx in response if "id" in tx["assets"]
             )
 
 
@@ -190,18 +190,20 @@ class TestOutputsEndpoint:
             return driver.transactions.prepare(
                 operation="CREATE",
                 signers=carol.public_key,
-                asset={
-                    "data": multihash(
-                        marshal(
-                            {
-                                "asset": {
-                                    "serial_number": str(uuid.uuid4()),
-                                    "manufacturer": str(uuid.uuid4()),
+                assets=[
+                    {
+                        "data": multihash(
+                            marshal(
+                                {
+                                    "asset": {
+                                        "serial_number": str(uuid.uuid4()),
+                                        "manufacturer": str(uuid.uuid4()),
+                                    },
                                 },
-                            },
+                            )
                         )
-                    )
-                },
+                    }
+                ],
             )
 
         carol, dimi = generate_keypair(), generate_keypair()
@@ -225,9 +227,7 @@ class TestOutputsEndpoint:
 
         # transfer second transaction to dimi
         create_tx2 = driver.transactions.retrieve(create_tx2["id"])
-        transfer_asset = {
-            "id": create_tx2["id"],
-        }
+        transfer_assets = [create_tx2["id"]]
         output = create_tx2["outputs"][0]
         transfer_input = {
             "fulfillment": output["condition"]["details"],
@@ -239,7 +239,7 @@ class TestOutputsEndpoint:
         }
         transfer_tx = driver.transactions.prepare(
             operation="TRANSFER",
-            asset=transfer_asset,
+            assets=transfer_assets,
             inputs=transfer_input,
             recipients=dimi.public_key,
         )
@@ -289,7 +289,8 @@ class TestAssetsMetadataEndpoint:
             assert len(response) == 1
 
         for asset in response:
-            assert text_search_assets[asset["id"]]["data"] == asset["data"]
+            txt_s_asset = next(txt_s_asset for txt_s_asset in text_search_assets if txt_s_asset["id"] == asset["id"])
+            assert txt_s_asset["data"] == asset["data"]
 
     @mark.parametrize(
         "search",

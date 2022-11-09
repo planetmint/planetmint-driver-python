@@ -22,13 +22,13 @@ install_requires = [
     "pyasn1",
     "zenroom==2.1.0.dev1655293214",
     "cryptography==3.4.7",
-    "planetmint-transactions==0.1.0",
+    "planetmint-transactions==0.2.0",
 ]
 
 tests_require = [
     "tox>=2.3.1",
     "coverage>=4.1",
-    "flake8>=2.6.0",
+    "black",
     "pytest>=3.0.1",
     "pytest-cov",
     "pytest-env",
@@ -53,7 +53,7 @@ docs_require = [
 
 setup(
     name="planetmint_driver",
-    version="0.11.1",
+    version="0.12.0",
     description="Python driver for Planetmint",
     long_description=readme + "\n\n" + changelog,
     long_description_content_type="text/x-rst",

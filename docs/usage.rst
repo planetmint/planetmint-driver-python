@@ -52,14 +52,14 @@ represents a bicycle:
 
     In [0]: from ipld import multihash, marshal
 
-    In [0]: bicycle = {
+    In [0]: bicycle = [{
        ...:     'data': multihash( marshal( {
        ...:         'bicycle': {
        ...:             'serial_number': 'abcd1234',
        ...:             'manufacturer': 'bkfab',
        ...:         },
        ...:     } )),
-       ...: }
+       ...: }]
 
 We'll suppose that the bike belongs to Alice, and that it will be transferred
 to Bob.
@@ -105,7 +105,7 @@ transaction:
    In [0]: prepared_creation_tx = bdb.transactions.prepare(
       ...:     operation='CREATE',
       ...:     signers=alice.public_key,
-      ...:     asset=bicycle,
+      ...:     assets=bicycle,
       ...:     metadata=metadata,
       ...: )
 
@@ -206,9 +206,9 @@ transaction, we have a special case in that the asset id is NOT found on the
 
     In [0]: asset_id = creation_tx['id']
 
-    In [0]: transfer_asset = {
+    In [0]: transfer_asset = [{
        ...:     'id': asset_id,
-       ...: }
+       ...: }]
 
 Let's now prepare the transfer transaction:
 
@@ -229,7 +229,7 @@ Let's now prepare the transfer transaction:
 
     In [0]: prepared_transfer_tx = bdb.transactions.prepare(
        ...:     operation='TRANSFER',
-       ...:     asset=transfer_asset,
+       ...:     assets=transfer_asset,
        ...:     inputs=transfer_input,
        ...:     recipients=bob.public_key,
        ...: )
@@ -305,14 +305,14 @@ Recap: Asset Creation & Transfer
 
     bdb = Planetmint(bdb_root_url)
 
-    bicycle_asset = {
+    bicycle_asset = [{
         'data': {
             'bicycle': {
                 'serial_number': 'abcd1234',
                 'manufacturer': 'bkfab'
             },
         },
-    }
+    }]
 
     bicycle_asset_metadata = {
         'planet': 'earth'
@@ -321,7 +321,7 @@ Recap: Asset Creation & Transfer
     prepared_creation_tx = bdb.transactions.prepare(
         operation='CREATE',
         signers=alice.public_key,
-        asset=bicycle_asset,
+        assets=bicycle_asset,
         metadata=bicycle_asset_metadata
     )
 
@@ -336,9 +336,9 @@ Recap: Asset Creation & Transfer
 
     asset_id = txid
 
-    transfer_asset = {
+    transfer_asset = [{
         'id': asset_id
-    }
+    }]
 
     output_index = 0
     output = fulfilled_creation_tx['outputs'][output_index]
@@ -354,7 +354,7 @@ Recap: Asset Creation & Transfer
 
     prepared_transfer_tx = bdb.transactions.prepare(
         operation='TRANSFER',
-        asset=transfer_asset,
+        assets=transfer_asset,
         inputs=transfer_input,
         recipients=bob.public_key,
     )
@@ -389,7 +389,7 @@ time sharing token in which one token corresponds to one hour of riding time:
 
 .. ipython::
 
-    In [0]: bicycle_token = {
+    In [0]: bicycle_token = [{
        ...:     'data': {
        ...:         'token_for': {
        ...:             'bicycle': {
@@ -399,7 +399,7 @@ time sharing token in which one token corresponds to one hour of riding time:
        ...:         },
        ...:         'description': 'Time share token. Each token equals one hour of riding.',
        ...:     },
-       ...: }
+       ...: }]
 
 Bob has now decided to issue 10 tokens and assigns them to Carly. Notice how we
 denote Carly as receiving 10 tokens by using a tuple:
@@ -413,7 +413,7 @@ denote Carly as receiving 10 tokens by using a tuple:
        ...:     operation='CREATE',
        ...:     signers=bob.public_key,
        ...:     recipients=[([carly.public_key], 10)],
-       ...:     asset=bicycle_token,
+       ...:     assets=bicycle_token,
        ...: )
 
     In [0]: fulfilled_token_tx = bdb.transactions.fulfill(
@@ -493,13 +493,13 @@ To do so, she needs to send two tokens to Bob:
        ...:     'owners_before': output['public_keys'],
        ...: }
 
-    In [0]: transfer_asset = {
+    In [0]: transfer_asset = [{
        ...:     'id': fulfilled_token_tx['id'],
-       ...: }
+       ...: }]
 
     In [0]: prepared_transfer_tx = bdb.transactions.prepare(
        ...:     operation='TRANSFER',
-       ...:     asset=transfer_asset,
+       ...:     assets=transfer_asset,
        ...:     inputs=transfer_input,
        ...:     recipients=[([bob.public_key], 2), ([carly.public_key], 8)]
        ...: )
@@ -551,9 +551,9 @@ Let's create 3 assets:
 
     alice = generate_keypair()
 
-    hello_1 = {'data': {'msg': 'Hello Planetmint 1!'},}
-    hello_2 = {'data': {'msg': 'Hello Planetmint 2!'},}
-    hello_3 = {'data': {'msg': 'Hello Planetmint 3!'},}
+    hello_1 = [{'data': {'msg': 'Hello Planetmint 1!'},}]
+    hello_2 = [{'data': {'msg': 'Hello Planetmint 2!'},}]
+    hello_3 = [{'data': {'msg': 'Hello Planetmint 3!'},}]
 
     # set the metadata to query for it in an example below
     metadata={'planet': 'earth'}
@@ -561,7 +561,7 @@ Let's create 3 assets:
     prepared_creation_tx = bdb.transactions.prepare(
         operation='CREATE',
         signers=alice.public_key,
-        asset=hello_1
+        assets=hello_1
     )
     fulfilled_creation_tx = bdb.transactions.fulfill(
         prepared_creation_tx, private_keys=alice.private_key)
@@ -570,7 +570,7 @@ Let's create 3 assets:
     prepared_creation_tx = bdb.transactions.prepare(
         operation='CREATE',
         signers=alice.public_key,
-        asset=hello_2
+        assets=hello_2
     )
     fulfilled_creation_tx = bdb.transactions.fulfill(
         prepared_creation_tx, private_keys=alice.private_key)
@@ -579,7 +579,7 @@ Let's create 3 assets:
     prepared_creation_tx = bdb.transactions.prepare(
         operation='CREATE',
         signers=alice.public_key,
-        asset=hello_3
+        assets=hello_3
     )
     fulfilled_creation_tx = bdb.transactions.fulfill(
         prepared_creation_tx, private_keys=alice.private_key)
@@ -647,10 +647,10 @@ Let's try it:
 .. code-block:: python
 
     >>> bdb.transactions.get(asset_id=sent_token_tx['id'])
-    [{'asset': {'data': {'description': 'Time share token. Each token equals one '
+    [{'assets': [{'data': {'description': 'Time share token. Each token equals one '
                                     'hour of riding.',
                      'token_for': {'bicycle': {'manufacturer': 'bkfab',
-                                               'serial_number': 'abcd1234'}}}},
+                                               'serial_number': 'abcd1234'}}}}],
     'id': 'b2403bb6bb7f9c0af2bc2b5b03b291a378fd8499f44cade4aa14dd5419e5b7c7',
     'inputs': [{'fulfillment': 'pGSAIFetX0Fz6ZUN20tJp_dWJKs0_nDDz7oOmTaToGrzzw5zgUBPJsUGHcm8R-ntQSHvK3tgoyHIvCrrNrI6lJkud81cZKWFb9XehNAvWswPWSx1_6EwFKVYV-fjlxPvExm8XZIH',
               'fulfills': None,
@@ -663,7 +663,7 @@ Let's try it:
                              'uri': 'ni:///sha-256;PN3UO9GztlEBitIZf5m4iYNgyexvOk6Sdjq3PANsxko?fpt=ed25519-sha-256&cost=131072'},
                'public_keys': ['8sKzvruHPhH3LKoGZDJE9MRzpgfFQJGZhzHTghebbFne']}],
     'version': '2.0'},
-    {'asset': {'id': 'b2403bb6bb7f9c0af2bc2b5b03b291a378fd8499f44cade4aa14dd5419e5b7c7'},
+    {'assets': [{'id': 'b2403bb6bb7f9c0af2bc2b5b03b291a378fd8499f44cade4aa14dd5419e5b7c7'}],
     'id': '3ce3a5d4d984ca92f4a34967a2c181dbe8da8d6e4477220d7869ada9379dc410',
     'inputs': [{'fulfillment': 'pGSAIHTmVLbdfDFHTBx6gVr4NczRN-D1MhHltB0nn79luYlfgUCrppCotKAZoVW7nKye4I2HzGxlgwjmx47w_HxGXOFVbvCppNTLeVX4NrHYFRJlv8QKgj_ZaLctHpT6HPLLYIIG',
               'fulfills': {'output_index': 0,
@@ -690,10 +690,10 @@ So let's limit the results and just see the ``CREATE`` transaction.
 .. code-block:: python
 
     >>> bdb.transactions.get(asset_id=sent_token_tx['id'], operation='CREATE')
-    [{'asset': {'data': {'description': 'Time share token. Each token equals one '
+    [{'assets': [{'data': {'description': 'Time share token. Each token equals one '
                                     'hour of riding.',
                      'token_for': {'bicycle': {'manufacturer': 'bkfab',
-                                               'serial_number': 'abcd1234'}}}},
+                                               'serial_number': 'abcd1234'}}}}],
     'id': 'b2403bb6bb7f9c0af2bc2b5b03b291a378fd8499f44cade4aa14dd5419e5b7c7',
     'inputs': [{'fulfillment': 'pGSAIFetX0Fz6ZUN20tJp_dWJKs0_nDDz7oOmTaToGrzzw5zgUBPJsUGHcm8R-ntQSHvK3tgoyHIvCrrNrI6lJkud81cZKWFb9XehNAvWswPWSx1_6EwFKVYV-fjlxPvExm8XZIH',
               'fulfills': None,

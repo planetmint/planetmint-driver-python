@@ -176,7 +176,7 @@ class TransactionsEndpoint(NamespacedDriver):
     PATH = "/transactions/"
 
     @staticmethod
-    def prepare(*, operation="CREATE", signers=None, recipients=None, asset=None, metadata=None, inputs=None):
+    def prepare(*, operation="CREATE", signers=None, recipients=None, assets=None, metadata=None, inputs=None):
         """Prepares a transaction payload, ready to be fulfilled.
 
         Args:
@@ -184,13 +184,13 @@ class TransactionsEndpoint(NamespacedDriver):
                 or ``'TRANSFER'``. Case insensitive. Defaults to ``'CREATE'``.
             signers (:obj:`list` | :obj:`tuple` | :obj:`str`, optional):
                 One or more public keys representing the issuer(s) of
-                the asset being created. Only applies for ``'CREATE'``
+                the assets being created. Only applies for ``'CREATE'``
                 operations. Defaults to ``None``.
             recipients (:obj:`list` | :obj:`tuple` | :obj:`str`, optional):
                 One or more public keys representing the new recipients(s)
-                of the asset being created or transferred.
+                of the assets being created or transferred.
                 Defaults to ``None``.
-            asset (:obj:`dict`, optional): The asset to be created or
+            assets (:obj:`dict`, optional): The assets to be created or
                 transferred. MUST be supplied for ``'TRANSFER'`` operations.
                 Defaults to ``None``.
             metadata (:obj:`dict`, optional): Metadata associated with the
@@ -213,8 +213,8 @@ class TransactionsEndpoint(NamespacedDriver):
             **CREATE operations**
 
             * ``signers`` MUST be set.
-            * ``recipients``, ``asset``, and ``metadata`` MAY be set.
-            * If ``asset`` is set, it MUST be in the form of::
+            * ``recipients``, ``assets``, and ``metadata`` MAY be set.
+            * If ``assets`` is set, it MUST be in the form of::
 
                 {
                     'data': {
@@ -231,8 +231,8 @@ class TransactionsEndpoint(NamespacedDriver):
 
             **TRANSFER operations**
 
-            * ``recipients``, ``asset``, and ``inputs`` MUST be set.
-            * ``asset`` MUST be in the form of::
+            * ``recipients``, ``assets``, and ``inputs`` MUST be set.
+            * ``assets`` MUST be in the form of::
 
                 {
                     'id': '<Asset ID (i.e. TX ID of its CREATE transaction)>'
@@ -246,7 +246,7 @@ class TransactionsEndpoint(NamespacedDriver):
             operation=operation,
             signers=signers,
             recipients=recipients,
-            asset=asset,
+            assets=assets,
             metadata=metadata,
             inputs=inputs,
         )
@@ -272,26 +272,26 @@ class TransactionsEndpoint(NamespacedDriver):
         """
         return fulfill_transaction(transaction, private_keys=private_keys)
 
-    def get(self, *, asset_id, operation=None, headers=None):
-        """Given an asset id, get its list of transactions (and
+    def get(self, *, asset_ids, operation=None, headers=None):
+        """Given an assets id, get its list of transactions (and
         optionally filter for only ``'CREATE'`` or ``'TRANSFER'``
         transactions).
 
         Args:
-            asset_id (str): Id of the asset.
+            asset_id (str): Id of the assets.
             operation (str): The type of operation the transaction
                 should be. Either ``'CREATE'`` or ``'TRANSFER'``.
                 Defaults to ``None``.
             headers (dict): Optional headers to pass to the request.
 
         Note:
-            Please note that the id of an asset in Planetmint is
-            actually the id of the transaction which created the asset.
-            In other words, when querying for an asset id with the
+            Please note that the id of an assets in Planetmint is
+            actually the id of the transaction which created the assets.
+            In other words, when querying for an assets id with the
             operation set to ``'CREATE'``, only one transaction should
             be expected. This transaction will be the transaction in
-            which the asset was created, and the transaction id will be
-            equal to the given asset id. Hence, the following calls to
+            which the assets was created, and the transaction id will be
+            equal to the given assets id. Hence, the following calls to
             :meth:`.retrieve` and :meth:`.get` should return the same
             transaction.
 
@@ -310,7 +310,7 @@ class TransactionsEndpoint(NamespacedDriver):
         return self.transport.forward_request(
             method="GET",
             path=self.path,
-            params={"asset_id": asset_id, "operation": operation},
+            params={"asset_ids": asset_ids, "operation": operation},
             headers=headers,
         )
 
