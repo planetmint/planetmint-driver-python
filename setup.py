@@ -13,16 +13,10 @@ with open("CHANGELOG.rst") as changelog_file:
 
 install_requires = [
     "requests>=2.20.0",
-    "planetmint-cryptoconditions>=0.10.0",
     "pysha3~=1.0.2",
     "python-rapidjson>=1.0.0",
     "python-rapidjson-schema==0.1.1",
-    "base58",
-    "pynacl==1.4.0",
-    "pyasn1",
-    "zenroom==2.1.0.dev1655293214",
-    "cryptography==3.4.7",
-    "planetmint-transactions==0.2.0",
+    "planetmint-transactions>=0.2.2",
 ]
 
 tests_require = [

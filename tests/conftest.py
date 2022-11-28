@@ -9,7 +9,7 @@ from os import environ, urandom
 
 import requests
 import base58
-from cryptoconditions import Ed25519Sha256
+from planetmint_cryptoconditions import Ed25519Sha256
 from pytest import fixture
 from sha3 import sha3_256
 from ipld import multihash, marshal

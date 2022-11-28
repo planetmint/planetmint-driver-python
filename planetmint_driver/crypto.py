@@ -4,7 +4,7 @@
 
 from collections import namedtuple
 
-from cryptoconditions import crypto
+from planetmint_cryptoconditions import crypto
 
 
 CryptoKeypair = namedtuple("CryptoKeypair", ("private_key", "public_key"))

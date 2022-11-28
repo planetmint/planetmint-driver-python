@@ -261,7 +261,7 @@ generate them using the ``cryptoconditions`` library:
 
 .. ipython::
 
-    In [0]: from cryptoconditions import Ed25519Sha256
+    In [0]: from planetmint_cryptoconditions import Ed25519Sha256
 
     In [0]: ed25519 = Ed25519Sha256(public_key=base58.b58decode(alice.public_key))
 
@@ -299,7 +299,7 @@ Let's recap and set the ``outputs`` key with our self-constructed condition:
 
 .. ipython::
 
-    In [0]: from cryptoconditions import Ed25519Sha256
+    In [0]: from planetmint_cryptoconditions import Ed25519Sha256
 
     In [0]: ed25519 = Ed25519Sha256(public_key=base58.b58decode(alice.public_key))
 
@@ -435,7 +435,7 @@ Let's recap how we've put all the code together to generate the above payload:
 
 .. code-block:: python
 
-    from cryptoconditions import Ed25519Sha256
+    from planetmint_cryptoconditions import Ed25519Sha256
     from planetmint_driver.crypto import generate_keypair
     import base58
 
@@ -493,7 +493,7 @@ The Fulfilled Transaction
 
 .. ipython::
 
-    In [0]: from cryptoconditions.crypto import Ed25519SigningKey
+    In [0]: from planetmint_cryptoconditions.crypto import Ed25519SigningKey
 
     In [0]: import json
 
@@ -583,7 +583,7 @@ Handcrafting a ``CREATE`` transaction can be done as follows:
 
     import base58
     import sha3
-    from cryptoconditions import Ed25519Sha256
+    from planetmint_cryptoconditions import Ed25519Sha256
 
     from planetmint_driver.crypto import generate_keypair
 
@@ -810,7 +810,7 @@ outputs
 -------
 .. ipython::
 
-    In [0]: from cryptoconditions import Ed25519Sha256
+    In [0]: from planetmint_cryptoconditions import Ed25519Sha256
 
     In [0]: import base58
 
@@ -916,7 +916,7 @@ Let's recap how we got here:
 
 .. code-block:: python
 
-    from cryptoconditions import Ed25519Sha256
+    from planetmint_cryptoconditions import Ed25519Sha256
     from planetmint_driver.crypto import CryptoKeypair
     import base58
 
@@ -1051,7 +1051,7 @@ In a nutshell
 
     import base58
     import sha3
-    from cryptoconditions import Ed25519Sha256
+    from planetmint_cryptoconditions import Ed25519Sha256
 
     from planetmint_driver.crypto import generate_keypair
 
@@ -1165,7 +1165,7 @@ Handcrafting the ``CREATE`` transaction for our :ref:`bicycle sharing example
 
     import base58
     import sha3
-    from cryptoconditions import Ed25519Sha256
+    from planetmint_cryptoconditions import Ed25519Sha256
 
     from planetmint_driver.crypto import generate_keypair
 
@@ -1526,7 +1526,7 @@ sha3, and cryptoconditions):
 
     In [0]: from sha3 import sha3_256
 
-    In [0]: from cryptoconditions import Ed25519Sha256, ThresholdSha256
+    In [0]: from planetmint_cryptoconditions import Ed25519Sha256, ThresholdSha256
 
 Create the asset, setting all values:
 
@@ -1787,7 +1787,7 @@ Handcrafting the ``'CREATE'`` transaction
 
     import base58
     from sha3 import sha3_256
-    from cryptoconditions import Ed25519Sha256, ThresholdSha256
+    from planetmint_cryptoconditions import Ed25519Sha256, ThresholdSha256
 
     from planetmint_driver.crypto import generate_keypair
 
@@ -2042,7 +2042,7 @@ Handcrafting the ``'CREATE'`` transaction
 
     import base58
     import sha3
-    from cryptoconditions import Ed25519Sha256, ThresholdSha256
+    from planetmint_cryptoconditions import Ed25519Sha256, ThresholdSha256
 
     from planetmint_driver.crypto import generate_keypair
 
