@@ -47,7 +47,7 @@ docs_require = [
 
 setup(
     name="planetmint_driver",
-    version="0.12.0",
+    version="0.13.0",
     description="Python driver for Planetmint",
     long_description=readme + "\n\n" + changelog,
     long_description_content_type="text/x-rst",
