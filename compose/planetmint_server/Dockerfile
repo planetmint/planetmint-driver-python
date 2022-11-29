@@ -36,6 +36,5 @@ ENV PLANETMINT_CI_ABCI ${abci_status}
 RUN git clone https://github.com/planetmint/planetmint.git
 WORKDIR /planetmint
 RUN pip install -e .[dev]
-RUN pip install base58>=2.1.1 pynacl==1.4.0 zenroom==2.1.0.dev1655293214 pyasn1==0.4.8 cryptography==3.4.7
 
 RUN planetmint -y configure
