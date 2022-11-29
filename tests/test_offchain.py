@@ -5,7 +5,7 @@
 import rapidjson
 
 
-from cryptoconditions import Fulfillment
+from planetmint_cryptoconditions import Fulfillment
 from sha3 import sha3_256
 from pytest import raises, mark
 from ipld import multihash, marshal

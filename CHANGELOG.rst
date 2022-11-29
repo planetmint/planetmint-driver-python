@@ -6,8 +6,12 @@
 Changelog
 =========
 
-Unreleased
-----------
+
+0.13.0 (2022-11-28)
+-------------------
+Changed
+^^^^^^^
+* adjusted to changes in planetmint-transactions@0.2.2 that are a result from the zenroom upgrade and package renaming
 
 0.12.0 (2022-10-27)
 -------------------
