@@ -1,6 +1,6 @@
 
 name: Deploy packages
-on: 
+on:
   push:
     tags:
       - '*'
@@ -12,14 +12,14 @@ jobs:
     steps:
       - name: Check out repository code
         uses: actions/checkout@v3
-      
+
       - name: Setup python
         uses: actions/setup-python@v4
         with:
           python-version: 3.9
 
       - name: Install dependencies
-        run: pip install -e '.[dev]' && pip install wheel && python setup.py bdist_wheel sdist
+        run: pip install -e '.[dev]' && pip install wheel twine && python setup.py bdist_wheel sdist
 
       - name: Upload to TestPyPI
         run: |
