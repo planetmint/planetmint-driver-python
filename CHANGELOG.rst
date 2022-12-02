@@ -6,6 +6,12 @@
 Changelog
 =========
 
+0.14.0 (2022-12-02)
+-------------------
+Fixed
+^^^^^
+* reintegrated delegated signing support into the driver
+
 
 0.13.0 (2022-11-28)
 -------------------

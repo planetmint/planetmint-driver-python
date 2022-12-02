@@ -16,7 +16,7 @@ install_requires = [
     "pysha3~=1.0.2",
     "python-rapidjson>=1.0.0",
     "python-rapidjson-schema==0.1.1",
-    "planetmint-transactions>=0.2.2",
+    "planetmint-transactions>=0.3.0",
 ]
 
 tests_require = [
@@ -47,7 +47,7 @@ docs_require = [
 
 setup(
     name="planetmint_driver",
-    version="0.13.0",
+    version="0.14.0",
     description="Python driver for Planetmint",
     long_description=readme + "\n\n" + changelog,
     long_description_content_type="text/x-rst",
