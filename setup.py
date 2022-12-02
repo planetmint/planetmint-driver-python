@@ -16,7 +16,7 @@ install_requires = [
     "pysha3~=1.0.2",
     "python-rapidjson>=1.0.0",
     "python-rapidjson-schema==0.1.1",
-    "planetmint-transactions>=0.2.2",
+    "planetmint-transactions>=0.3.0",
 ]
 
 tests_require = [

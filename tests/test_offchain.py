@@ -158,8 +158,6 @@ def test_fulfill_transaction_raises(alice_transaction, bob_privkey):
         fulfill_transaction(alice_transaction, private_keys=bob_privkey)
 
 
-# NOTE: skipped this test case because delegate_signing was removed from class Transaction
-@mark.skip
 def test_transaction_fulfill_with_signingning_delegation(
     alice_privkey, alice_transaction, alice_transaction_signature
 ):
