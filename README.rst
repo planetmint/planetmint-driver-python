@@ -3,8 +3,6 @@
    SPDX-License-Identifier: (Apache-2.0 AND CC-BY-4.0)
    Code is Apache-2.0 and docs are CC-BY-4.0
 
-.. image:: media/repo-banner@2x.png
-
 .. image:: https://badges.gitter.im/planetmint/planetmint-driver.svg
    :alt: Join the chat at https://gitter.im/planetmint/planetmint-driver
    :target: https://gitter.im/planetmint/planetmint-driver?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge
