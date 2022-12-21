@@ -676,15 +676,18 @@ def zenroom_script_input():
 def zenroom_data():
     return ZENROOM_DATA
 
+
 @fixture
 def alice(gen_key_zencode):
     alice = json.loads(zencode_exec(gen_key_zencode).output)["keyring"]
     return alice
 
+
 @fixture
 def bob(gen_key_zencode):
     bob = json.loads(zencode_exec(gen_key_zencode).output)["keyring"]
     return bob
+
 
 @fixture
 def zenroom_public_keys(gen_key_zencode, secret_key_to_private_key_zencode, alice, bob):
@@ -709,6 +712,7 @@ def get_reflow_seal():
         When I rename the 'reflow identity' to 'SaleIdentity'
         When I create the reflow seal with identity 'SaleIdentity'
         Then print the 'reflow seal'"""
+
 
 @fixture
 def sign_reflow_seal():
