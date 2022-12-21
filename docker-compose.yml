@@ -60,7 +60,7 @@ services:
       PLANETMINT_TENDERMINT_HOST: tendermint
       PLANETMINT_TENDERMINT_PORT: 26657
     ports:
-      - "9984"
+      - "9984:9984"
       - "9985"
       - "26658"
     healthcheck:
