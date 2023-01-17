@@ -282,7 +282,7 @@ class TestAssetsMetadataEndpoint:
             (multihash(marshal({"msg": "Hello Planetmint 3!"}))),
         ],
     )
-    def test_assets_get_search_limit(self, driver, search):
+    def test_assets_get_search_limit(self, driver, search, text_search_assets):
         # we have 3 assets that match 'planetmint' in text_search_assets but
         # we are limiting the number of returned results to 1
         response = driver.assets.get(cid=search, limit=1)
