@@ -7,4 +7,4 @@ from .driver import Planetmint  # noqa
 
 __author__ = "Planetmint"
 __email__ = "devs@planetmint.com"
-__version__ = "0.14.0"
+__version__ = "0.15.0"
