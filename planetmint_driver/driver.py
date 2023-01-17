@@ -504,8 +504,8 @@ class AssetsEndpoint(NamespacedDriver):
         """
         return self.transport.forward_request(
             method="GET",
-            path=self.path + '/'+cid,
-            params={ "limit": limit},
+            path=self.path + "/" + cid,
+            params={"limit": limit},
             headers=headers,
         )
 

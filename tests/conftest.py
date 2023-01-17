@@ -561,7 +561,6 @@ def search_assets():
     return assets
 
 
-
 CONDITION_SCRIPT = """Scenario 'ecdh': create the signature of an object
     Given I have the 'keyring'
     Given that I have a 'string dictionary' named 'houses'
