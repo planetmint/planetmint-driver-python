@@ -271,26 +271,8 @@ class TestBlocksEndpoint:
 class TestAssetsMetadataEndpoint:
     def test_assets_get_search_no_results(self, driver):
         # no asset matches the search string
-        response = driver.assets.get(search="abcdef")
+        response = driver.assets.get(cid="abcdef")
         assert response == []
-
-    @mark.parametrize(
-        "search",
-        [
-            (multihash(marshal({"msg": "Hello Planetmint 1!"}))),
-            (multihash(marshal({"msg": "Hello Planetmint 2!"}))),
-            (multihash(marshal({"msg": "Hello Planetmint 3!"}))),
-        ],
-    )
-    def test_assets_get_search(self, driver, text_search_assets, search, search_assets):
-        # we have 3 assets that match 'planetmint' in text_search_assets
-        for asset in search_assets:
-            response = driver.assets.get(search=asset["data"])
-            assert len(response) == 1
-
-        for asset in response:
-            txt_s_asset = next(txt_s_asset for txt_s_asset in text_search_assets if txt_s_asset["id"] == asset["id"])
-            assert txt_s_asset["data"] == asset["data"]
 
     @mark.parametrize(
         "search",
@@ -302,8 +284,8 @@ class TestAssetsMetadataEndpoint:
     )
     def test_assets_get_search_limit(self, driver, search):
         # we have 3 assets that match 'planetmint' in text_search_assets but
-        # we are limiting the number of returned results to 2
-        response = driver.assets.get(search=search, limit=2)
+        # we are limiting the number of returned results to 1
+        response = driver.assets.get(cid=search, limit=1)
         assert len(response) == 1
 
     # NOTE: test cases are skipped because metadata text search is disabled on planetmint

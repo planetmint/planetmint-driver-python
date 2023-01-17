@@ -37,7 +37,7 @@ services:
       - "3301:3301"
       - "3303:3303"
       - "8081:8081"
-    command: tarantool /opt/tarantool/basic.lua
+    command: tarantool /opt/tarantool/init.lua
     restart: always
   planetmint:
     depends_on:
