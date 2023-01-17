@@ -295,7 +295,7 @@ def block_with_alice_transaction(sent_persisted_random_transaction, blocks_api_f
     return requests.get(
         blocks_api_full_url,
         params={"transaction_id": sent_persisted_random_transaction["id"]},
-    ).json()[0]
+    ).json()[0][2]
 
 
 @fixture
@@ -564,7 +564,7 @@ def search_assets():
 @fixture
 def text_search_assets(api_root, transactions_api_full_url, alice_pubkey, alice_privkey, search_assets):
     # check if the fixture was already executed
-    response = requests.get(api_root + "/assets", params={"search": "planetmint"})
+    response = requests.get(api_root + "/assets/planetmint")
     response = response.json()
     if len(response) == 3:
         assets = []

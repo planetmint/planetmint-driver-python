@@ -489,7 +489,7 @@ class AssetsEndpoint(NamespacedDriver):
 
     PATH = "/assets/"
 
-    def get(self, *, search, limit=0, headers=None):
+    def get(self, *, cid, limit=0, headers=None):
         """Retrieves the assets that match a given text search string.
 
         Args:
@@ -504,8 +504,8 @@ class AssetsEndpoint(NamespacedDriver):
         """
         return self.transport.forward_request(
             method="GET",
-            path=self.path,
-            params={"search": search, "limit": limit},
+            path=self.path + "/" + cid,
+            params={"limit": limit},
             headers=headers,
         )
 
