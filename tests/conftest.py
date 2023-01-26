@@ -17,8 +17,13 @@ from zenroom import zencode_exec
 
 
 from transactions.types.assets.create import Create
+from transactions.types.assets.compose import Compose
 from transactions.common.utils import _fulfillment_to_details
-
+from transactions.common.utils import _fulfillment_from_details
+from transactions.common.transaction import (
+    Input,
+    TransactionLink,
+)
 
 def make_ed25519_condition(public_key, *, amount=1):
     ed25519 = Ed25519Sha256(public_key=base58.b58decode(public_key))
@@ -274,6 +279,29 @@ def persisted_random_transaction(alice_pubkey, alice_privkey):
     )
     return tx.sign([alice_privkey]).to_dict()
 
+@fixture
+def compose_asset_cid():
+    return "QmW5GVMW98D3mktSDfWHS8nX2UiCd8gP1uCiujnFX4yK8n"
+
+@fixture
+def persisted_compose_transaction(signed_alice_transaction, alice_pubkey, compose_asset_cid):
+    from planetmint_driver.offchain import prepare_compose_transaction
+    condition_index = 0
+    condition = signed_alice_transaction["outputs"][condition_index]
+    inputs_ = [
+        Input(
+            _fulfillment_from_details(condition["condition"]["details"]),
+            condition["public_keys"],
+            fulfills=TransactionLink(
+                txid=signed_alice_transaction["id"],
+                output=condition_index,
+            ),
+        )
+    ]
+    assets_ = [ signed_alice_transaction["id"], compose_asset_cid]
+    compose_transaction = Compose.generate(inputs=inputs_, recipients=[([alice_pubkey], 1)], assets=assets_)
+    #compose_transaction = prepare_compose_transaction(inputs=inputs_, recipients=[([alice_pubkey], 1)], assets=assets_)
+    return compose_transaction
 
 @fixture
 def sent_persisted_random_transaction(alice_pubkey, alice_privkey, transactions_api_full_url):

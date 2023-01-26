@@ -9,6 +9,11 @@ from planetmint_cryptoconditions import Fulfillment
 from sha3 import sha3_256
 from pytest import raises, mark
 from ipld import multihash, marshal
+from transactions.common.utils import _fulfillment_from_details
+from transactions.common.transaction import (
+    Input,
+    TransactionLink,
+)
 
 
 @mark.parametrize(
@@ -122,6 +127,39 @@ def test_prepare_transfer_transaction(signed_alice_transaction, recipients):
     assert "metadata" in transfer_transaction
     assert "operation" in transfer_transaction
     assert transfer_transaction["operation"] == "TRANSFER"
+
+
+def test_prepare_compose_transaction(signed_alice_transaction, compose_asset_cid, alice_pubkey):
+    from planetmint_driver.offchain import prepare_compose_transaction
+    
+    condition_index = 0
+    condition = signed_alice_transaction["outputs"][condition_index]
+    inputs_ = [
+        Input(
+            _fulfillment_from_details(condition["condition"]["details"]),
+            condition["public_keys"],
+            fulfills=TransactionLink(
+                txid=signed_alice_transaction["id"],
+                output=condition_index,
+            ),
+        )
+    ]
+    assets_ = [ signed_alice_transaction["id"], compose_asset_cid]
+    compose_transaction = prepare_compose_transaction(inputs=inputs_, recipients=[([alice_pubkey], 1)], assets=assets_)
+    assert "id" in compose_transaction
+    assert "version" in compose_transaction
+    assert "assets" in compose_transaction
+    assert "id" in compose_transaction["assets"][1]
+    assert "data" in compose_transaction["assets"][0]
+    assert len(compose_transaction["assets"]) == 2
+    assert compose_asset_cid == compose_transaction["assets"][0]["data"]
+    assert "outputs" in compose_transaction
+    assert "inputs" in compose_transaction
+    assert "metadata" in compose_transaction
+    assert "operation" in compose_transaction
+    assert compose_transaction["operation"] == "COMPOSE"
+    
+    
 
 
 @mark.parametrize(
