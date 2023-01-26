@@ -160,6 +160,44 @@ def test_prepare_compose_transaction(signed_alice_transaction, compose_asset_cid
     assert compose_transaction["operation"] == "COMPOSE"
 
 
+def test_prepare_decompose_transaction(signed_alice_transaction_not_dict, compose_asset_cid, alice_pubkey,alice_privkey):
+    from planetmint_driver.offchain import prepare_decompose_transaction
+
+    tx_obj = signed_alice_transaction_not_dict
+    tx = signed_alice_transaction_not_dict.to_dict()
+    inputs_ = tx_obj.to_inputs()
+    assets_ = [
+        tx["id"],
+        "bafkreiawyk3ou5qzqec4ggbvrs56dv5ske2viwprf6he5wj5gr4yv5orsu",
+        "bafkreibncbonglm6mi3znbrqbchk56wmgftk4gfevxqlgeif3g5jdotcka",
+        "bafkreibkokzihpnnyqf3xslcievqkadf2ozkdi72wyibijih447vq42kjm",
+    ]
+    recipients = [([alice_pubkey], 1), ([alice_pubkey], 2), ([alice_pubkey], 3)]
+    decompose_transaction = prepare_decompose_transaction(inputs=inputs_, 
+                                                          recipients=recipients,
+                                                          assets=assets_)
+
+    decompose_transaction_signed = decompose_transaction.sign([alice_privkey])
+    decompose_transaction_signed = decompose_transaction_signed.to_dict()
+
+    assert "id" in decompose_transaction_signed
+    assert "version" in decompose_transaction_signed
+    assert "assets" in decompose_transaction_signed
+    assert "id" in decompose_transaction_signed["assets"][3]
+    assert "data" in decompose_transaction_signed["assets"][0]
+    assert "data" in decompose_transaction_signed["assets"][1]
+    assert "data" in decompose_transaction_signed["assets"][2]
+    assert len(decompose_transaction_signed["assets"]) == 4
+    assert tx["id"] == decompose_transaction_signed["assets"][3]["id"]
+    assert "outputs" in decompose_transaction_signed
+    assert len(decompose_transaction_signed["outputs"]) == 3
+    assert "inputs" in decompose_transaction_signed
+    assert len(decompose_transaction_signed["inputs"]) == 1
+    assert "metadata" in decompose_transaction_signed
+    assert "operation" in decompose_transaction_signed
+    assert decompose_transaction_signed["operation"] == "DECOMPOSE"
+
+
 @mark.parametrize(
     "alice_sk",
     (

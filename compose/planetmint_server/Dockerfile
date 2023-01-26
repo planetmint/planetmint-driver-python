@@ -30,9 +30,6 @@ ENV PLANETMINT_TENDERMINT_PORT 26657
 
 ENV PLANETMINT_CI_ABCI ${abci_status}
 
-# RUN mkdir -p /usr/src/app
-# COPY . /usr/src/app/
-# WORKDIR /usr/src/app
 RUN git clone https://github.com/planetmint/planetmint.git
 WORKDIR /planetmint
 RUN pip install -e .[dev]
