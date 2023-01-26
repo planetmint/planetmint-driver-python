@@ -330,6 +330,7 @@ def prepare_decompose_transaction(*, inputs: list, assets: list, recipients: lis
     compose_tx = Decompose.generate(inputs, recipients, assets)
     return compose_tx
 
+
 def fulfill_transaction(transaction, *, private_keys):
     """Fulfills the given transaction.
 

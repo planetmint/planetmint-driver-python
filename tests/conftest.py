@@ -256,6 +256,7 @@ def signed_alice_transaction_not_dict(alice_privkey, alice_transaction_obj):
     signed_transaction = alice_transaction_obj.sign([alice_privkey])
     return signed_transaction
 
+
 @fixture
 def signed_alice_transaction(signed_alice_transaction_not_dict):
     return signed_alice_transaction_not_dict.to_dict()
@@ -308,9 +309,11 @@ def persisted_compose_transaction(signed_alice_transaction, alice_pubkey, compos
     compose_transaction = Compose.generate(inputs=inputs_, recipients=[([alice_pubkey], 1)], assets=assets_)
     return compose_transaction
 
+
 @fixture
 def persisted_decompose_transaction(signed_alice_transaction, alice_pubkey, compose_asset_cid):
     from planetmint_driver.offchain import prepare_decompose_transaction
+
     condition_index = 0
     condition = signed_alice_transaction["outputs"][condition_index]
     inputs_ = [
@@ -330,9 +333,7 @@ def persisted_decompose_transaction(signed_alice_transaction, alice_pubkey, comp
         "bafkreibkokzihpnnyqf3xslcievqkadf2ozkdi72wyibijih447vq42kjm",
     ]
     recipients = [([alice_pubkey], 1), ([alice_pubkey], 2), ([alice_pubkey], 3)]
-    decompose_transaction = prepare_decompose_transaction(inputs=inputs_, 
-                                                          recipients=recipients,
-                                                          assets=assets_)
+    decompose_transaction = prepare_decompose_transaction(inputs=inputs_, recipients=recipients, assets=assets_)
     return decompose_transaction
 
 

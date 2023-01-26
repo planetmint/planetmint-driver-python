@@ -160,7 +160,9 @@ def test_prepare_compose_transaction(signed_alice_transaction, compose_asset_cid
     assert compose_transaction["operation"] == "COMPOSE"
 
 
-def test_prepare_decompose_transaction(signed_alice_transaction_not_dict, compose_asset_cid, alice_pubkey,alice_privkey):
+def test_prepare_decompose_transaction(
+    signed_alice_transaction_not_dict, compose_asset_cid, alice_pubkey, alice_privkey
+):
     from planetmint_driver.offchain import prepare_decompose_transaction
 
     tx_obj = signed_alice_transaction_not_dict
@@ -173,9 +175,7 @@ def test_prepare_decompose_transaction(signed_alice_transaction_not_dict, compos
         "bafkreibkokzihpnnyqf3xslcievqkadf2ozkdi72wyibijih447vq42kjm",
     ]
     recipients = [([alice_pubkey], 1), ([alice_pubkey], 2), ([alice_pubkey], 3)]
-    decompose_transaction = prepare_decompose_transaction(inputs=inputs_, 
-                                                          recipients=recipients,
-                                                          assets=assets_)
+    decompose_transaction = prepare_decompose_transaction(inputs=inputs_, recipients=recipients, assets=assets_)
 
     decompose_transaction_signed = decompose_transaction.sign([alice_privkey])
     decompose_transaction_signed = decompose_transaction_signed.to_dict()

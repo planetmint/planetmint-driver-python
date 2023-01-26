@@ -149,8 +149,6 @@ class TestTransactionsEndpoint:
         sent_tx = driver.transactions.send_commit(signed_tx)
         assert sent_tx == signed_tx
 
-
-
     def test_send_async(self, driver, persisted_random_transaction):
         sent_tx = driver.transactions.send_async(persisted_random_transaction)
         assert sent_tx == persisted_random_transaction
