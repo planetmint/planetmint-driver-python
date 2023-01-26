@@ -131,7 +131,7 @@ def test_prepare_transfer_transaction(signed_alice_transaction, recipients):
 
 def test_prepare_compose_transaction(signed_alice_transaction, compose_asset_cid, alice_pubkey):
     from planetmint_driver.offchain import prepare_compose_transaction
-    
+
     condition_index = 0
     condition = signed_alice_transaction["outputs"][condition_index]
     inputs_ = [
@@ -144,7 +144,7 @@ def test_prepare_compose_transaction(signed_alice_transaction, compose_asset_cid
             ),
         )
     ]
-    assets_ = [ signed_alice_transaction["id"], compose_asset_cid]
+    assets_ = [signed_alice_transaction["id"], compose_asset_cid]
     compose_transaction = prepare_compose_transaction(inputs=inputs_, recipients=[([alice_pubkey], 1)], assets=assets_)
     assert "id" in compose_transaction
     assert "version" in compose_transaction
@@ -158,8 +158,6 @@ def test_prepare_compose_transaction(signed_alice_transaction, compose_asset_cid
     assert "metadata" in compose_transaction
     assert "operation" in compose_transaction
     assert compose_transaction["operation"] == "COMPOSE"
-    
-    
 
 
 @mark.parametrize(

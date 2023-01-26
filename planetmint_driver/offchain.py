@@ -309,6 +309,7 @@ def prepare_transfer_transaction(*, inputs, recipients, assets, metadata=None):
     )
     return transaction.to_dict()
 
+
 def prepare_compose_transaction(*, inputs: list, assets: list, recipients, metadata=None):
     if not isinstance(inputs, (list, tuple)):
         inputs = (inputs,)
@@ -316,7 +317,8 @@ def prepare_compose_transaction(*, inputs: list, assets: list, recipients, metad
         assets = [assets]
 
     compose_tx = Compose.generate(inputs, recipients, assets)
-    return compose_tx.to_dict()    
+    return compose_tx.to_dict()
+
 
 def fulfill_transaction(transaction, *, private_keys):
     """Fulfills the given transaction.
