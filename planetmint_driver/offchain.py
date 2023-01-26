@@ -16,6 +16,8 @@ from transactions.common.transaction import (
 )
 from transactions.types.assets.create import Create
 from transactions.types.assets.transfer import Transfer
+from transactions.types.assets.compose import Compose
+from transactions.types.assets.decompose import Decompose
 from transactions.common.utils import _fulfillment_from_details
 from transactions.common.exceptions import KeypairMismatchException
 
@@ -307,6 +309,26 @@ def prepare_transfer_transaction(*, inputs, recipients, assets, metadata=None):
         metadata=metadata,
     )
     return transaction.to_dict()
+
+
+def prepare_compose_transaction(*, inputs: list, assets: list, recipients, metadata=None):
+    if not isinstance(inputs, (list, tuple)):
+        inputs = (inputs,)
+    if not isinstance(assets, (list, tuple)):
+        assets = [assets]
+
+    compose_tx = Compose.generate(inputs, recipients, assets)
+    return compose_tx.to_dict()
+
+
+def prepare_decompose_transaction(*, inputs: list, assets: list, recipients: list, metadata=None):
+    if not isinstance(inputs, (list, tuple)):
+        inputs = (inputs,)
+    if not isinstance(assets, (list, tuple)):
+        assets = [assets]
+
+    compose_tx = Decompose.generate(inputs, recipients, assets)
+    return compose_tx
 
 
 def fulfill_transaction(transaction, *, private_keys):

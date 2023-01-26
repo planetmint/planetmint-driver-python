@@ -9,6 +9,11 @@ from planetmint_cryptoconditions import Fulfillment
 from sha3 import sha3_256
 from pytest import raises, mark
 from ipld import multihash, marshal
+from transactions.common.utils import _fulfillment_from_details
+from transactions.common.transaction import (
+    Input,
+    TransactionLink,
+)
 
 
 @mark.parametrize(
@@ -122,6 +127,75 @@ def test_prepare_transfer_transaction(signed_alice_transaction, recipients):
     assert "metadata" in transfer_transaction
     assert "operation" in transfer_transaction
     assert transfer_transaction["operation"] == "TRANSFER"
+
+
+def test_prepare_compose_transaction(signed_alice_transaction, compose_asset_cid, alice_pubkey):
+    from planetmint_driver.offchain import prepare_compose_transaction
+
+    condition_index = 0
+    condition = signed_alice_transaction["outputs"][condition_index]
+    inputs_ = [
+        Input(
+            _fulfillment_from_details(condition["condition"]["details"]),
+            condition["public_keys"],
+            fulfills=TransactionLink(
+                txid=signed_alice_transaction["id"],
+                output=condition_index,
+            ),
+        )
+    ]
+    assets_ = [signed_alice_transaction["id"], compose_asset_cid]
+    compose_transaction = prepare_compose_transaction(inputs=inputs_, recipients=[([alice_pubkey], 1)], assets=assets_)
+    assert "id" in compose_transaction
+    assert "version" in compose_transaction
+    assert "assets" in compose_transaction
+    assert "id" in compose_transaction["assets"][1]
+    assert "data" in compose_transaction["assets"][0]
+    assert len(compose_transaction["assets"]) == 2
+    assert compose_asset_cid == compose_transaction["assets"][0]["data"]
+    assert "outputs" in compose_transaction
+    assert "inputs" in compose_transaction
+    assert "metadata" in compose_transaction
+    assert "operation" in compose_transaction
+    assert compose_transaction["operation"] == "COMPOSE"
+
+
+def test_prepare_decompose_transaction(
+    signed_alice_transaction_not_dict, compose_asset_cid, alice_pubkey, alice_privkey
+):
+    from planetmint_driver.offchain import prepare_decompose_transaction
+
+    tx_obj = signed_alice_transaction_not_dict
+    tx = signed_alice_transaction_not_dict.to_dict()
+    inputs_ = tx_obj.to_inputs()
+    assets_ = [
+        tx["id"],
+        "bafkreiawyk3ou5qzqec4ggbvrs56dv5ske2viwprf6he5wj5gr4yv5orsu",
+        "bafkreibncbonglm6mi3znbrqbchk56wmgftk4gfevxqlgeif3g5jdotcka",
+        "bafkreibkokzihpnnyqf3xslcievqkadf2ozkdi72wyibijih447vq42kjm",
+    ]
+    recipients = [([alice_pubkey], 1), ([alice_pubkey], 2), ([alice_pubkey], 3)]
+    decompose_transaction = prepare_decompose_transaction(inputs=inputs_, recipients=recipients, assets=assets_)
+
+    decompose_transaction_signed = decompose_transaction.sign([alice_privkey])
+    decompose_transaction_signed = decompose_transaction_signed.to_dict()
+
+    assert "id" in decompose_transaction_signed
+    assert "version" in decompose_transaction_signed
+    assert "assets" in decompose_transaction_signed
+    assert "id" in decompose_transaction_signed["assets"][3]
+    assert "data" in decompose_transaction_signed["assets"][0]
+    assert "data" in decompose_transaction_signed["assets"][1]
+    assert "data" in decompose_transaction_signed["assets"][2]
+    assert len(decompose_transaction_signed["assets"]) == 4
+    assert tx["id"] == decompose_transaction_signed["assets"][3]["id"]
+    assert "outputs" in decompose_transaction_signed
+    assert len(decompose_transaction_signed["outputs"]) == 3
+    assert "inputs" in decompose_transaction_signed
+    assert len(decompose_transaction_signed["inputs"]) == 1
+    assert "metadata" in decompose_transaction_signed
+    assert "operation" in decompose_transaction_signed
+    assert decompose_transaction_signed["operation"] == "DECOMPOSE"
 
 
 @mark.parametrize(

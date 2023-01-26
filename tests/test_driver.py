@@ -127,6 +127,28 @@ class TestTransactionsEndpoint:
         sent_tx = driver.transactions.send_commit(persisted_random_transaction)
         assert sent_tx == persisted_random_transaction
 
+    def test_send_commit_compose_tx_valid(
+        self, driver, persisted_compose_transaction, persisted_alice_transaction, alice_privkey
+    ):
+        unsigned_tx = persisted_compose_transaction
+        signed_tx = unsigned_tx.sign([alice_privkey]).to_dict()
+        sent_tx = driver.transactions.send_commit(signed_tx)
+        assert sent_tx == signed_tx
+
+    def test_send_commit_compose_tx_invalid(self, driver, persisted_compose_transaction, alice_privkey):
+        unsigned_tx = persisted_compose_transaction
+        signed_tx = unsigned_tx.sign([alice_privkey]).to_dict()
+        with raises(Exception) as e:
+            sent_tx = driver.transactions.send_commit(signed_tx)
+
+    def test_send_commit_decompose_tx_valid(
+        self, driver, persisted_decompose_transaction, persisted_alice_transaction, alice_privkey
+    ):
+        unsigned_tx = persisted_decompose_transaction
+        signed_tx = unsigned_tx.sign([alice_privkey]).to_dict()
+        sent_tx = driver.transactions.send_commit(signed_tx)
+        assert sent_tx == signed_tx
+
     def test_send_async(self, driver, persisted_random_transaction):
         sent_tx = driver.transactions.send_async(persisted_random_transaction)
         assert sent_tx == persisted_random_transaction
