@@ -16,7 +16,7 @@ install_requires = [
     "pysha3~=1.0.2",
     "python-rapidjson>=1.0.0",
     "python-rapidjson-schema==0.1.1",
-    "planetmint-transactions>=0.5.0",
+    "planetmint-transactions>=0.6.0",
     "planetmint-ipld>=0.0.3",
 ]
 
