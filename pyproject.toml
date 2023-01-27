@@ -1,0 +1,32 @@
+[tool.poetry]
+name = "planetmint-driver-python"
+version = "0.16.1"
+description = "Python driver for Planetmint"
+authors = ["Your Name <you@example.com>"]
+license = "AGPLv3-or-later"
+readme = "README.md"
+packages = [{include = "planetmint_driver"}]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+planetmint-transactions = "^0.6.0"
+python-rapidjson = "^1.9"
+python-rapidjson-schema = "^0.1.1"
+pysha3 = "^1.0.2"
+requests = "^2.28.2"
+planetmint-ipld = "^0.0.3"
+
+
+[tool.poetry.group.dev.dependencies]
+black = "^22.12.0"
+coverage = "^7.1.0"
+pytest = "^7.2.1"
+pytest-cov = "^4.0.0"
+pytest-env = "^0.8.1"
+pytest-sugar = "^0.9.6"
+pytest-xdist = "^3.1.0"
+responses = "^0.22.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
