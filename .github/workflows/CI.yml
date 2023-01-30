@@ -80,14 +80,14 @@ jobs:
         with:
           python-version: 3.9
 
-      - name: Install tox
-        run: python -m pip install --upgrade tox tox-gh-actions
+      - name: Setup poetry
+        uses: Gr1N/setup-poetry@v7
 
       - name: Install dependencies
-        run: pip install .'[dev]'
+        run: poetry install --with dev
 
       - name: Run tox
-        run: tox -e docs
+        run: poetry run make -C docs html
 
   publish:
     runs-on: ubuntu-latest

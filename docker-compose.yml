@@ -16,7 +16,6 @@ services:
       - ./tests:/usr/src/app/tests
       - ./planetmint_driver:/usr/src/app/planetmint_driver
       - ./setup.py:/usr/src/app/setup.py
-      - ./tox.ini:/usr/src/app/tox.ini
       - ./htmlcov:/usr/src/app/htmlcov
       - ./coverage.xml:/usr/src/app/coverage.xml
     environment:
@@ -92,7 +91,7 @@ services:
       dockerfile: ./compose/planetmint_driver/Dockerfile
     volumes:
       - .:/usr/src/app/
-    command: make -C docs html
+    command: poetry run make -C docs html
   vdocs:
     image: nginx
     ports:

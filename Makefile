@@ -68,7 +68,7 @@ test-watch: check-deps ## Run all, or only one with TEST=tests/file.py::Class::t
 	@$(DC) run --rm planetmint-driver pytest ${TEST} -f -v
 
 docs: ## Generate Sphinx HTML documentation, including API docs
-	@$(DC) run --rm --no-deps bdocs make -C docs html
+	@$(DC) run --rm --no-deps bdocs poetry run make -C docs html
 	$(BROWSER) docs/_build/html/index.html
 
 lint: check-deps ## Check style with flake8
