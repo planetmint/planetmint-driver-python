@@ -22,7 +22,7 @@ services:
     environment:
       BDB_HOST: planetmint
       PLANETMINT_DATABASE_BACKEND: mongodb
-    command: pytest -v
+    command: /bin/sh
   mongodb:
     image: mongo:3.6
     ports:

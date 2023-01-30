@@ -4,7 +4,7 @@ version = "0.16.1"
 description = "Python driver for Planetmint"
 authors = ["Your Name <you@example.com>"]
 license = "AGPLv3-or-later"
-readme = "README.md"
+readme = "README.rst"
 packages = [{include = "planetmint_driver"}]
 
 [tool.poetry.dependencies]
