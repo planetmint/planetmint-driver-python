@@ -90,6 +90,9 @@ transaction: a ``CREATE`` transaction.
 
     In [0]: from planetmint_driver.crypto import generate_keypair
 
+    In [0]: from ipld import marshal, multihash
+
+
 Create a test user: alice
 
 .. ipython::
@@ -100,7 +103,7 @@ Define a digital asset data payload
 
 .. ipython::
 
-    In [0]: digital_asset_payload = [{'data': {'msg': 'Hello Planetmint!'}}]
+    In [0]: digital_asset_payload = [{'data': multihash( marshal({'msg': 'Hello Planetmint!'})) }]
 
     In [0]: tx = bdb.transactions.prepare(operation='CREATE',
        ...:                               signers=alice.public_key,
@@ -415,6 +418,8 @@ Say ``alice`` and ``bob`` own a car together:
 
     from planetmint_driver import Planetmint
     from planetmint_driver.crypto import generate_keypair
+    from ipld import marshal, multihash
+
 
     bdb_root_url = 'https://example.com:9984' # Use YOUR Planetmint Root URL here
     bdb = Planetmint(bdb_root_url)
@@ -424,11 +429,11 @@ Say ``alice`` and ``bob`` own a car together:
 .. ipython::
 
     In [0]: car_asset = [{
-       ...:     'data': {
+       ...:     'data': multihash( marshal({
        ...:         'car': {
        ...:             'vin': '5YJRE11B781000196'
        ...:         }
-       ...:     }
+       ...:     }))
        ...: }]
 
 and they agree that ``alice`` will be the one issuing the asset. To create a

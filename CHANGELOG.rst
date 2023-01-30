@@ -6,6 +6,18 @@
 Changelog
 =========
 
+0.16.1 (2023-26-01)
+-------------------
+Changed
+^^^^^^^
+* using poetry to build and manage the python package
+
+0.16.0 (2023-26-01)
+-------------------
+Added
+^^^^^
+* Support for Compose/Decompose specified in PRP-5
+
 0.14.0 (2022-12-02)
 -------------------
 Fixed

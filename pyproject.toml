@@ -15,6 +15,7 @@ python-rapidjson-schema = "^0.1.1"
 pysha3 = "^1.0.2"
 requests = "^2.28.2"
 planetmint-ipld = "^0.0.3"
+sphinx-press-theme = "0.8.0"
 
 
 [tool.poetry.group.dev.dependencies]
@@ -26,6 +27,20 @@ pytest-env = "^0.8.1"
 pytest-sugar = "^0.9.6"
 pytest-xdist = "^3.1.0"
 responses = "^0.22.0"
+Sphinx = "5.0.0"
+sphinx-autobuild = "^2021.3.14"
+sphinxcontrib-autorun = "^0.1.post20140415"
+sphinxcontrib-napoleon = "^0.7"
+sphinx-rtd-theme = "^1.1.1"
+sphinxcontrib-httpdomain = "^1.8.1"
+matplotlib = "^3.6.3"
+base58 = "^2.1.1"
+ipdb = "^0.13.11"
+ipython = "^8.9.0"
+pre-commit = "^3.0.1"
+Jinja2 = "3.0.0"
+tox = "^4.4.2"
+tox-gh-actions = "^3.0.0"
 
 [build-system]
 requires = ["poetry-core"]
