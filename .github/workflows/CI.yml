@@ -49,7 +49,7 @@ jobs:
         run: pip-audit
 
   unit-tests:
-    needs: lint, audit
+    needs: lint
     steps:
       - name: Check out repository code
         uses: actions/checkout@v3
@@ -70,7 +70,7 @@ jobs:
 
   docs:
     runs-on: ubuntu-latest
-    needs: lint, audit
+    needs: lint
     steps:
       - name: Check out repository code
         uses: actions/checkout@v3
@@ -86,12 +86,12 @@ jobs:
       - name: Install dependencies
         run: poetry install --with dev
 
-      - name: Run tox
+      - name: Run docs build
         run: poetry run make -C docs html
 
   publish:
     runs-on: ubuntu-latest
-    needs: docs, unit-tests
+    needs: unit-tests
     steps:
       - name: Check out repository code
         uses: actions/checkout@v3
