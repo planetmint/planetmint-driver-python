@@ -22,11 +22,11 @@ Or download the `tarball`_:
 
     curl  -OL https://github.com/planetmint/planetmint-driver/tarball/master
 
-Once you have a copy of the source code, you can install it by going to the directory containing ``setup.py`` and doing:
+Once you have a copy of the source code, you can install it by going to the directory containing ``pyproject.toml`` and doing:
 
 .. code-block:: bash
 
-    python setup.py install
+    poetry install
 
 .. _Github repo: https://github.com/planetmint/planetmint-driver
 .. _tarball: https://github.com/planetmint/planetmint-driver/tarball/master

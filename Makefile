@@ -49,7 +49,7 @@ help:
 	@$(HELP) < $(MAKEFILE_LIST)
 
 install: clean ## Install the package to the active Python's site-packages
-	python setup.py install
+	poetry install
 
 start: check-deps ## Run Planetmint driver from source and daemonize it (stop with `make stop`)
 	@$(DC) up -d planetmint
@@ -96,7 +96,7 @@ root-url:
 ###############
 
 dist: clean ## builds source (and not for now, wheel package)
-	python setup.py sdist bdist_wheel
+	poetry build
 	ls -l dist
 
 check-deps:

@@ -15,7 +15,6 @@ services:
       - ./docs:/usr/src/app/docs
       - ./tests:/usr/src/app/tests
       - ./planetmint_driver:/usr/src/app/planetmint_driver
-      - ./setup.py:/usr/src/app/setup.py
       - ./htmlcov:/usr/src/app/htmlcov
       - ./coverage.xml:/usr/src/app/coverage.xml
     environment:
