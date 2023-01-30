@@ -27,6 +27,7 @@ jobs:
 
   audit:
     runs-on: ubuntu-latest
+    needs: lint
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -37,20 +38,23 @@ jobs:
           python-version: 3.9
 
       - name: Install pip-audit
-        run: pip install --upgrade pip pip-audit
+        run: pip install --upgrade pip
+
+      - name: Setup poetry
+        uses: Gr1N/setup-poetry@v7
 
       - name: Install dependencies
-        run: pip install .
+        run: poetry install
 
       - name: Create requirements.txt
-        run: pip freeze > requirements.txt
+        run: poetry run pip freeze > requirements.txt
 
       - name: Audit dependencies
-        run: pip-audit
+        run: poetry run pip-audit
 
   unit-tests:
     runs-on: ubuntu-latest
-    needs: lint
+    needs: audit
     steps:
       - name: Check out repository code
         uses: actions/checkout@v3
@@ -71,7 +75,7 @@ jobs:
 
   docs:
     runs-on: ubuntu-latest
-    needs: lint
+    needs: unit-tests
     steps:
       - name: Check out repository code
         uses: actions/checkout@v3
