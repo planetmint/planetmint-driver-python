@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "planetmint-driver-python"
-version = "0.16.1"
+version = "0.17.0"
 description = "Python driver for Planetmint"
 authors = ["Your Name <you@example.com>"]
 license = "AGPLv3-or-later"
