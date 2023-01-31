@@ -87,6 +87,9 @@ jobs:
         with:
           python-version: 3.9
 
+      - name: Setup poetry
+        uses: Gr1N/setup-poetry@v7
+
       - name: Install dependencies
         run: poetry install --with dev
 
