@@ -462,7 +462,7 @@ class BlocksEndpoint(NamespacedDriver):
             params={"transaction_id": txid},
             headers=headers,
         )
-        return block_list[0] if len(block_list) else None
+        return block_list if block_list else None
 
     def retrieve(self, block_height, headers=None):
         """Retrieves the block with the given ``block_height``.

@@ -6,6 +6,12 @@
 Changelog
 =========
 
+0.17.0 (2023-31-01)
+-------------------
+Changed
+^^^^^^^
+* adapted to the changed blocks API
+
 0.16.1 (2023-26-01)
 -------------------
 Changed
