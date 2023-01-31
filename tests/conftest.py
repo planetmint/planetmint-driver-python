@@ -357,7 +357,7 @@ def block_with_alice_transaction(sent_persisted_random_transaction, blocks_api_f
     return requests.get(
         blocks_api_full_url,
         params={"transaction_id": sent_persisted_random_transaction["id"]},
-    ).json()[0][2]
+    ).json()["height"]
 
 
 @fixture
