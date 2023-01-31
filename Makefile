@@ -49,7 +49,7 @@ help:
 	@$(HELP) < $(MAKEFILE_LIST)
 
 install: clean ## Install the package to the active Python's site-packages
-	python setup.py install
+	poetry install
 
 start: check-deps ## Run Planetmint driver from source and daemonize it (stop with `make stop`)
 	@$(DC) up -d planetmint
@@ -62,13 +62,13 @@ reset: check-deps ## Stop and REMOVE all containers. WARNING: you will LOSE all 
 
 test: check-deps ## Run all tests once or specify a file/test with TEST=tests/file.py::Class::test
 	@$(DC) up -d bdb
-	@$(DC) run --rm planetmint-driver pytest ${TEST} -v
+	@$(DC) run --rm planetmint-driver poetry run pytest ${TEST} -v
 
 test-watch: check-deps ## Run all, or only one with TEST=tests/file.py::Class::test, tests and wait. Every time you change code, test/s will be run again.
 	@$(DC) run --rm planetmint-driver pytest ${TEST} -f -v
 
 docs: ## Generate Sphinx HTML documentation, including API docs
-	@$(DC) run --rm --no-deps bdocs make -C docs html
+	@$(DC) run --rm --no-deps bdocs poetry run make -C docs html
 	$(BROWSER) docs/_build/html/index.html
 
 lint: check-deps ## Check style with flake8
@@ -96,7 +96,7 @@ root-url:
 ###############
 
 dist: clean ## builds source (and not for now, wheel package)
-	python setup.py sdist bdist_wheel
+	poetry build
 	ls -l dist
 
 check-deps:

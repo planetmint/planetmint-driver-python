@@ -33,7 +33,7 @@ The following steps are what we do to release a new version of _Planetmint Pytho
    - Update `CHANGELOG.md`
    - In `planetmint-driver/__init__.py`:
      - update `__version__` to e.g. `0.9.0` (with no `.dev` on the end)
-   - In `setup.py` update the version and _maybe_ update the development status item in the `classifiers` list. For example, one allowed value is `"Development Status :: 5 - Production/Stable"`. The [allowed values are listed at pypi.python.org](https://pypi.python.org/pypi?%3Aaction=list_classifiers).
+   - In `pyproject.toml` update the version and _maybe_ update the development status item in the `classifiers` list. For example, one allowed value is `"Development Status :: 5 - Production/Stable"`. The [allowed values are listed at pypi.python.org](https://pypi.python.org/pypi?%3Aaction=list_classifiers).
    - In `README.rst` update the `Compatibility Matrix`
 
 1. **Wait for all the tests to pass!**

@@ -1,0 +1,49 @@
+[tool.poetry]
+name = "planetmint-driver-python"
+version = "0.16.1"
+description = "Python driver for Planetmint"
+authors = ["Your Name <you@example.com>"]
+license = "AGPLv3-or-later"
+readme = "README.rst"
+packages = [{include = "planetmint_driver"}]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+planetmint-transactions = "^0.6.0"
+python-rapidjson = "^1.9"
+python-rapidjson-schema = "^0.1.1"
+pysha3 = "^1.0.2"
+requests = "^2.28.2"
+planetmint-ipld = "^0.0.3"
+sphinx-press-theme = "0.8.0"
+wheel = "^0.38.1"
+
+
+[tool.poetry.group.dev.dependencies]
+black = "^22.12.0"
+coverage = "^7.1.0"
+pytest = "^7.2.1"
+pytest-cov = "^4.0.0"
+pytest-env = "^0.8.1"
+pytest-sugar = "^0.9.6"
+pytest-xdist = "^3.1.0"
+responses = "^0.22.0"
+Sphinx = "5.0.0"
+sphinx-autobuild = "^2021.3.14"
+sphinxcontrib-autorun = "^0.1.post20140415"
+sphinxcontrib-napoleon = "^0.7"
+sphinx-rtd-theme = "^1.1.1"
+sphinxcontrib-httpdomain = "^1.8.1"
+matplotlib = "^3.6.3"
+base58 = "^2.1.1"
+ipdb = "^0.13.11"
+ipython = "^8.9.0"
+pre-commit = "^3.0.1"
+Jinja2 = "3.0.0"
+tox = "^4.4.2"
+tox-gh-actions = "^3.0.0"
+pip-audit = "^2.4.14"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

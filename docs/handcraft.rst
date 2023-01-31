@@ -1440,11 +1440,13 @@ Say ``alice`` and ``bob`` own a car together:
 
     In [0]: from planetmint_driver import Planetmint
 
+    In [0]: from ipld import marshal, multihash
+
     In [0]: bdb_root_url = 'https://example.com:9984' # Use YOUR Planetmint Root URL here
 
     In [0]: bdb = Planetmint(bdb_root_url)
 
-    In [0]: car_asset = [{'data': {'car': {'vin': '5YJRE11B781000196'}}}]
+    In [0]: car_asset = [{'data': multihash( marshal({'car': {'vin': '5YJRE11B781000196'}})) }]
 
     In [0]: car_creation_tx = offchain.prepare_transaction(
        ...:     operation='CREATE',

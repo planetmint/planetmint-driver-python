@@ -6,8 +6,8 @@ RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
 RUN pip install --upgrade pip
+RUN pip install poetry
 
 COPY . /usr/src/app/
 
-RUN pip install --no-cache-dir -e .[dev]
-RUN pip install sphinx-press-theme==0.8.0
+RUN poetry install --with dev

@@ -105,7 +105,7 @@ transaction:
    In [0]: prepared_creation_tx = bdb.transactions.prepare(
       ...:     operation='CREATE',
       ...:     signers=alice.public_key,
-      ...:     assets=bicycle,
+      ...:     assets=[bicycle],
       ...:     metadata=metadata,
       ...: )
 
@@ -388,9 +388,11 @@ bicycle and he decides he wants to rent the bicycle. Bob starts by creating a
 time sharing token in which one token corresponds to one hour of riding time:
 
 .. ipython::
+    
+    In [0]: from ipld import marshal, multihash
 
-    In [0]: bicycle_token = [{
-       ...:     'data': {
+    In [0]: bicycles_token = [{
+       ...:     'data':  multihash( marshal( {
        ...:         'token_for': {
        ...:             'bicycle': {
        ...:                 'serial_number': 'abcd1234',
@@ -398,7 +400,7 @@ time sharing token in which one token corresponds to one hour of riding time:
        ...:             }
        ...:         },
        ...:         'description': 'Time share token. Each token equals one hour of riding.',
-       ...:     },
+       ...:     }))
        ...: }]
 
 Bob has now decided to issue 10 tokens and assigns them to Carly. Notice how we
@@ -413,7 +415,7 @@ denote Carly as receiving 10 tokens by using a tuple:
        ...:     operation='CREATE',
        ...:     signers=bob.public_key,
        ...:     recipients=[([carly.public_key], 10)],
-       ...:     assets=bicycle_token,
+       ...:     assets=bicycles_token,
        ...: )
 
     In [0]: fulfilled_token_tx = bdb.transactions.fulfill(
