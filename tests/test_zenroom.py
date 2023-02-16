@@ -43,7 +43,6 @@ def test_zenroom_signing(
     alice,
     bob,
 ):
-
     plnmnt_keypair = generate_keypair()
 
     zenroomscpt = ZenroomSha256(script=fulfill_script_zencode, data=zenroom_data, keys=zenroom_public_keys)

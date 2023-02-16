@@ -21,7 +21,7 @@
 Planetmint Python Driver
 ==========================
 
-* Free software: Apache Software License 2.0
+* Free software: AGPLv3
 * Check our `Documentation`_
 
 .. contents:: Table of Contents
