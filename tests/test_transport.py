@@ -32,7 +32,6 @@ def test_init_with_headers():
 @patch("planetmint_driver.transport.time")
 @patch("planetmint_driver.transport.Connection._request")
 def test_timeout_after_first_node(request_mock, time_mock):
-
     # simulate intermittent network failure on every attempt
     request_mock.side_effect = ConnectionError
 
@@ -54,7 +53,6 @@ def test_timeout_after_first_node(request_mock, time_mock):
 @patch("planetmint_driver.transport.time")
 @patch("planetmint_driver.transport.Connection._request")
 def test_timeout_after_second_node(request_mock, time_mock):
-
     request_mock.side_effect = ConnectionError
 
     time_mock.side_effect = [0, 1, 1, 2]
@@ -76,7 +74,6 @@ def test_timeout_after_second_node(request_mock, time_mock):
 @patch("planetmint_driver.transport.time")
 @patch("planetmint_driver.transport.Connection._request")
 def test_timeout_during_request(request_mock, time_mock):
-
     request_mock.side_effect = TimeoutError
 
     time_mock.side_effect = [0, 1]
