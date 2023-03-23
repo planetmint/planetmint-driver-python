@@ -6,6 +6,12 @@
 Changelog
 =========
 
+0.18.0 (2023-23-03)
+-------------------
+Removed
+^^^^^^^
+* removed zenroom signing and reflow test cases
+
 0.17.0 (2023-31-01)
 -------------------
 Changed
