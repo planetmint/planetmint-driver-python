@@ -653,11 +653,7 @@ def text_search_assets(api_root, transactions_api_full_url, alice_pubkey, alice_
     return assets_to_return
 
 
-
-
 metadata = {"units": 300, "type": "KG"}
-
-
 
 
 @fixture
@@ -668,6 +664,3 @@ def alice():
 @fixture
 def bob():
     return generate_key_pair()
-
-
-
