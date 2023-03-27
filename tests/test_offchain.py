@@ -116,12 +116,13 @@ def test_prepare_transfer_transaction(signed_alice_transaction, recipients):
         },
         "owners_before": condition["public_keys"],
     }
-    assets = [{"id": signed_alice_transaction["id"]}]
+    assets = [signed_alice_transaction["id"]]
     transfer_transaction = prepare_transfer_transaction(inputs=input_, recipients=recipients, assets=assets)
     assert "id" in transfer_transaction
     assert "version" in transfer_transaction
     assert "assets" in transfer_transaction
     assert "id" in transfer_transaction["assets"][0]
+    assert isinstance(transfer_transaction["assets"][0]["id"], str) == True
     assert "outputs" in transfer_transaction
     assert "inputs" in transfer_transaction
     assert "metadata" in transfer_transaction
