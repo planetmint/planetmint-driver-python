@@ -122,7 +122,7 @@ def test_prepare_transfer_transaction(signed_alice_transaction, recipients):
     assert "version" in transfer_transaction
     assert "assets" in transfer_transaction
     assert "id" in transfer_transaction["assets"][0]
-    assert isinstance( transfer_transaction["assets"][0]["id"], str) == True
+    assert isinstance(transfer_transaction["assets"][0]["id"], str) == True
     assert "outputs" in transfer_transaction
     assert "inputs" in transfer_transaction
     assert "metadata" in transfer_transaction
