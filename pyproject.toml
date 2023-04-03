@@ -9,7 +9,7 @@ packages = [{include = "planetmint_driver"}]
 
 [tool.poetry.dependencies]
 python = "^3.9"
-planetmint-transactions = "^0.6.0"
+planetmint-transactions = "^0.8.0"
 python-rapidjson = "^1.9"
 python-rapidjson-schema = "^0.1.1"
 pysha3 = "^1.0.2"
