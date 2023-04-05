@@ -256,7 +256,6 @@ def test_sign_reflow_seal(zenroom_public_keys, get_reflow_seal, alice, sign_refl
     seal_sig = create_seal_result.output
     print(f" Reflow Seal: {seal_sig}")
     seal_sig = ast.literal_eval(seal_sig)
-    # seal_sig = json.loads(seal_sig)
 
     print(f" Reflow Seal signature: {seal_sig}")
 

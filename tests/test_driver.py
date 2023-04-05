@@ -18,7 +18,7 @@ class TestPlanetmint:
     @mark.parametrize(
         "nodes,headers, normalized_nodes",
         (
-            ((), None, (({"endpoint": "http://localhost:9984", "headers": {}},))),
+            ((), None, ({"endpoint": "http://localhost:9984", "headers": {}},)),
             (("node-1",), None, ({"endpoint": "http://node-1:9984", "headers": {}},)),
             (
                 (
@@ -48,14 +48,11 @@ class TestPlanetmint:
         from planetmint_driver.driver import Planetmint
 
         driver = Planetmint(*nodes, headers=headers)
-        nodes = normalized_nodes
         headers = {} if not headers else headers
         assert driver.nodes == normalized_nodes
         assert driver.transport.nodes == normalized_nodes
         expected_headers = default_headers()
         expected_headers.update(headers)
-        for conn in driver.transport.connection_pool.connections:
-            conn.session.headers == expected_headers
         assert driver.transactions
         assert driver.outputs
 
@@ -310,20 +307,19 @@ class TestAssetsMetadataEndpoint:
         response = driver.assets.get(cid=search, limit=1)
         assert len(response) == 1
 
-    # NOTE: test cases are skipped because metadata text search is disabled on planetmint
-    @mark.skip
+    @mark.skip(reason="test cases are skipped because metadata text search is disabled on planetmint")
     def test_metadata_get_search_no_results(self, driver):
         # no metadata matches the search string
         response = driver.metadata.get(search="abcdef")
         assert response == []
 
-    @mark.skip
+    @mark.skip(reason="test cases are skipped because metadata text search is disabled on planetmint")
     def test_metadata_get_search(self, driver):
         # we have 3 transactions that match 'call me maybe' in our block
         response = driver.metadata.get(search="call me maybe")
         assert len(response) == 3
 
-    @mark.skip
+    @mark.skip(reason="test cases are skipped because metadata text search is disabled on planetmint")
     def test_metadata_get_search_limit(self, driver):
         # we have 3 transactions that match 'call me maybe' in our block
         # we are limiting the number of returned results to 2

@@ -10,7 +10,7 @@ from ipld import multihash, marshal
 import ast
 
 
-def prepare_tx(script, data, zenroom_signer, plnmint_signer, zenroom_sha256):
+def prepare_tx(data, plnmint_signer, zenroom_sha256):
     condition_uri_zen = zenroom_sha256.condition.serialize_uri()
     unsigned_fulfillment_dict_zen = {
         "type": zenroom_sha256.TYPE_NAME,
@@ -61,7 +61,7 @@ def prepare_tx(script, data, zenroom_signer, plnmint_signer, zenroom_sha256):
 def create_contract_execution(script, data, zenroom_signer, plnmint_signer):
     # prepare transaction
     zenroomscpt = ZenroomSha256(script=script, data=None, keys=zenroom_signer)
-    token_transaction, script_input_ = prepare_tx(script, data, zenroom_signer, plnmint_signer, zenroomscpt)
+    token_transaction, script_input_ = prepare_tx(data, plnmint_signer, zenroomscpt)
 
     # prepare contract
     script_input = json.dumps(script_input_)
