@@ -5,5 +5,7 @@ ARG branch=main
 RUN wget https://raw.githubusercontent.com/planetmint/planetmint/${branch}/planetmint/backend/tarantool/init.lua
 RUN mv init.lua /opt/tarantool/init.lua
 
-RUN adduser --system --group nonroot
+RUN addgroup -S nonroot
+RUN adduser -S nonroot -G nonroot
+
 USER nonroot
