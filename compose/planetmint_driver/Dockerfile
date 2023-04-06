@@ -8,6 +8,13 @@ WORKDIR /usr/src/app
 RUN pip install --upgrade pip
 RUN pip install poetry
 
-COPY . /usr/src/app/
+COPY ./pyproject.toml /usr/src/app/
+COPY ./poetry.lock /usr/src/app/
+COPY ./README.rst /usr/src/app/
+COPY ./tests /usr/src/app/
+COPY ./plaetmint_driver /usr/src/app/
+
+RUN adduser --system --group nonroot
+USER nonroot
 
 RUN poetry install --with dev

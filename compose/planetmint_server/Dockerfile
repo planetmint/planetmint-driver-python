@@ -35,3 +35,6 @@ WORKDIR /planetmint
 RUN pip install -e .[dev]
 
 RUN planetmint -y configure
+
+RUN adduser --system --group nonroot
+USER nonroot
