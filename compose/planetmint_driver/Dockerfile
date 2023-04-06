@@ -12,7 +12,7 @@ COPY ./pyproject.toml /usr/src/app/
 COPY ./poetry.lock /usr/src/app/
 COPY ./README.rst /usr/src/app/
 COPY ./tests /usr/src/app/
-COPY ./plaetmint_driver /usr/src/app/
+COPY ./planetmint_driver /usr/src/app/planetmint_driver
 
 RUN adduser --system --group nonroot
 USER nonroot

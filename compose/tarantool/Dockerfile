@@ -7,5 +7,7 @@ RUN mv init.lua /opt/tarantool/init.lua
 
 RUN addgroup -S nonroot
 RUN adduser -S nonroot -G nonroot
-
+RUN chown -R nonroot:nonroot /etc/tarantool
+RUN chown -R nonroot:nonroot /var/run/tarantool
+RUN chown -R nonroot:nonroot /var/lib/tarantool
 USER nonroot

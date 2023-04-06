@@ -34,7 +34,13 @@ RUN git clone https://github.com/planetmint/planetmint.git
 WORKDIR /planetmint
 RUN pip install -e .[dev]
 
+RUN adduser --system --group nonroot
+RUN mkdir -p /planetmint
+RUN chown -R nonroot:nonroot /planetmint
+
+USER nonroot
+
+
+
 RUN planetmint -y configure
 
-RUN adduser --system --group nonroot
-USER nonroot
