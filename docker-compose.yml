@@ -56,7 +56,7 @@ services:
       - "26658"
     healthcheck:
       test: ["CMD", "bash", "-c", "curl http://planetmint:9984 && curl http://tendermint:26657/abci_query"]
-      interval: 3s
+      interval: 5s
       timeout: 5s
       retries: 10
     command: planetmint -l DEBUG start
