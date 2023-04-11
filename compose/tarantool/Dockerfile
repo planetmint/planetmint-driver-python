@@ -12,4 +12,4 @@ RUN mv init.lua /opt/tarantool/init.lua
 #RUN chown -R nonroot:nonroot /var/lib/tarantool
 #RUN chown -R nonroot:nonroot /opt/tarantool
 
-USER nonroot
+#USER nonroot
