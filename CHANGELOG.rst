@@ -6,11 +6,19 @@
 Changelog
 =========
 
+0.18.1 (2023-11-04)
+-------------------
+Fixed
+^^^^^
+* Transfer preparation limitations
+* removed code smell
+
 0.18.0 (2023-23-03)
 -------------------
 Removed
 ^^^^^^^
 * removed zenroom signing and reflow test cases
+
 
 0.17.0 (2023-31-01)
 -------------------

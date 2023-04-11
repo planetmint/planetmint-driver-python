@@ -100,6 +100,7 @@ def test_prepare_create_transaction(assets, signers, recipients):
     (
         "2dBVUoATxEzEqRdsi64AFsJnn2ywLCwnbNwW7K9BuVuS",
         ("2dBVUoATxEzEqRdsi64AFsJnn2ywLCwnbNwW7K9BuVuS",),
+        (["2dBVUoATxEzEqRdsi64AFsJnn2ywLCwnbNwW7K9BuVuS"], 1),
         [(["2dBVUoATxEzEqRdsi64AFsJnn2ywLCwnbNwW7K9BuVuS"], 1)],
     ),
 )

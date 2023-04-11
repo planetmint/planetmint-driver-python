@@ -374,7 +374,7 @@ class TransactionsEndpoint(NamespacedDriver):
             headers=headers,
         )
 
-    def retrieve(self, txid, headers=None):
+    def retrieve(self, txid):
         """Retrieves the transaction with the given id.
 
         Args:
@@ -464,7 +464,7 @@ class BlocksEndpoint(NamespacedDriver):
         )
         return block_list if block_list else None
 
-    def retrieve(self, block_height, headers=None):
+    def retrieve(self, block_height):
         """Retrieves the block with the given ``block_height``.
 
         Args:

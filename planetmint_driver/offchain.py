@@ -287,8 +287,13 @@ def prepare_transfer_transaction(*, inputs, recipients, assets, metadata=None):
 
     # NOTE: Needed for the time being. See
     # https://github.com/planetmint/planetmint/issues/797
-    if isinstance(recipients, tuple):
-        recipients = [(list(recipients), 1)]
+    elif isinstance(recipients, tuple):
+        if len(recipients) == 1:  # format (pubkey)
+            recipients = [([recipients[0]], 1)]
+        elif len(recipients) == 2:  # format (pubkey, amount)
+            recipients = [recipients]
+    elif isinstance(recipients, list):
+        recipients = recipients
 
     fulfillments = [
         Input(
@@ -311,7 +316,7 @@ def prepare_transfer_transaction(*, inputs, recipients, assets, metadata=None):
     return transaction.to_dict()
 
 
-def prepare_compose_transaction(*, inputs: list, assets: list, recipients, metadata=None):
+def prepare_compose_transaction(*, inputs: list, assets: list, recipients):
     if not isinstance(inputs, (list, tuple)):
         inputs = (inputs,)
     if not isinstance(assets, (list, tuple)):
@@ -321,14 +326,14 @@ def prepare_compose_transaction(*, inputs: list, assets: list, recipients, metad
     return compose_tx.to_dict()
 
 
-def prepare_decompose_transaction(*, inputs: list, assets: list, recipients: list, metadata=None):
+def prepare_decompose_transaction(*, inputs: list, assets: list, recipients: list):
     if not isinstance(inputs, (list, tuple)):
         inputs = (inputs,)
     if not isinstance(assets, (list, tuple)):
         assets = [assets]
 
-    compose_tx = Decompose.generate(inputs, recipients, assets)
-    return compose_tx
+    decompose_tx = Decompose.generate(inputs, recipients, assets)
+    return decompose_tx
 
 
 def fulfill_transaction(transaction, *, private_keys):
