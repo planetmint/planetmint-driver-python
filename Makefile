@@ -68,6 +68,7 @@ test: check-deps ## Run all tests once or specify a file/test with TEST=tests/fi
 	#curl http://localhost:9984 && curl http://localhost:26657/abci_query
 	@$(DC) logs planetmint
 	@$(DC) logs tendermint
+	@$(DC) logs tarantool
 
 test-watch: check-deps ## Run all, or only one with TEST=tests/file.py::Class::test, tests and wait. Every time you change code, test/s will be run again.
 	@$(DC) run --rm planetmint-driver pytest ${TEST} -f -v
