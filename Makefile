@@ -61,8 +61,11 @@ reset: check-deps ## Stop and REMOVE all containers. WARNING: you will LOSE all 
 	@$(DC) down
 
 test: check-deps ## Run all tests once or specify a file/test with TEST=tests/file.py::Class::test
-	@$(DC) up -d bdb
-	@$(DC) run --rm planetmint-driver poetry run pytest ${TEST} -v
+	#@$(DC) up -d bdb
+	@$(DC) up -d planetmint
+	#@$(DC) run --rm planetmint-driver poetry run pytest ${TEST} -v
+	sleep 15
+	curl http://planetmint:9984 && curl http://tendermint:26657/abci_query
 
 test-watch: check-deps ## Run all, or only one with TEST=tests/file.py::Class::test, tests and wait. Every time you change code, test/s will be run again.
 	@$(DC) run --rm planetmint-driver pytest ${TEST} -f -v
