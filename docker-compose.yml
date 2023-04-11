@@ -55,10 +55,10 @@ services:
       - "9985"
       - "26658"
     healthcheck:
-      test: ["CMD", "bash", "-c", "curl http://planetmint:9984"]
+      test: ["CMD", "bash", "-c", "curl http://tendermint:26657/abci_query"]
       interval: 5s
       timeout: 5s
-      retries: 15
+      retries: 10
     command: planetmint -l DEBUG start
   tendermint:
     image: tendermint/tendermint:v0.34.15
