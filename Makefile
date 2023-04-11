@@ -65,7 +65,9 @@ test: check-deps ## Run all tests once or specify a file/test with TEST=tests/fi
 	@$(DC) up -d planetmint
 	#@$(DC) run --rm planetmint-driver poetry run pytest ${TEST} -v
 	sleep 15
-	curl http://localhost:9984 && curl http://localhost:26657/abci_query
+	#curl http://localhost:9984 && curl http://localhost:26657/abci_query
+	@$(DC) logs planetmint
+	@$(DC) logs tendermint
 
 test-watch: check-deps ## Run all, or only one with TEST=tests/file.py::Class::test, tests and wait. Every time you change code, test/s will be run again.
 	@$(DC) run --rm planetmint-driver pytest ${TEST} -f -v
