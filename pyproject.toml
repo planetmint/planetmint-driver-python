@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "planetmint-driver-python"
+name = "planetmint-driver"
 version = "0.18.2"
 description = "Python driver for Planetmint"
 authors = ["Your Name <you@example.com>"]
