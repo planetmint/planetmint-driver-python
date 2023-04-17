@@ -6,6 +6,12 @@
 Changelog
 =========
 
+0.18.2 (2023-17-04)
+-------------------
+Fixed
+^^^^^
+* adjusted to planetmint 2.4.0 and above changes
+
 0.18.1 (2023-11-04)
 -------------------
 Fixed
