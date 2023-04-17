@@ -3,8 +3,6 @@ FROM tarantool/tarantool:2.8.3
 ARG branch=main
 
 RUN wget https://raw.githubusercontent.com/planetmint/planetmint/${branch}/planetmint/backend/tarantool/opt/init.lua
-RUN wget https://raw.githubusercontent.com/planetmint/planetmint/${branch}/planetmint/backend/tarantool/opt/functions.lua
-RUN wget https://raw.githubusercontent.com/planetmint/planetmint/${branch}/planetmint/backend/tarantool/opt/migrations.lua
 RUN mv *.lua /opt/tarantool/
 
 #RUN addgroup -S nonroot
