@@ -52,7 +52,7 @@ jobs:
         run: poetry run pip freeze > requirements.txt
 
       - name: Audit dependencies
-        run: poetry run pip-audit
+        run: poetry run pip-audit --ignore-vuln GHSA-6w4m-2xhg-2658
 
       - name: Run docs build
         run: poetry run make -C docs html

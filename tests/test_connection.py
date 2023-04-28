@@ -8,12 +8,13 @@ from responses import RequestsMock
 
 
 class TestConnection:
+    url = "http://dummy"
+
     def test_init_with_custom_headers(self):
         from planetmint_driver.connection import Connection
 
-        url = "http://dummy"
         custom_headers = {"app_id": "id_value", "app_key": "key_value"}
-        connection = Connection(node_url=url, headers=custom_headers)
+        connection = Connection(node_url=self.url, headers=custom_headers)
         expected_headers = default_headers()
         expected_headers.update(custom_headers)
         assert connection.session.headers == expected_headers
@@ -28,10 +29,9 @@ class TestConnection:
     def test_response_content_type_handling(self, content_type, json, data):
         from planetmint_driver.connection import Connection
 
-        url = "http://dummy"
-        connection = Connection(node_url=url)
+        connection = Connection(node_url=self.url)
         with RequestsMock() as requests_mock:
-            requests_mock.add("GET", url, json=json)
+            requests_mock.add("GET", self.url, json=json)
             response = connection.request("GET")
         assert response.status_code == 200
         assert response.headers["Content-Type"] == "application/json"
@@ -41,10 +41,9 @@ class TestConnection:
     def test_request_with_headers(self, headers):
         from planetmint_driver.connection import Connection
 
-        url = "http://dummy"
-        connection = Connection(node_url=url, headers=headers)
+        connection = Connection(node_url=self.url, headers=headers)
         with RequestsMock() as requests_mock:
-            requests_mock.add("GET", url, adding_headers=headers)
+            requests_mock.add("GET", self.url, adding_headers=headers)
             response = connection.request("GET")
         assert response.status_code == 200
         del response.headers["Content-type"]
