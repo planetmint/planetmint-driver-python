@@ -139,7 +139,7 @@ class NamespacedDriver:
     under the :class:`~planetmint_driver.driver.Planetmint` driver.
     """
 
-    PATH = "/"
+    _PATH = "/"
 
     def __init__(self, driver):
         """Initializes an instance of
@@ -161,8 +161,8 @@ class NamespacedDriver:
         return self.driver.api_prefix
 
     @property
-    def path(self):
-        return self.api_prefix + self.PATH
+    def rel_uri(self):
+        return self.api_prefix + self._PATH
 
 
 class TransactionsEndpoint(NamespacedDriver):
@@ -173,7 +173,7 @@ class TransactionsEndpoint(NamespacedDriver):
 
     """
 
-    PATH = "/transactions/"
+    _PATH = "/transactions/"
 
     @staticmethod
     def prepare(*, operation="CREATE", signers=None, recipients=None, assets=None, metadata=None, inputs=None):
@@ -309,7 +309,7 @@ class TransactionsEndpoint(NamespacedDriver):
         """
         return self.transport.forward_request(
             method="GET",
-            path=self.path,
+            path=self.rel_uri,
             params={"asset_ids": asset_ids, "operation": operation},
             headers=headers,
         )
@@ -328,7 +328,7 @@ class TransactionsEndpoint(NamespacedDriver):
         """
         return self.transport.forward_request(
             method="POST",
-            path=self.path,
+            path=self.rel_uri,
             json=transaction,
             params={"mode": "async"},
             headers=headers,
@@ -348,7 +348,7 @@ class TransactionsEndpoint(NamespacedDriver):
         """
         return self.transport.forward_request(
             method="POST",
-            path=self.path,
+            path=self.rel_uri,
             json=transaction,
             params={"mode": "sync"},
             headers=headers,
@@ -368,7 +368,7 @@ class TransactionsEndpoint(NamespacedDriver):
         """
         return self.transport.forward_request(
             method="POST",
-            path=self.path,
+            path=self.rel_uri,
             json=transaction,
             params={"mode": "commit"},
             headers=headers,
@@ -385,8 +385,8 @@ class TransactionsEndpoint(NamespacedDriver):
             dict: The transaction with the given id.
 
         """
-        path = self.path + txid
-        return self.transport.forward_request(method="GET", path=path, headers=None)
+        comp_uri = self.rel_uri + txid
+        return self.transport.forward_request(method="GET", path=comp_uri, headers=None)
 
 
 class OutputsEndpoint(NamespacedDriver):
@@ -397,7 +397,7 @@ class OutputsEndpoint(NamespacedDriver):
 
     """
 
-    PATH = "/outputs/"
+    _PATH = "/outputs/"
 
     def get(self, public_key, spent=None, headers=None):
         """Get transaction outputs by public key. The public_key parameter
@@ -428,7 +428,7 @@ class OutputsEndpoint(NamespacedDriver):
         """
         return self.transport.forward_request(
             method="GET",
-            path=self.path,
+            path=self.rel_uri,
             params={"public_key": public_key, "spent": spent},
             headers=headers,
         )
@@ -442,7 +442,7 @@ class BlocksEndpoint(NamespacedDriver):
 
     """
 
-    PATH = "/blocks/"
+    _PATH = "/blocks/"
 
     def get(self, *, txid, headers=None):
         """Get the block that contains the given transaction id (``txid``)
@@ -458,7 +458,7 @@ class BlocksEndpoint(NamespacedDriver):
         """
         block_list = self.transport.forward_request(
             method="GET",
-            path=self.path,
+            path=self.rel_uri,
             params={"transaction_id": txid},
             headers=headers,
         )
@@ -475,8 +475,8 @@ class BlocksEndpoint(NamespacedDriver):
             dict: The block with the given ``block_height``.
 
         """
-        path = self.path + block_height
-        return self.transport.forward_request(method="GET", path=path, headers=None)
+        comp_uri = self.rel_uri + block_height
+        return self.transport.forward_request(method="GET", path=comp_uri, headers=None)
 
 
 class AssetsEndpoint(NamespacedDriver):
@@ -487,7 +487,7 @@ class AssetsEndpoint(NamespacedDriver):
 
     """
 
-    PATH = "/assets/"
+    _PATH = "/assets/"
 
     def get(self, *, cid, limit=0, headers=None):
         """Retrieves the assets that match a given text search string.
@@ -504,7 +504,7 @@ class AssetsEndpoint(NamespacedDriver):
         """
         return self.transport.forward_request(
             method="GET",
-            path=self.path + "/" + cid,
+            path=self.rel_uri + "/" + cid,
             params={"limit": limit},
             headers=headers,
         )
@@ -518,7 +518,7 @@ class MetadataEndpoint(NamespacedDriver):
 
     """
 
-    PATH = "/metadata/"
+    _PATH = "/metadata/"
 
     def get(self, *, search, limit=0, headers=None):
         """Retrieves the metadata that match a given text search string.
@@ -535,7 +535,7 @@ class MetadataEndpoint(NamespacedDriver):
         """
         return self.transport.forward_request(
             method="GET",
-            path=self.path,
+            path=self.rel_uri,
             params={"search": search, "limit": limit},
             headers=headers,
         )

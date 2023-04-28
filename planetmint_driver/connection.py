@@ -78,7 +78,7 @@ class Connection:
         if backoff_timedelta > 0:
             time.sleep(backoff_timedelta)
 
-        connExc = None
+        conn_exc = None
         timeout = timeout if timeout is None else timeout - backoff_timedelta
         try:
             response = self._request(
@@ -91,10 +91,10 @@ class Connection:
                 **kwargs,
             )
         except ConnectionError as err:
-            connExc = err
+            conn_exc = err
             raise err
         finally:
-            self.update_backoff_time(success=connExc is None, backoff_cap=backoff_cap)
+            self.update_backoff_time(success=conn_exc is None, backoff_cap=backoff_cap)
         return response
 
     def get_backoff_timedelta(self):
