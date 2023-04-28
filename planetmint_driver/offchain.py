@@ -287,13 +287,13 @@ def prepare_transfer_transaction(*, inputs, recipients, assets, metadata=None):
 
     # NOTE: Needed for the time being. See
     # https://github.com/planetmint/planetmint/issues/797
+    # in case isinstance(recipients, list) == True: recipients = recipients
+    # this is implicitly done by the code
     elif isinstance(recipients, tuple):
         if len(recipients) == 1:  # format (pubkey)
             recipients = [([recipients[0]], 1)]
         elif len(recipients) == 2:  # format (pubkey, amount)
             recipients = [recipients]
-    elif isinstance(recipients, list):
-        recipients = recipients
 
     fulfillments = [
         Input(

@@ -4,6 +4,8 @@
 
 
 class TestTransportError:
+    not_found = "not found"
+
     def test_status_code_property(self):
         from planetmint_driver.exceptions import TransportError
 
@@ -13,11 +15,11 @@ class TestTransportError:
     def test_error_property(self):
         from planetmint_driver.exceptions import TransportError
 
-        err = TransportError(404, "not found")
-        assert err.error == "not found"
+        err = TransportError(404, self.not_found)
+        assert err.error == self.not_found
 
     def test_info_property(self):
         from planetmint_driver.exceptions import TransportError
 
-        err = TransportError(404, "not found", {"error": "not found"})
-        assert err.info == {"error": "not found"}
+        err = TransportError(404, self.not_found, {"error": self.not_found})
+        assert err.info == {"error": self.not_found}
