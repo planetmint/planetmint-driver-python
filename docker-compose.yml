@@ -21,53 +21,27 @@ services:
     environment:
       BDB_HOST: planetmint
     command: /bin/sh
-  tarantool:
-    build:
-      context: .
-      dockerfile: ./compose/tarantool/Dockerfile
-    ports:
-      - "5200:5200"
-      - "3301:3301"
-      - "3303:3303"
-      - "8081:8081"
-    command: tarantool /opt/tarantool/init.lua
-    restart: always
   planetmint:
-    depends_on:
-      - tarantool
-      - tendermint
-    build:
-      context: .
-      dockerfile: ./compose/planetmint_server/Dockerfile
-      args:
-        branch: main
-        backend: tarantool_db
-    environment:
-      PLANETMINT_DATABASE_BACKEND: tarantool_db 
-      PLANETMINT_DATABASE_HOST: tarantool
-      PLANETMINT_DATABASE_PORT: 3303
-      PLANETMINT_SERVER_BIND: 0.0.0.0:9984
-      PLANETMINT_WSSERVER_HOST: 0.0.0.0
-      PLANETMINT_WSSERVER_ADVERTISED_HOST: planetmint
-      PLANETMINT_TENDERMINT_HOST: tendermint
-      PLANETMINT_TENDERMINT_PORT: 26657
+    image: ghcr.io/planetmint/planetmint-aio:latest
     ports:
       - "9984:9984"
-      - "9985"
-      - "26658"
-    healthcheck:
-      test: ["CMD", "bash", "-c", "curl http://planetmint:9984 && curl http://tendermint:26657/abci_query"]
-      interval: 5s
-      timeout: 5s
-      retries: 10
-    command: planetmint -l DEBUG start
-  tendermint:
-    image: tendermint/tendermint:v0.34.15
-    entrypoint: ''
-    ports:
+      - "9985:9985"
       - "26656:26656"
       - "26657:26657"
-    command: sh -c "tendermint init && tendermint node --consensus.create_empty_blocks=false --rpc.laddr=tcp://0.0.0.0:26657 --proxy_app=tcp://planetmint:26658"
+      - "26660:26660"
+    command: 
+      - /bin/bash
+      - -c
+      - |
+        /etc/init.d/tarantool start
+        tendermint init
+        tendermint node --consensus.create_empty_blocks = false --rpc.laddr=tcp://0.0.0.0:26657&
+        planetmint start
+    healthcheck:
+      test: ["CMD", "bash", "-c", "curl http://planetmint:9984 && curl http://planetmint:26657/abci_query"]
+      interval: 3s
+      timeout: 5s
+      retries: 5
   bdb:
     image: busybox
     depends_on:
