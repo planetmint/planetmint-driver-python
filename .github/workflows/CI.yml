@@ -39,9 +39,6 @@ jobs:
         with:
           python-version: 3.9
 
-      - name: Install pip-audit
-        run: pip install --upgrade pip
-
       - name: Setup poetry
         uses: Gr1N/setup-poetry@v8
 
@@ -70,7 +67,7 @@ jobs:
           python-version: 3.9
       
       - name: Setup poetry
-        uses: Gr1N/setup-poetry@v7
+        uses: Gr1N/setup-poetry@v8
 
       - name: Run tests
         run: make test
@@ -90,7 +87,7 @@ jobs:
           python-version: 3.9
 
       - name: Setup poetry
-        uses: Gr1N/setup-poetry@v7
+        uses: Gr1N/setup-poetry@v8
 
       - name: Install dependencies
         run: poetry install --with dev
