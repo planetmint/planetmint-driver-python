@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "planetmint-driver"
-version = "0.18.2"
+version = "0.18.3"
 description = "Python driver for Planetmint"
 authors = ["Your Name <you@example.com>"]
 license = "AGPLv3-or-later"
@@ -17,6 +17,7 @@ requests = "^2.28.2"
 planetmint-ipld = "^0.0.3"
 sphinx-press-theme = "0.8.0"
 wheel = "^0.38.1"
+typing-extensions = "4.5.0"
 
 
 [tool.poetry.group.dev.dependencies]
