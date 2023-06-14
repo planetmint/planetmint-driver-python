@@ -6,6 +6,13 @@
 Changelog
 =========
 
+0.18.3 (2023-14-06)
+-------------------
+Fixed
+^^^^^
+* bumped versions of several libraries
+* fixed security dependency issues
+
 0.18.2 (2023-17-04)
 -------------------
 Fixed
