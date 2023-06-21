@@ -14,7 +14,7 @@ COPY ./README.rst /usr/src/app/
 COPY ./tests /usr/src/app/
 COPY ./planetmint_driver /usr/src/app/planetmint_driver
 
-RUN adduser --system --group nonroot
+RUN adduser --system --group --home /nonroot nonroot 
 USER nonroot
 
 RUN poetry install --with dev
