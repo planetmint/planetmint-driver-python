@@ -11,7 +11,7 @@ import requests
 import base58
 from planetmint_cryptoconditions import Ed25519Sha256
 from pytest import fixture
-from sha3 import sha3_256
+from hashlib import sha3_256
 from ipld import multihash, marshal
 
 
