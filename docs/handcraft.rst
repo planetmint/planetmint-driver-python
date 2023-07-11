@@ -144,11 +144,11 @@ to:
     In [0]: from ipld import multihash, marshal
 
     In [0]: bicycle = [{
-       ...:     'data': 
+       ...:     'data':
        ...:         multihash( marshal( { 'bicycle': {
        ...:             'serial_number': 'abcd1234',
        ...:             'manufacturer': 'bkfab',
-       ...:         }, 
+       ...:         },
        ...:     } )),
        ...: }]
 
@@ -497,7 +497,7 @@ The Fulfilled Transaction
 
     In [0]: import json
 
-    In [0]: from sha3 import sha3_256
+    In [0]: from hashlib import sha3_256
 
     In [0]: # fulfill prepared transaction
 
@@ -537,7 +537,7 @@ The transaction's id is essentially a SHA3-256 hash of the entire transaction
 
     In [0]: import json
 
-    In [0]: from sha3 import sha3_256
+    In [0]: from hashlib import sha3_256
 
     In [0]: json_str_tx = json.dumps(
        ...:     handcrafted_creation_tx,
@@ -582,7 +582,7 @@ Handcrafting a ``CREATE`` transaction can be done as follows:
     import json
 
     import base58
-    import sha3
+    import hashlib
     from planetmint_cryptoconditions import Ed25519Sha256
 
     from planetmint_driver.crypto import generate_keypair
@@ -644,7 +644,7 @@ Handcrafting a ``CREATE`` transaction can be done as follows:
         ensure_ascii=False,
     )
 
-    message = sha3.sha3_256(message.encode())
+    message = hashlib.sha3_256(message.encode())
 
     ed25519.sign(message.digest(), base58.b58decode(alice.private_key))
 
@@ -659,7 +659,7 @@ Handcrafting a ``CREATE`` transaction can be done as follows:
     ensure_ascii=False,
     )
 
-    creation_txid = sha3.sha3_256(json_str_tx.encode()).hexdigest()
+    creation_txid = hashlib.sha3_256(json_str_tx.encode()).hexdigest()
 
     handcrafted_creation_tx['id'] = creation_txid
 
@@ -973,7 +973,7 @@ The Fulfilled Transaction
 
     In [0]: from planetmint_driver.offchain import fulfill_transaction
 
-    In [0]: from sha3 import sha3_256
+    In [0]: from hashlib import sha3_256
 
     In [0]: # fulfill prepared transaction
 
@@ -1013,7 +1013,7 @@ id
 
     In [0]: import json
 
-    In [0]: from sha3 import sha3_256
+    In [0]: from hashlib import sha3_256
 
     In [0]: json_str_tx = json.dumps(
        ...:     handcrafted_transfer_tx,
@@ -1050,7 +1050,7 @@ In a nutshell
     import json
 
     import base58
-    import sha3
+    import hashlib
     from planetmint_cryptoconditions import Ed25519Sha256
 
     from planetmint_driver.crypto import generate_keypair
@@ -1104,7 +1104,7 @@ In a nutshell
         ensure_ascii=False,
     )
 
-    message = sha3.sha3_256(message.encode())
+    message = hashlib.sha3_256(message.encode())
 
     message.update('{}{}'.format(
         handcrafted_transfer_tx['inputs'][0]['fulfills']['transaction_id'],
@@ -1124,7 +1124,7 @@ In a nutshell
         ensure_ascii=False,
     )
 
-    transfer_txid = sha3.sha3_256(json_str_tx.encode()).hexdigest()
+    transfer_txid = hashlib.sha3_256(json_str_tx.encode()).hexdigest()
 
     handcrafted_transfer_tx['id'] = transfer_txid
 
@@ -1164,7 +1164,7 @@ Handcrafting the ``CREATE`` transaction for our :ref:`bicycle sharing example
     import json
 
     import base58
-    import sha3
+    import hashlib
     from planetmint_cryptoconditions import Ed25519Sha256
 
     from planetmint_driver.crypto import generate_keypair
@@ -1230,7 +1230,7 @@ Handcrafting the ``CREATE`` transaction for our :ref:`bicycle sharing example
         ensure_ascii=False,
     )
 
-    message = sha3.sha3_256(message.encode())
+    message = hashlib.sha3_256(message.encode())
 
     # CRYPTO-CONDITIONS: sign the serialized transaction-without-id
     ed25519.sign(message.digest(), base58.b58decode(bob.private_key))
@@ -1250,7 +1250,7 @@ Handcrafting the ``CREATE`` transaction for our :ref:`bicycle sharing example
     )
 
     # SHA3: hash the serialized id-less transaction to generate the id
-    shared_creation_txid = sha3.sha3_256(json_str_tx.encode()).hexdigest()
+    shared_creation_txid = hashlib.sha3_256(json_str_tx.encode()).hexdigest()
 
     # add the id
     token_creation_tx['id'] = shared_creation_txid
@@ -1358,7 +1358,7 @@ to Bob:
         ensure_ascii=False,
     )
 
-    message = sha3.sha3_256(message.encode())
+    message = hashlib.sha3_256(message.encode())
 
     message.update('{}{}'.format(
         token_transfer_tx['inputs'][0]['fulfills']['transaction_id'],
@@ -1383,7 +1383,7 @@ to Bob:
     )
 
     # SHA3: hash the serialized id-less transaction to generate the id
-    shared_transfer_txid = sha3.sha3_256(json_str_tx.encode()).hexdigest()
+    shared_transfer_txid = hashlib.sha3_256(json_str_tx.encode()).hexdigest()
 
     # add the id
     token_transfer_tx['id'] = shared_transfer_txid
@@ -1526,7 +1526,7 @@ sha3, and cryptoconditions):
 
     In [0]: import base58
 
-    In [0]: from sha3 import sha3_256
+    In [0]: from hashlib import sha3_256
 
     In [0]: from planetmint_cryptoconditions import Ed25519Sha256, ThresholdSha256
 
@@ -1788,7 +1788,7 @@ Handcrafting the ``'CREATE'`` transaction
     import json
 
     import base58
-    from sha3 import sha3_256
+    from hashlib import sha3_256
     from planetmint_cryptoconditions import Ed25519Sha256, ThresholdSha256
 
     from planetmint_driver.crypto import generate_keypair
@@ -2043,7 +2043,7 @@ Handcrafting the ``'CREATE'`` transaction
     import json
 
     import base58
-    import sha3
+    import hashlib
     from planetmint_cryptoconditions import Ed25519Sha256, ThresholdSha256
 
     from planetmint_driver.crypto import generate_keypair
@@ -2128,7 +2128,7 @@ Handcrafting the ``'CREATE'`` transaction
         ensure_ascii=False,
     )
 
-    message = sha3.sha3_256(message.encode())
+    message = hashlib.sha3_256(message.encode())
 
     # CRYPTO-CONDITIONS: sign the serialized transaction-without-id
     alice_ed25519.sign(message.digest(), base58.b58decode(alice.private_key))
@@ -2150,7 +2150,7 @@ Handcrafting the ``'CREATE'`` transaction
     )
 
     # SHA3: hash the serialized id-less transaction to generate the id
-    car_creation_txid = sha3.sha3_256(json_str_tx.encode()).hexdigest()
+    car_creation_txid = hashlib.sha3_256(json_str_tx.encode()).hexdigest()
 
     # add the id
     handcrafted_car_creation_tx['id'] = car_creation_txid
@@ -2230,7 +2230,7 @@ Handcrafting the ``'TRANSFER'`` transaction
         ensure_ascii=False,
     )
 
-    message = sha3.sha3_256(message.encode())
+    message = hashlib.sha3_256(message.encode())
 
     message.update('{}{}'.format(
         handcrafted_car_transfer_tx['inputs'][0]['fulfills']['transaction_id'],
@@ -2258,7 +2258,7 @@ Handcrafting the ``'TRANSFER'`` transaction
         ensure_ascii=False,
     )
 
-    car_transfer_txid = sha3.sha3_256(json_str_tx.encode()).hexdigest()
+    car_transfer_txid = hashlib.sha3_256(json_str_tx.encode()).hexdigest()
 
     handcrafted_car_transfer_tx['id'] = car_transfer_txid
 
@@ -2276,7 +2276,6 @@ will return after the transaction is validated, while ``async`` will return righ
     returned_car_transfer_tx = bdb.transactions.send_async(handcrafted_car_transfer_tx)
 
 
-.. _sha3: https://github.com/tiran/pysha3
 .. _cryptoconditions: https://github.com/planetmint/cryptoconditions
 .. _cryptoconditions internet draft: https://tools.ietf.org/html/draft-thomas-crypto-conditions-02
 .. _The Transaction Model: https://docs.planetmint.com/projects/server/en/latest/data-models/transaction-model.html

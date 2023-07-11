@@ -6,6 +6,13 @@
 Changelog
 =========
 
+0.18.4 (2023-14-06)
+-------------------
+Changed
+^^^^^
+* using the all-in-one image for testing purposes
+* replace deprecated pysha3 with bultin hashlib
+
 0.18.3 (2023-14-06)
 -------------------
 Fixed

@@ -9,7 +9,7 @@ import json
 import base58
 from pytest import mark, raises
 from requests.utils import default_headers
-from sha3 import sha3_256
+from hashlib import sha3_256
 from planetmint_cryptoconditions import Ed25519Sha256
 from ipld import multihash, marshal
 
