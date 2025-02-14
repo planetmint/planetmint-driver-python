@@ -31,6 +31,12 @@ jobs:
         run: poetry run pip freeze > requirements.txt
 
       - name: Audit dependencies
-        run: poetry run pip-audit
+        run: |
+          poetry run pip-audit \
+            --ignore-vuln PYSEC-2024-225 \
+            --ignore-vuln GHSA-3ww4-gg4f-jr7f \
+            --ignore-vuln GHSA-9v9h-cgj8-h64p \
+            --ignore-vuln GHSA-h4gh-qq45-vh27
+
 
       

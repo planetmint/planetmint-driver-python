@@ -38,7 +38,7 @@ export PRINT_HELP_PYSCRIPT
 # Basic commands #
 ##################
 DOCKER := docker
-DC := docker-compose
+DC := docker compose
 BROWSER := python -c "$$BROWSER_PYSCRIPT"
 HELP := python -c "$$PRINT_HELP_PYSCRIPT"
 ECHO := /usr/bin/env echo
