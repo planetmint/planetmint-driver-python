@@ -22,7 +22,7 @@ services:
       BDB_HOST: planetmint
     command: /bin/sh
   planetmint:
-    image: ghcr.io/planetmint/planetmint-aio:latest
+    image: ghcr.io/planetmint/planetmint-aio:2.4.7
     ports:
       - "9984:9984"
       - "9985:9985"
